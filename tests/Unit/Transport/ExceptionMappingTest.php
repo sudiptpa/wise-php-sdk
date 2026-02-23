@@ -73,7 +73,7 @@ final class ExceptionMappingTest extends TestCase
         $this->expectExceptionMessage('Transport not configured');
 
         \Sujip\Wise\Wise::client(
-            ClientConfig::productionApiToken('x'),
+            ClientConfig::apiToken('x'),
             null,
             new Psr7Factory,
             new Psr7Factory,
@@ -99,7 +99,7 @@ final class ExceptionMappingTest extends TestCase
             }
         };
         $factory = new Psr7Factory;
-        $client = \Sujip\Wise\Wise::client(ClientConfig::productionApiToken('test-token'), $transport, $factory, $factory);
+        $client = \Sujip\Wise\Wise::client(ClientConfig::apiToken('test-token'), $transport, $factory, $factory);
 
         $this->expectException(TransportException::class);
         $this->expectExceptionMessage('Transport send failed: socket failure');

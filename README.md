@@ -19,12 +19,12 @@ composer require sudiptpa/wise-php-sdk
 use Sujip\Wise\Config\ClientConfig;
 
 // Small business / user API token.
-$prodApi = ClientConfig::productionApiToken('your-wise-api-token');
-$sandboxApi = ClientConfig::sandboxApiToken('your-wise-api-token');
+$prodApi = ClientConfig::apiToken('your-wise-api-token');
+$sandboxApi = ClientConfig::apiToken('your-wise-api-token', ClientConfig::SANDBOX_BASE_URL);
 
 // OAuth2 access token (partner / enterprise flows).
-$prodOAuth = ClientConfig::productionOAuth2('oauth-access-token');
-$sandboxOAuth = ClientConfig::sandboxOAuth2('oauth-access-token');
+$prodOAuth = ClientConfig::oauth2('oauth-access-token');
+$sandboxOAuth = ClientConfig::oauth2('oauth-access-token', ClientConfig::SANDBOX_BASE_URL);
 ```
 
 Base URLs:
@@ -49,7 +49,7 @@ final class OAuthProvider implements AccessTokenProviderInterface
 $config = new ClientConfig(
     authMode: AuthMode::OAuth2,
     accessTokenProvider: new OAuthProvider(),
-    baseUrl: ClientConfig::PROD_BASE_URL,
+    baseUrl: ClientConfig::DEFAULT_BASE_URL,
 );
 ```
 

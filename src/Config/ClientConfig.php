@@ -11,14 +11,14 @@ use Sujip\Wise\Contracts\AccessTokenProviderInterface;
 
 final readonly class ClientConfig
 {
-    public const PROD_BASE_URL = 'https://api.transferwise.com';
+    public const DEFAULT_BASE_URL = 'https://api.transferwise.com';
 
     public const SANDBOX_BASE_URL = 'https://api.sandbox.transferwise.tech';
 
     public function __construct(
         public AuthMode $authMode,
         public ?AccessTokenProviderInterface $accessTokenProvider = null,
-        public string $baseUrl = self::PROD_BASE_URL,
+        public string $baseUrl = self::DEFAULT_BASE_URL,
         public float $timeoutSeconds = 30.0,
         public string $userAgent = 'sudiptpa/wise-php-sdk',
         public bool $retryEnabled = false,
@@ -31,49 +31,69 @@ final readonly class ClientConfig
         public ?LoggerInterface $logger = null,
     ) {}
 
+    public static function apiToken(string $token, string $baseUrl = self::DEFAULT_BASE_URL): self
+    {
+        return new self(
+            authMode: AuthMode::ApiToken,
+            accessTokenProvider: new StaticAccessTokenProvider($token),
+            baseUrl: $baseUrl,
+        );
+    }
+
+    public static function oauth2(string $accessToken, string $baseUrl = self::DEFAULT_BASE_URL): self
+    {
+        return new self(
+            authMode: AuthMode::OAuth2,
+            accessTokenProvider: new StaticAccessTokenProvider($accessToken),
+            baseUrl: $baseUrl,
+        );
+    }
+
+    /**
+     * @deprecated Use self::apiToken() instead.
+     */
     public static function production(string $token): self
     {
-        return self::productionApiToken($token);
+        return self::apiToken($token, self::DEFAULT_BASE_URL);
     }
 
+    /**
+     * @deprecated Use self::apiToken() with SANDBOX_BASE_URL instead.
+     */
     public static function sandbox(string $token): self
     {
-        return self::sandboxApiToken($token);
+        return self::apiToken($token, self::SANDBOX_BASE_URL);
     }
 
+    /**
+     * @deprecated Use self::apiToken() instead.
+     */
     public static function productionApiToken(string $token): self
     {
-        return new self(
-            authMode: AuthMode::ApiToken,
-            accessTokenProvider: new StaticAccessTokenProvider($token),
-            baseUrl: self::PROD_BASE_URL,
-        );
+        return self::apiToken($token, self::DEFAULT_BASE_URL);
     }
 
+    /**
+     * @deprecated Use self::apiToken() with SANDBOX_BASE_URL instead.
+     */
     public static function sandboxApiToken(string $token): self
     {
-        return new self(
-            authMode: AuthMode::ApiToken,
-            accessTokenProvider: new StaticAccessTokenProvider($token),
-            baseUrl: self::SANDBOX_BASE_URL,
-        );
+        return self::apiToken($token, self::SANDBOX_BASE_URL);
     }
 
+    /**
+     * @deprecated Use self::oauth2() instead.
+     */
     public static function productionOAuth2(string $accessToken): self
     {
-        return new self(
-            authMode: AuthMode::OAuth2,
-            accessTokenProvider: new StaticAccessTokenProvider($accessToken),
-            baseUrl: self::PROD_BASE_URL,
-        );
+        return self::oauth2($accessToken, self::DEFAULT_BASE_URL);
     }
 
+    /**
+     * @deprecated Use self::oauth2() with SANDBOX_BASE_URL instead.
+     */
     public static function sandboxOAuth2(string $accessToken): self
     {
-        return new self(
-            authMode: AuthMode::OAuth2,
-            accessTokenProvider: new StaticAccessTokenProvider($accessToken),
-            baseUrl: self::SANDBOX_BASE_URL,
-        );
+        return self::oauth2($accessToken, self::SANDBOX_BASE_URL);
     }
 }

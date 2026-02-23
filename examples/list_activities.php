@@ -9,7 +9,7 @@ use Sujip\Wise\Wise;
 
 require __DIR__.'/../vendor/autoload.php';
 
-$config = ClientConfig::productionApiToken('your-token');
+$config = ClientConfig::apiToken('your-token');
 $transport = new Psr18Transport($yourPsr18Client);
 $wise = Wise::client($config, $transport, $yourRequestFactory, $yourStreamFactory);
 
