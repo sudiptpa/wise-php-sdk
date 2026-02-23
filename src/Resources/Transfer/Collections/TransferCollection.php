@@ -10,6 +10,4 @@ use Sujip\Wise\Support\Collection;
 /**
  * @extends Collection<Transfer>
  */
-final class TransferCollection extends Collection
-{
-}
+final class TransferCollection extends Collection {}

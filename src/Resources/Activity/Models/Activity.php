@@ -13,8 +13,7 @@ final readonly class Activity implements Hydratable
         private string $statusValue,
         private string $titleValue,
         public ?ActivityResourceRef $resource,
-    ) {
-    }
+    ) {}
 
     public static function fromArray(array $data): static
     {

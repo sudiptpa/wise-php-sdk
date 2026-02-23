@@ -11,9 +11,7 @@ use Sujip\Wise\Contracts\MiddlewareInterface;
 
 final readonly class LoggingMiddleware implements MiddlewareInterface
 {
-    public function __construct(private LoggerInterface $logger)
-    {
-    }
+    public function __construct(private LoggerInterface $logger) {}
 
     public function process(RequestInterface $request, callable $next): ResponseInterface
     {
@@ -83,7 +81,8 @@ final readonly class LoggingMiddleware implements MiddlewareInterface
             if ($this->isSensitiveQueryKey($decodedKey)) {
                 $sanitized[] = $rawValue === null
                     ? $rawKey
-                    : $rawKey . '=' . rawurlencode('[REDACTED]');
+                    : $rawKey.'='.rawurlencode('[REDACTED]');
+
                 continue;
             }
 
@@ -101,10 +100,10 @@ final readonly class LoggingMiddleware implements MiddlewareInterface
         $fragment = $fragmentPos === false ? '' : substr($uri, $fragmentPos);
 
         if ($sanitizedQuery === '') {
-            return $prefix . $fragment;
+            return $prefix.$fragment;
         }
 
-        return $prefix . '?' . $sanitizedQuery . $fragment;
+        return $prefix.'?'.$sanitizedQuery.$fragment;
     }
 
     private function isSensitiveQueryKey(string $key): bool

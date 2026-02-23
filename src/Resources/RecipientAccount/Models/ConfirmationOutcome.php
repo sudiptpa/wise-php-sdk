@@ -9,9 +9,7 @@ use Sujip\Wise\Hydration\Cast;
 
 final readonly class ConfirmationOutcome implements Hydratable
 {
-    public function __construct(public ?string $type, public ?string $description)
-    {
-    }
+    public function __construct(public ?string $type, public ?string $description) {}
 
     public static function fromArray(array $data): static
     {

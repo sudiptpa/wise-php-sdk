@@ -10,8 +10,7 @@ final readonly class CreateUnauthenticatedQuoteRequest
         public string $sourceCurrency,
         public string $targetCurrency,
         public float $sourceAmount,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<string, mixed>

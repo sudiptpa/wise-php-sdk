@@ -6,6 +6,4 @@ namespace Sujip\Wise\Resources\Rate;
 
 use Sujip\Wise\Resources\Resource;
 
-final class RateResource extends Resource
-{
-}
+final class RateResource extends Resource {}

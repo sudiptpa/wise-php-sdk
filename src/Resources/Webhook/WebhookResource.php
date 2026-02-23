@@ -69,7 +69,7 @@ final class WebhookResource extends Resource
     }
 
     /**
-     * @param array<string, mixed> $payload
+     * @param  array<string, mixed>  $payload
      */
     private function mapCollection(array $payload): WebhookSubscriptionCollection
     {

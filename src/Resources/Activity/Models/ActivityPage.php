@@ -10,11 +10,9 @@ use Sujip\Wise\Hydration\Cast;
 final readonly class ActivityPage implements Hydratable
 {
     /**
-     * @param array<int, Activity> $activities
+     * @param  array<int, Activity>  $activities
      */
-    public function __construct(public array $activities, private ?string $cursor)
-    {
-    }
+    public function __construct(public array $activities, private ?string $cursor) {}
 
     public static function fromArray(array $data): static
     {

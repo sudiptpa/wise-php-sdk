@@ -9,11 +9,9 @@ final readonly class TransferRequirementsRequest
     /**
      * Payload shape can vary based on Wise profile/corridor requirements.
      *
-     * @param array<string, mixed> $payload
+     * @param  array<string, mixed>  $payload
      */
-    public function __construct(public array $payload)
-    {
-    }
+    public function __construct(public array $payload) {}
 
     /**
      * @return array<string, mixed>

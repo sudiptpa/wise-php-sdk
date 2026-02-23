@@ -10,6 +10,4 @@ use Sujip\Wise\Support\Collection;
 /**
  * @extends Collection<Activity>
  */
-final class ActivityCollection extends Collection
-{
-}
+final class ActivityCollection extends Collection {}

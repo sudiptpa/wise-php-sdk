@@ -28,7 +28,7 @@ final class ActivityResource extends Resource
      */
     public function iterate(int $profileId, ?ListActivitiesRequest $request = null): Generator
     {
-        $query = $request ?? new ListActivitiesRequest();
+        $query = $request ?? new ListActivitiesRequest;
 
         while (true) {
             $page = $this->list($profileId, $query);
@@ -36,7 +36,7 @@ final class ActivityResource extends Resource
                 yield $activity;
             }
 
-            if (!$page->hasNext()) {
+            if (! $page->hasNext()) {
                 return;
             }
 

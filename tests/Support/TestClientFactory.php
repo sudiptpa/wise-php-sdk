@@ -13,7 +13,7 @@ final class TestClientFactory
     public static function make(FakeTransport $transport, ?ClientConfig $config = null): WiseClient
     {
         $config ??= ClientConfig::productionApiToken('test-token');
-        $factory = new Psr7Factory();
+        $factory = new Psr7Factory;
 
         return Wise::client($config, $transport, $factory, $factory);
     }

@@ -12,9 +12,9 @@ use Sujip\Wise\Tests\Support\TestClientFactory;
 
 final class PaymentResourceTest extends TestCase
 {
-    public function testFundsTransfer(): void
+    public function test_funds_transfer(): void
     {
-        $fixture = file_get_contents(__DIR__ . '/../../../Fixtures/wise/payment.json');
+        $fixture = file_get_contents(__DIR__.'/../../../Fixtures/wise/payment.json');
         $transport = new FakeTransport([Psr7Factory::response(200, (string) $fixture)]);
         $client = TestClientFactory::make($transport);
 

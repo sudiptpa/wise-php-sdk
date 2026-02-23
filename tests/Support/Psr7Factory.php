@@ -8,7 +8,6 @@ use InvalidArgumentException;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UploadedFileFactoryInterface;
@@ -16,7 +15,7 @@ use Psr\Http\Message\UploadedFileInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Psr\Http\Message\UriInterface;
 
-final class Psr7Factory implements RequestFactoryInterface, StreamFactoryInterface, UriFactoryInterface, UploadedFileFactoryInterface
+final class Psr7Factory implements RequestFactoryInterface, StreamFactoryInterface, UploadedFileFactoryInterface, UriFactoryInterface
 {
     public function createRequest(string $method, $uri): RequestInterface
     {
@@ -35,7 +34,7 @@ final class Psr7Factory implements RequestFactoryInterface, StreamFactoryInterfa
 
     public function createStreamFromResource($resource): StreamInterface
     {
-        if (!is_resource($resource)) {
+        if (! is_resource($resource)) {
             throw new InvalidArgumentException('Resource expected.');
         }
 
@@ -49,7 +48,8 @@ final class Psr7Factory implements RequestFactoryInterface, StreamFactoryInterfa
 
     public function createUploadedFile(StreamInterface $stream, ?int $size = null, int $error = \UPLOAD_ERR_OK, ?string $clientFilename = null, ?string $clientMediaType = null): UploadedFileInterface
     {
-        return new class () implements UploadedFileInterface {
+        return new class implements UploadedFileInterface
+        {
             public function getStream(): StreamInterface
             {
                 throw new InvalidArgumentException('Not implemented for tests.');
@@ -83,7 +83,7 @@ final class Psr7Factory implements RequestFactoryInterface, StreamFactoryInterfa
     }
 
     /**
-     * @param array<string, array<int, string>|string> $headers
+     * @param  array<string, array<int, string>|string>  $headers
      */
     public static function response(int $status = 200, string $body = '', array $headers = []): ResponseInterface
     {
@@ -93,9 +93,7 @@ final class Psr7Factory implements RequestFactoryInterface, StreamFactoryInterfa
 
 final class SimpleUri implements UriInterface
 {
-    public function __construct(private string $uri)
-    {
-    }
+    public function __construct(private string $uri) {}
 
     public function getScheme(): string
     {
@@ -182,18 +180,14 @@ final class SimpleUri implements UriInterface
 
 final class SimpleStream implements StreamInterface
 {
-    public function __construct(private string $content = '')
-    {
-    }
+    public function __construct(private string $content = '') {}
 
     public function __toString(): string
     {
         return $this->content;
     }
 
-    public function close(): void
-    {
-    }
+    public function close(): void {}
 
     public function detach()
     {
@@ -220,13 +214,9 @@ final class SimpleStream implements StreamInterface
         return false;
     }
 
-    public function seek(int $offset, int $whence = SEEK_SET): void
-    {
-    }
+    public function seek(int $offset, int $whence = SEEK_SET): void {}
 
-    public function rewind(): void
-    {
-    }
+    public function rewind(): void {}
 
     public function isWritable(): bool
     {
@@ -264,7 +254,7 @@ final class SimpleStream implements StreamInterface
 trait HeaderAwareMessage
 {
     /**
-     * @param array<string, array<int, string>> $headers
+     * @param  array<string, array<int, string>>  $headers
      * @return array<string, array<int, string>>
      */
     private function normalizeHeaders(array $headers): array
@@ -303,7 +293,7 @@ final class SimpleRequest implements RequestInterface
     use HeaderAwareMessage;
 
     /**
-     * @param array<string, array<int, string>> $headers
+     * @param  array<string, array<int, string>>  $headers
      */
     public function __construct(
         private string $method,
@@ -409,7 +399,7 @@ final class SimpleResponse implements ResponseInterface
     use HeaderAwareMessage;
 
     /**
-     * @param array<string, array<int, string>|string> $headers
+     * @param  array<string, array<int, string>|string>  $headers
      */
     public function __construct(
         private int $status,

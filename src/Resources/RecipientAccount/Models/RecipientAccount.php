@@ -17,8 +17,7 @@ final readonly class RecipientAccount implements Hydratable
         public string $type,
         public BankDetails $details,
         public ?ConfirmationOutcome $confirmationOutcome,
-    ) {
-    }
+    ) {}
 
     public static function fromArray(array $data): static
     {

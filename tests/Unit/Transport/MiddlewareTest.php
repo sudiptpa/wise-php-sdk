@@ -15,9 +15,9 @@ use Sujip\Wise\Transport\Middleware\RetryMiddleware;
 
 final class MiddlewareTest extends TestCase
 {
-    public function testIdempotencyMiddlewareAddsHeaderForPost(): void
+    public function test_idempotency_middleware_adds_header_for_post(): void
     {
-        $request = (new Psr7Factory())->createRequest('POST', 'https://example.test/path');
+        $request = (new Psr7Factory)->createRequest('POST', 'https://example.test/path');
         $middleware = new IdempotencyMiddleware('idem-1');
 
         $seen = null;
@@ -30,9 +30,9 @@ final class MiddlewareTest extends TestCase
         self::assertSame('idem-1', $seen?->getHeaderLine('Idempotency-Key'));
     }
 
-    public function testRetryMiddlewareRetriesOn429(): void
+    public function test_retry_middleware_retries_on429(): void
     {
-        $request = (new Psr7Factory())->createRequest('GET', 'https://example.test/path');
+        $request = (new Psr7Factory)->createRequest('GET', 'https://example.test/path');
         $count = 0;
         $sleeps = [];
         $middleware = new RetryMiddleware(3, 1, 2, ['GET'], static function (int $ms) use (&$sleeps): void {
@@ -40,7 +40,7 @@ final class MiddlewareTest extends TestCase
         });
 
         $response = $middleware->process($request, static function () use (&$count) {
-            ++$count;
+            $count++;
 
             return $count === 1
                 ? Psr7Factory::response(429, '{}')
@@ -52,11 +52,11 @@ final class MiddlewareTest extends TestCase
         self::assertSame([1], $sleeps);
     }
 
-    public function testLoggingMiddlewareRedactsAuthorizationHeader(): void
+    public function test_logging_middleware_redacts_authorization_header(): void
     {
-        $logger = new InMemoryLogger();
+        $logger = new InMemoryLogger;
         $middleware = new LoggingMiddleware($logger);
-        $request = (new Psr7Factory())
+        $request = (new Psr7Factory)
             ->createRequest('GET', 'https://example.test/path')
             ->withHeader('Authorization', 'Bearer super-secret');
 
@@ -65,11 +65,11 @@ final class MiddlewareTest extends TestCase
         self::assertSame('[REDACTED]', $logger->records[0]['context']['headers']['Authorization'] ?? null);
     }
 
-    public function testLoggingMiddlewareRedactsApiKeyAndIdempotencyKeyHeaders(): void
+    public function test_logging_middleware_redacts_api_key_and_idempotency_key_headers(): void
     {
-        $logger = new InMemoryLogger();
+        $logger = new InMemoryLogger;
         $middleware = new LoggingMiddleware($logger);
-        $request = (new Psr7Factory())
+        $request = (new Psr7Factory)
             ->createRequest('POST', 'https://example.test/path')
             ->withHeader('X-Api-Key', 'key-123')
             ->withHeader('Idempotency-Key', 'idem-abc');
@@ -80,11 +80,11 @@ final class MiddlewareTest extends TestCase
         self::assertSame('[REDACTED]', $logger->records[0]['context']['headers']['Idempotency-Key'] ?? null);
     }
 
-    public function testLoggingMiddlewareRedactsSensitiveQueryValues(): void
+    public function test_logging_middleware_redacts_sensitive_query_values(): void
     {
-        $logger = new InMemoryLogger();
+        $logger = new InMemoryLogger;
         $middleware = new LoggingMiddleware($logger);
-        $request = (new Psr7Factory())
+        $request = (new Psr7Factory)
             ->createRequest('GET', 'https://example.test/path?token=abc&size=10&clientKey=xyz');
 
         $middleware->process($request, static fn () => Psr7Factory::response(200, '{}'));
@@ -95,14 +95,14 @@ final class MiddlewareTest extends TestCase
         );
     }
 
-    public function testRetryMiddlewareDoesNotRetryPostByDefault(): void
+    public function test_retry_middleware_does_not_retry_post_by_default(): void
     {
-        $request = (new Psr7Factory())->createRequest('POST', 'https://example.test/path');
+        $request = (new Psr7Factory)->createRequest('POST', 'https://example.test/path');
         $count = 0;
         $middleware = new RetryMiddleware(3, 1, 2);
 
         $response = $middleware->process($request, static function () use (&$count) {
-            ++$count;
+            $count++;
 
             return Psr7Factory::response(429, '{}');
         });
@@ -111,18 +111,18 @@ final class MiddlewareTest extends TestCase
         self::assertSame(429, $response->getStatusCode());
     }
 
-    public function testRetryMiddlewareHonorsRetryAfterHttpDate(): void
+    public function test_retry_middleware_honors_retry_after_http_date(): void
     {
-        $request = (new Psr7Factory())->createRequest('GET', 'https://example.test/path');
+        $request = (new Psr7Factory)->createRequest('GET', 'https://example.test/path');
         $count = 0;
         $sleeps = [];
         $middleware = new RetryMiddleware(3, 1, 2000, ['GET'], static function (int $ms) use (&$sleeps): void {
             $sleeps[] = $ms;
         });
-        $retryAfter = gmdate('D, d M Y H:i:s', time() + 5) . ' GMT';
+        $retryAfter = gmdate('D, d M Y H:i:s', time() + 5).' GMT';
 
         $middleware->process($request, static function () use ($retryAfter, &$count) {
-            ++$count;
+            $count++;
 
             return $count === 1
                 ? Psr7Factory::response(429, '{}', ['Retry-After' => $retryAfter])
@@ -143,30 +143,37 @@ final class InMemoryLogger implements LoggerInterface
     {
         $this->log('emergency', (string) $message, $context);
     }
+
     public function alert(Stringable|string $message, array $context = []): void
     {
         $this->log('alert', (string) $message, $context);
     }
+
     public function critical(Stringable|string $message, array $context = []): void
     {
         $this->log('critical', (string) $message, $context);
     }
+
     public function error(Stringable|string $message, array $context = []): void
     {
         $this->log('error', (string) $message, $context);
     }
+
     public function warning(Stringable|string $message, array $context = []): void
     {
         $this->log('warning', (string) $message, $context);
     }
+
     public function notice(Stringable|string $message, array $context = []): void
     {
         $this->log('notice', (string) $message, $context);
     }
+
     public function info(Stringable|string $message, array $context = []): void
     {
         $this->log('info', (string) $message, $context);
     }
+
     public function debug(Stringable|string $message, array $context = []): void
     {
         $this->log('debug', (string) $message, $context);

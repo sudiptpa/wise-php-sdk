@@ -6,6 +6,4 @@ namespace Sujip\Wise\Resources\Balance;
 
 use Sujip\Wise\Resources\Resource;
 
-final class BalanceResource extends Resource
-{
-}
+final class BalanceResource extends Resource {}

@@ -10,9 +10,7 @@ use Sujip\Wise\Hydration\Cast;
 
 final readonly class DeliveryEstimate implements Hydratable
 {
-    public function __construct(public ?DateTimeImmutable $estimatedAt)
-    {
-    }
+    public function __construct(public ?DateTimeImmutable $estimatedAt) {}
 
     public static function fromArray(array $data): static
     {

@@ -9,9 +9,7 @@ use Sujip\Wise\Hydration\Cast;
 
 final readonly class ActivityResourceRef implements Hydratable
 {
-    public function __construct(public ?string $id, public ?string $type)
-    {
-    }
+    public function __construct(public ?string $id, public ?string $type) {}
 
     public static function fromArray(array $data): static
     {

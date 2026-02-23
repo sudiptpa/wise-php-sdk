@@ -11,9 +11,9 @@ use Sujip\Wise\Tests\Support\TestClientFactory;
 
 final class ProfileResourceTest extends TestCase
 {
-    public function testListsProfiles(): void
+    public function test_lists_profiles(): void
     {
-        $fixture = file_get_contents(__DIR__ . '/../../../Fixtures/wise/profile_list.json');
+        $fixture = file_get_contents(__DIR__.'/../../../Fixtures/wise/profile_list.json');
         $transport = new FakeTransport([Psr7Factory::response(200, (string) $fixture)]);
         $client = TestClientFactory::make($transport);
 

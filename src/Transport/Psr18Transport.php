@@ -13,16 +13,14 @@ use Throwable;
 
 final readonly class Psr18Transport implements TransportInterface
 {
-    public function __construct(private ClientInterface $client)
-    {
-    }
+    public function __construct(private ClientInterface $client) {}
 
     public function send(RequestInterface $request): ResponseInterface
     {
         try {
             return $this->client->sendRequest($request);
         } catch (Throwable $e) {
-            throw new TransportException('Transport send failed: ' . $e->getMessage(), 0, $e);
+            throw new TransportException('Transport send failed: '.$e->getMessage(), 0, $e);
         }
     }
 }

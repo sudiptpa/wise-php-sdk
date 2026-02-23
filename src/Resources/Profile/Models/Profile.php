@@ -9,9 +9,7 @@ use Sujip\Wise\Hydration\Cast;
 
 final readonly class Profile implements Hydratable
 {
-    public function __construct(public int $id, public string $type)
-    {
-    }
+    public function __construct(public int $id, public string $type) {}
 
     public static function fromArray(array $data): static
     {

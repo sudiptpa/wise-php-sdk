@@ -14,7 +14,7 @@ use Sujip\Wise\Resources\Quote\Requests\CreateAuthenticatedQuoteRequest;
 use Sujip\Wise\Tests\Support\Psr7Factory;
 use Sujip\Wise\Wise;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 $mode = strtolower($argv[1] ?? getenv('WISE_AUTH_MODE') ?: 'api_token');
 $profileId = (int) requireEnv('WISE_PROFILE_ID');
@@ -32,19 +32,19 @@ $config = new ClientConfig(
     userAgent: 'sudiptpa/wise-php-sdk-smoke',
 );
 
-$factory = new Psr7Factory();
+$factory = new Psr7Factory;
 $transport = new StreamTransport($factory);
 $wise = Wise::client($config, $transport, $factory, $factory);
 
-echo "Running sandbox smoke test with mode: {$mode}" . PHP_EOL;
-echo "Base URL: {$baseUrl}" . PHP_EOL;
+echo "Running sandbox smoke test with mode: {$mode}".PHP_EOL;
+echo "Base URL: {$baseUrl}".PHP_EOL;
 
 try {
     $profiles = $wise->profile()->list();
     if (count($profiles->all()) === 0) {
         throw new RuntimeException('No profiles returned.');
     }
-    echo "Profile listing: OK (" . count($profiles->all()) . " profiles)" . PHP_EOL;
+    echo 'Profile listing: OK ('.count($profiles->all()).' profiles)'.PHP_EOL;
 
     $quote = $wise->quote()->createAuthenticated(
         $profileId,
@@ -53,19 +53,19 @@ try {
     if ($quote->id === '') {
         throw new RuntimeException('Quote id is empty.');
     }
-    echo "Quote create: OK (id: {$quote->id})" . PHP_EOL;
+    echo "Quote create: OK (id: {$quote->id})".PHP_EOL;
 
     $activityPage = $wise->activity()->list($profileId, new ListActivitiesRequest(size: 5));
-    echo "Activity list: OK (" . count($activityPage->activities) . " activities)" . PHP_EOL;
+    echo 'Activity list: OK ('.count($activityPage->activities).' activities)'.PHP_EOL;
 
-    echo "Sandbox smoke test passed." . PHP_EOL;
+    echo 'Sandbox smoke test passed.'.PHP_EOL;
 } catch (WiseException|RuntimeException $e) {
-    fwrite(STDERR, 'Sandbox smoke test failed: ' . $e->getMessage() . PHP_EOL);
+    fwrite(STDERR, 'Sandbox smoke test failed: '.$e->getMessage().PHP_EOL);
     exit(1);
 }
 
 /**
- * @param non-empty-string $name
+ * @param  non-empty-string  $name
  */
 function requireEnv(string $name): string
 {
@@ -125,7 +125,7 @@ function resolveAccessToken(string $mode): string
 
     /** @var mixed $decoded */
     $decoded = json_decode($raw, true);
-    if (!is_array($decoded) || !isset($decoded['access_token']) || !is_string($decoded['access_token'])) {
+    if (! is_array($decoded) || ! isset($decoded['access_token']) || ! is_string($decoded['access_token'])) {
         throw new RuntimeException('OAuth token endpoint did not return access_token.');
     }
 
@@ -134,21 +134,19 @@ function resolveAccessToken(string $mode): string
 
 final class StreamTransport implements TransportInterface
 {
-    public function __construct(private readonly Psr7Factory $factory)
-    {
-    }
+    public function __construct(private readonly Psr7Factory $factory) {}
 
     public function send(RequestInterface $request): ResponseInterface
     {
         $headers = [];
         foreach ($request->getHeaders() as $name => $values) {
-            $headers[] = $name . ': ' . implode(', ', $values);
+            $headers[] = $name.': '.implode(', ', $values);
         }
 
         $context = stream_context_create([
             'http' => [
                 'method' => $request->getMethod(),
-                'header' => implode("\r\n", $headers) . "\r\n",
+                'header' => implode("\r\n", $headers)."\r\n",
                 'content' => (string) $request->getBody(),
                 'ignore_errors' => true,
                 'timeout' => 30,
