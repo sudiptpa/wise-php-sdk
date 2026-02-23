@@ -33,7 +33,7 @@ $config = new ClientConfig(
 );
 
 $factory = new Psr7Factory;
-$transport = new StreamTransport($factory);
+$transport = createStreamTransport($factory);
 $wise = Wise::client($config, $transport, $factory, $factory);
 
 echo "Running sandbox smoke test with mode: {$mode}".PHP_EOL;
@@ -132,46 +132,48 @@ function resolveAccessToken(string $mode): string
     return $decoded['access_token'];
 }
 
-final class StreamTransport implements TransportInterface
+function createStreamTransport(Psr7Factory $factory): TransportInterface
 {
-    public function __construct(private readonly Psr7Factory $factory) {}
+    return new class ($factory) implements TransportInterface {
+        public function __construct(private readonly Psr7Factory $factory) {}
 
-    public function send(RequestInterface $request): ResponseInterface
-    {
-        $headers = [];
-        foreach ($request->getHeaders() as $name => $values) {
-            $headers[] = $name.': '.implode(', ', $values);
-        }
-
-        $context = stream_context_create([
-            'http' => [
-                'method' => $request->getMethod(),
-                'header' => implode("\r\n", $headers)."\r\n",
-                'content' => (string) $request->getBody(),
-                'ignore_errors' => true,
-                'timeout' => 30,
-            ],
-        ]);
-
-        $rawBody = file_get_contents((string) $request->getUri(), false, $context);
-        if ($rawBody === false) {
-            throw new RuntimeException('Stream transport request failed.');
-        }
-
-        /** @var list<string> $http_response_header */
-        $statusLine = $http_response_header[0] ?? 'HTTP/1.1 500 Unknown';
-        $status = preg_match('/\s(\d{3})\s/', $statusLine, $matches) === 1 ? (int) $matches[1] : 500;
-        $parsedHeaders = [];
-        foreach (array_slice($http_response_header, 1) as $line) {
-            $pos = strpos($line, ':');
-            if ($pos === false) {
-                continue;
+        public function send(RequestInterface $request): ResponseInterface
+        {
+            $headers = [];
+            foreach ($request->getHeaders() as $name => $values) {
+                $headers[] = $name.': '.implode(', ', $values);
             }
-            $name = trim(substr($line, 0, $pos));
-            $value = trim(substr($line, $pos + 1));
-            $parsedHeaders[$name] = isset($parsedHeaders[$name]) ? [$parsedHeaders[$name], $value] : $value;
-        }
 
-        return Psr7Factory::response($status, $rawBody, $parsedHeaders);
-    }
+            $context = stream_context_create([
+                'http' => [
+                    'method' => $request->getMethod(),
+                    'header' => implode("\r\n", $headers)."\r\n",
+                    'content' => (string) $request->getBody(),
+                    'ignore_errors' => true,
+                    'timeout' => 30,
+                ],
+            ]);
+
+            $rawBody = file_get_contents((string) $request->getUri(), false, $context);
+            if ($rawBody === false) {
+                throw new RuntimeException('Stream transport request failed.');
+            }
+
+            /** @var list<string> $http_response_header */
+            $statusLine = $http_response_header[0] ?? 'HTTP/1.1 500 Unknown';
+            $status = preg_match('/\s(\d{3})\s/', $statusLine, $matches) === 1 ? (int) $matches[1] : 500;
+            $parsedHeaders = [];
+            foreach (array_slice($http_response_header, 1) as $line) {
+                $pos = strpos($line, ':');
+                if ($pos === false) {
+                    continue;
+                }
+                $name = trim(substr($line, 0, $pos));
+                $value = trim(substr($line, $pos + 1));
+                $parsedHeaders[$name] = isset($parsedHeaders[$name]) ? [$parsedHeaders[$name], $value] : $value;
+            }
+
+            return Psr7Factory::response($status, $rawBody, $parsedHeaders);
+        }
+    };
 }
