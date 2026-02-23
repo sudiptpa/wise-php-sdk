@@ -12,13 +12,12 @@ use Sujip\Wise\Contracts\TransportInterface;
 final readonly class MiddlewareTransport implements TransportInterface
 {
     /**
-     * @param list<MiddlewareInterface> $middlewares
+     * @param  list<MiddlewareInterface>  $middlewares
      */
     public function __construct(
         private TransportInterface $transport,
         private array $middlewares = [],
-    ) {
-    }
+    ) {}
 
     public function send(RequestInterface $request): ResponseInterface
     {

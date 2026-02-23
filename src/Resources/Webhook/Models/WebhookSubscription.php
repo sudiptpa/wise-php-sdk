@@ -9,9 +9,7 @@ use Sujip\Wise\Hydration\Cast;
 
 final readonly class WebhookSubscription implements Hydratable
 {
-    public function __construct(public int $id, public string $name, public string $url)
-    {
-    }
+    public function __construct(public int $id, public string $name, public string $url) {}
 
     public static function fromArray(array $data): static
     {

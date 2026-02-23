@@ -9,8 +9,7 @@ final readonly class UpdateQuoteRequest
     public function __construct(
         public ?float $targetAmount = null,
         public ?string $preferredPayIn = null,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<string, mixed>

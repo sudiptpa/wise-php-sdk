@@ -7,7 +7,7 @@ namespace Sujip\Wise\Resources\RecipientAccount\Requests;
 final readonly class CreateRecipientAccountRequest
 {
     /**
-     * @param array<string, mixed> $details
+     * @param  array<string, mixed>  $details
      */
     public function __construct(
         public int $profile,
@@ -15,8 +15,7 @@ final readonly class CreateRecipientAccountRequest
         public string $currency,
         public string $type,
         public array $details,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<string, mixed>

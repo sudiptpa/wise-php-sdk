@@ -12,9 +12,9 @@ use Sujip\Wise\Tests\Support\TestClientFactory;
 
 final class RecipientAccountResourceTest extends TestCase
 {
-    public function testCreatesRecipientAccount(): void
+    public function test_creates_recipient_account(): void
     {
-        $fixture = file_get_contents(__DIR__ . '/../../../Fixtures/wise/recipient_account.json');
+        $fixture = file_get_contents(__DIR__.'/../../../Fixtures/wise/recipient_account.json');
         $transport = new FakeTransport([Psr7Factory::response(200, (string) $fixture)]);
         $client = TestClientFactory::make($transport);
 

@@ -7,7 +7,7 @@ namespace Sujip\Wise\Exceptions;
 class ApiException extends WiseException
 {
     /**
-     * @param array<string, mixed> $errorBody
+     * @param  array<string, mixed>  $errorBody
      */
     public function __construct(
         string $message,

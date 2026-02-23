@@ -7,11 +7,9 @@ namespace Sujip\Wise\Resources\Webhook\Requests;
 final readonly class CreateWebhookSubscriptionRequest
 {
     /**
-     * @param list<string> $triggers
+     * @param  list<string>  $triggers
      */
-    public function __construct(public string $url, public string $name, public array $triggers = [])
-    {
-    }
+    public function __construct(public string $url, public string $name, public array $triggers = []) {}
 
     /**
      * @return array<string, mixed>

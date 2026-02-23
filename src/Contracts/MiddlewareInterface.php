@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface;
 interface MiddlewareInterface
 {
     /**
-     * @param callable(RequestInterface): ResponseInterface $next
+     * @param  callable(RequestInterface): ResponseInterface  $next
      */
     public function process(RequestInterface $request, callable $next): ResponseInterface;
 }

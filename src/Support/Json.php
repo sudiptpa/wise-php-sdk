@@ -22,10 +22,10 @@ final class Json
             /** @var mixed $decoded */
             $decoded = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
         } catch (JsonException $e) {
-            throw new ValidationException('Invalid JSON payload: ' . $e->getMessage(), 0, $e);
+            throw new ValidationException('Invalid JSON payload: '.$e->getMessage(), 0, $e);
         }
 
-        if (!is_array($decoded)) {
+        if (! is_array($decoded)) {
             throw new ValidationException('Expected JSON object or array payload.');
         }
 
@@ -52,7 +52,7 @@ final class Json
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public static function encode(array $data): string
     {

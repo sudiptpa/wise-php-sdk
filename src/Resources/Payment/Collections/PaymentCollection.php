@@ -10,6 +10,4 @@ use Sujip\Wise\Support\Collection;
 /**
  * @extends Collection<Payment>
  */
-final class PaymentCollection extends Collection
-{
-}
+final class PaymentCollection extends Collection {}

@@ -14,7 +14,7 @@ final class RetryMiddleware implements MiddlewareInterface
     private ?Closure $sleeper;
 
     /**
-     * @param callable(int): void|null $sleeper
+     * @param  callable(int): void|null  $sleeper
      */
     public function __construct(
         private readonly int $maxAttempts = 3,
@@ -29,7 +29,7 @@ final class RetryMiddleware implements MiddlewareInterface
 
     public function process(RequestInterface $request, callable $next): ResponseInterface
     {
-        if (!in_array(strtoupper($request->getMethod()), $this->methods, true)) {
+        if (! in_array(strtoupper($request->getMethod()), $this->methods, true)) {
             return $next($request);
         }
 
@@ -39,12 +39,12 @@ final class RetryMiddleware implements MiddlewareInterface
             $response = $next($request);
             $status = $response->getStatusCode();
 
-            if (!$this->shouldRetry($status) || $attempt >= $this->maxAttempts) {
+            if (! $this->shouldRetry($status) || $attempt >= $this->maxAttempts) {
                 return $response;
             }
 
             $this->sleepFor($response, $attempt);
-            ++$attempt;
+            $attempt++;
         }
     }
 

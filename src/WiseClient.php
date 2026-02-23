@@ -30,6 +30,7 @@ use Throwable;
 final readonly class WiseClient
 {
     private ?TokenAuthenticator $authenticator;
+
     private Hydrator $hydrator;
 
     public function __construct(
@@ -40,7 +41,7 @@ final readonly class WiseClient
     ) {
         $provider = $config->accessTokenProvider;
         $this->authenticator = $provider === null ? null : new TokenAuthenticator($provider);
-        $this->hydrator = new Hydrator();
+        $this->hydrator = new Hydrator;
     }
 
     public function quote(): QuoteResource
@@ -84,9 +85,9 @@ final readonly class WiseClient
     }
 
     /**
-     * @param array<string, mixed> $query
-     * @param array<string, mixed> $body
-     * @param array<string, string> $headers
+     * @param  array<string, mixed>  $query
+     * @param  array<string, mixed>  $body
+     * @param  array<string, string>  $headers
      * @return array<string, mixed>
      */
     public function request(
@@ -97,10 +98,10 @@ final readonly class WiseClient
         array $headers = [],
         bool $authenticated = true,
     ): array {
-        $url = rtrim($this->config->baseUrl, '/') . '/' . ltrim($path, '/');
+        $url = rtrim($this->config->baseUrl, '/').'/'.ltrim($path, '/');
         $query = Arr::onlyDefined($query);
         if ($query !== []) {
-            $url .= '?' . http_build_query($query);
+            $url .= '?'.http_build_query($query);
         }
 
         $request = $this->requestFactory->createRequest($method, $url)
@@ -131,7 +132,7 @@ final readonly class WiseClient
                 throw $e;
             }
 
-            throw new TransportException('Transport send failed: ' . $e->getMessage(), 0, $e);
+            throw new TransportException('Transport send failed: '.$e->getMessage(), 0, $e);
         }
 
         $this->throwIfFailed($response);

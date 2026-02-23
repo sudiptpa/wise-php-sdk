@@ -9,9 +9,7 @@ use Sujip\Wise\Hydration\Cast;
 
 final readonly class Rate implements Hydratable
 {
-    public function __construct(public float $value)
-    {
-    }
+    public function __construct(public float $value) {}
 
     public static function fromArray(array $data): static
     {

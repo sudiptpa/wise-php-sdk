@@ -10,16 +10,15 @@ use Traversable;
 
 /**
  * @template T
+ *
  * @implements CollectionInterface<T>
  */
 class Collection implements CollectionInterface
 {
     /**
-     * @param array<int, T> $items
+     * @param  array<int, T>  $items
      */
-    public function __construct(private readonly array $items)
-    {
-    }
+    public function __construct(private readonly array $items) {}
 
     public function count(): int
     {

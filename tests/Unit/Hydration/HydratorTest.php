@@ -10,9 +10,9 @@ use Sujip\Wise\Resources\Quote\Models\Quote;
 
 final class HydratorTest extends TestCase
 {
-    public function testHydratesModelFromArray(): void
+    public function test_hydrates_model_from_array(): void
     {
-        $hydrator = new Hydrator();
+        $hydrator = new Hydrator;
         $data = [
             'id' => 1,
             'sourceCurrency' => 'USD',

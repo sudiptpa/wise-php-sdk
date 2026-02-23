@@ -19,9 +19,9 @@ use Sujip\Wise\Tests\Support\TestClientFactory;
 
 final class TransferResourceTest extends TestCase
 {
-    public function testCreatesTransferAndHelperStates(): void
+    public function test_creates_transfer_and_helper_states(): void
     {
-        $fixture = file_get_contents(__DIR__ . '/../../../Fixtures/wise/transfer.json');
+        $fixture = file_get_contents(__DIR__.'/../../../Fixtures/wise/transfer.json');
         $transport = new FakeTransport([Psr7Factory::response(200, (string) $fixture)]);
         $client = TestClientFactory::make($transport);
 
@@ -35,7 +35,7 @@ final class TransferResourceTest extends TestCase
         self::assertStringContainsString('"quoteUuid":"101"', (string) $transport->lastRequest()->getBody());
     }
 
-    public function testCreateTransferRequestFromGeneratesCustomerTransactionIdWhenMissing(): void
+    public function test_create_transfer_request_from_generates_customer_transaction_id_when_missing(): void
     {
         $quote = new Quote('quote-uuid-123', 'USD', 'EUR', 100.0, 92.0, new Fee(1.0), new Rate(0.92), new DeliveryEstimate(null));
         $recipient = new RecipientAccount(2001, 123, 'Jane Doe', 'EUR', 'iban', new BankDetails([]), null);
@@ -50,7 +50,7 @@ final class TransferResourceTest extends TestCase
         );
     }
 
-    public function testFetchesTransferRequirements(): void
+    public function test_fetches_transfer_requirements(): void
     {
         $transport = new FakeTransport([Psr7Factory::response(200, '{"field":"value"}')]);
         $client = TestClientFactory::make($transport);

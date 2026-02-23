@@ -14,8 +14,7 @@ final readonly class Transfer implements Hydratable
         public int $targetAccount,
         public ?string $quoteUuid,
         public string $status,
-    ) {
-    }
+    ) {}
 
     public static function fromArray(array $data): static
     {

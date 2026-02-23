@@ -10,7 +10,7 @@ use Sujip\Wise\Resources\Transfer\Requests\CreateTransferRequest;
 use Sujip\Wise\Transport\Psr18Transport;
 use Sujip\Wise\Wise;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 $config = ClientConfig::productionApiToken('your-token');
 $transport = new Psr18Transport($yourPsr18Client);

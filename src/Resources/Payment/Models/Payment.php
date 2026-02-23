@@ -10,11 +10,9 @@ use Sujip\Wise\Hydration\Cast;
 final readonly class Payment implements Hydratable
 {
     /**
-     * @param array<int, PaymentOption> $options
+     * @param  array<int, PaymentOption>  $options
      */
-    public function __construct(public int $transferId, public array $options)
-    {
-    }
+    public function __construct(public int $transferId, public array $options) {}
 
     public static function fromArray(array $data): static
     {

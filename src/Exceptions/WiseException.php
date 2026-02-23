@@ -6,6 +6,4 @@ namespace Sujip\Wise\Exceptions;
 
 use RuntimeException;
 
-class WiseException extends RuntimeException
-{
-}
+class WiseException extends RuntimeException {}

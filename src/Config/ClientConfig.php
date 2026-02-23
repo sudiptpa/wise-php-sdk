@@ -12,6 +12,7 @@ use Sujip\Wise\Contracts\AccessTokenProviderInterface;
 final readonly class ClientConfig
 {
     public const PROD_BASE_URL = 'https://api.transferwise.com';
+
     public const SANDBOX_BASE_URL = 'https://api.sandbox.transferwise.tech';
 
     public function __construct(
@@ -28,8 +29,7 @@ final readonly class ClientConfig
         public array $retryMethods = ['GET', 'HEAD', 'OPTIONS'],
         public ?string $idempotencyKey = null,
         public ?LoggerInterface $logger = null,
-    ) {
-    }
+    ) {}
 
     public static function production(string $token): self
     {
@@ -76,5 +76,4 @@ final readonly class ClientConfig
             baseUrl: self::SANDBOX_BASE_URL,
         );
     }
-
 }

@@ -10,6 +10,4 @@ use Sujip\Wise\Support\Collection;
 /**
  * @extends Collection<Quote>
  */
-final class QuoteCollection extends Collection
-{
-}
+final class QuoteCollection extends Collection {}

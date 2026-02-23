@@ -9,7 +9,7 @@ use DateTimeImmutable;
 final class Cast
 {
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public static function string(array $data, string $key, ?string $default = null): ?string
     {
@@ -19,7 +19,7 @@ final class Cast
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public static function int(array $data, string $key, ?int $default = null): ?int
     {
@@ -29,7 +29,7 @@ final class Cast
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public static function float(array $data, string $key, ?float $default = null): ?float
     {
@@ -39,7 +39,7 @@ final class Cast
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public static function bool(array $data, string $key, ?bool $default = null): ?bool
     {
@@ -49,12 +49,12 @@ final class Cast
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public static function dateTime(array $data, string $key): ?DateTimeImmutable
     {
         $value = $data[$key] ?? null;
-        if (!is_string($value) || $value === '') {
+        if (! is_string($value) || $value === '') {
             return null;
         }
 
@@ -62,7 +62,7 @@ final class Cast
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      * @return array<string, mixed>
      */
     public static function object(array $data, string $key): array
@@ -73,13 +73,13 @@ final class Cast
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      * @return array<int, array<string, mixed>>
      */
     public static function list(array $data, string $key): array
     {
         $value = $data[$key] ?? [];
-        if (!is_array($value)) {
+        if (! is_array($value)) {
             return [];
         }
 

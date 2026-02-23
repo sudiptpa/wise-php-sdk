@@ -12,9 +12,9 @@ use Sujip\Wise\Tests\Support\TestClientFactory;
 
 final class ActivityResourceTest extends TestCase
 {
-    public function testListsActivitiesWithCursorPagination(): void
+    public function test_lists_activities_with_cursor_pagination(): void
     {
-        $fixture = file_get_contents(__DIR__ . '/../../../Fixtures/wise/activity_page.json');
+        $fixture = file_get_contents(__DIR__.'/../../../Fixtures/wise/activity_page.json');
         $transport = new FakeTransport([Psr7Factory::response(200, (string) $fixture)]);
         $client = TestClientFactory::make($transport);
 
@@ -29,7 +29,7 @@ final class ActivityResourceTest extends TestCase
         self::assertStringContainsString('size=20', $query);
     }
 
-    public function testIteratesAcrossPages(): void
+    public function test_iterates_across_pages(): void
     {
         $first = '{"nextCursor":"cursor_2","activities":[{"status":"COMPLETED","title":"First page","resource":{"id":"1","type":"transfer"}}]}';
         $second = '{"nextCursor":null,"activities":[{"status":"COMPLETED","title":"Second page","resource":{"id":"2","type":"transfer"}}]}';

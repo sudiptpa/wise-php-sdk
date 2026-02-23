@@ -17,11 +17,9 @@ final class FakeTransport implements TransportInterface
     private array $requests = [];
 
     /**
-     * @param list<ResponseInterface> $responses
+     * @param  list<ResponseInterface>  $responses
      */
-    public function __construct(private array $responses)
-    {
-    }
+    public function __construct(private array $responses) {}
 
     public function send(RequestInterface $request): ResponseInterface
     {

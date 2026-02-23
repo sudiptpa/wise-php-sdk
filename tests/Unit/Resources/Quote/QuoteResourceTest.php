@@ -13,9 +13,9 @@ use Sujip\Wise\Tests\Support\TestClientFactory;
 
 final class QuoteResourceTest extends TestCase
 {
-    public function testCreatesAuthenticatedQuoteAndBuildsRequest(): void
+    public function test_creates_authenticated_quote_and_builds_request(): void
     {
-        $fixture = file_get_contents(__DIR__ . '/../../../Fixtures/wise/quote.json');
+        $fixture = file_get_contents(__DIR__.'/../../../Fixtures/wise/quote.json');
         $transport = new FakeTransport([Psr7Factory::response(200, (string) $fixture)]);
         $client = TestClientFactory::make($transport);
 
@@ -27,9 +27,9 @@ final class QuoteResourceTest extends TestCase
         self::assertSame('Bearer test-token', $transport->lastRequest()->getHeaderLine('Authorization'));
     }
 
-    public function testCreatesUnauthenticatedQuoteWithoutAuthorizationHeader(): void
+    public function test_creates_unauthenticated_quote_without_authorization_header(): void
     {
-        $fixture = file_get_contents(__DIR__ . '/../../../Fixtures/wise/quote.json');
+        $fixture = file_get_contents(__DIR__.'/../../../Fixtures/wise/quote.json');
         $transport = new FakeTransport([Psr7Factory::response(200, (string) $fixture)]);
         $client = TestClientFactory::make($transport);
 
@@ -41,9 +41,9 @@ final class QuoteResourceTest extends TestCase
         self::assertFalse($transport->lastRequest()->hasHeader('Authorization'));
     }
 
-    public function testUpdatesQuote(): void
+    public function test_updates_quote(): void
     {
-        $fixture = file_get_contents(__DIR__ . '/../../../Fixtures/wise/quote.json');
+        $fixture = file_get_contents(__DIR__.'/../../../Fixtures/wise/quote.json');
         $transport = new FakeTransport([Psr7Factory::response(200, (string) $fixture)]);
         $client = TestClientFactory::make($transport);
 

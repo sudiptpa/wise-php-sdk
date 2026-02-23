@@ -11,9 +11,9 @@ use Sujip\Wise\Support\InMemoryWebhookReplayStore;
 
 final class WebhookReplayProtectorTest extends TestCase
 {
-    public function testAcceptsFreshFirstSeenEvent(): void
+    public function test_accepts_fresh_first_seen_event(): void
     {
-        $store = new InMemoryWebhookReplayStore();
+        $store = new InMemoryWebhookReplayStore;
         $protector = new WebhookReplayProtector($store, 300, static fn (): int => 1_700_000_000);
 
         $protector->validate('evt-1', 1_700_000_000);
@@ -21,9 +21,9 @@ final class WebhookReplayProtectorTest extends TestCase
         self::assertTrue(true);
     }
 
-    public function testRejectsReplayForSameEventAndTimestamp(): void
+    public function test_rejects_replay_for_same_event_and_timestamp(): void
     {
-        $store = new InMemoryWebhookReplayStore();
+        $store = new InMemoryWebhookReplayStore;
         $protector = new WebhookReplayProtector($store, 300, static fn (): int => 1_700_000_000);
         $protector->validate('evt-1', 1_700_000_000);
 
@@ -32,9 +32,9 @@ final class WebhookReplayProtectorTest extends TestCase
         $protector->validate('evt-1', 1_700_000_000);
     }
 
-    public function testRejectsStaleEventOutsideTolerance(): void
+    public function test_rejects_stale_event_outside_tolerance(): void
     {
-        $store = new InMemoryWebhookReplayStore();
+        $store = new InMemoryWebhookReplayStore;
         $protector = new WebhookReplayProtector($store, 300, static fn (): int => 1_700_000_000);
 
         $this->expectException(ValidationException::class);

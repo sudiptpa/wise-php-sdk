@@ -13,7 +13,7 @@ final class WebhookReplayProtector
     private ?Closure $now;
 
     /**
-     * @param callable(): int|null $now
+     * @param  callable(): int|null  $now
      */
     public function __construct(
         private readonly WebhookReplayStoreInterface $store,
@@ -34,7 +34,7 @@ final class WebhookReplayProtector
             throw new ValidationException('Webhook timestamp is outside the allowed tolerance window.');
         }
 
-        $key = $eventId . '@' . $timestamp;
+        $key = $eventId.'@'.$timestamp;
         if ($this->store->exists($key)) {
             throw new ValidationException('Webhook replay detected.');
         }
