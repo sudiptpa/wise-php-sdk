@@ -11,9 +11,10 @@
         "psr/log": "^1.1 || ^2.0 || ^3.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.66",
+        "friendsofphp/php-cs-fixer": "3.66.0",
         "phpstan/phpstan": "^1.12",
-        "phpunit/phpunit": "^10.5"
+        "phpunit/phpunit": "^10.5",
+        "symfony/string": "^7.4"
     },
     "suggest": {
         "ext-curl": "Use with a custom Curl transport implementation.",
@@ -31,8 +32,8 @@
         }
     },
     "scripts": {
-        "cs": "php-cs-fixer fix --allow-risky=yes --sequential --using-cache=no",
-        "cs:check": "php-cs-fixer fix --dry-run --diff --allow-risky=yes --sequential --using-cache=no",
+        "cs": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --allow-risky=yes --sequential --using-cache=no",
+        "cs:check": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --dry-run --diff --allow-risky=yes --sequential --using-cache=no",
         "stan": "phpstan analyse --debug",
         "test": "phpunit",
         "qa": [
