@@ -9,9 +9,7 @@ use Sujip\Wise\Hydration\Cast;
 
 final readonly class PaymentOption implements Hydratable
 {
-    public function __construct(public string $type, public ?float $fee)
-    {
-    }
+    public function __construct(public string $type, public ?float $fee) {}
 
     public static function fromArray(array $data): static
     {

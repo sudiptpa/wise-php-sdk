@@ -11,8 +11,7 @@ final readonly class CreateAuthenticatedQuoteRequest
         public string $targetCurrency,
         public ?float $sourceAmount,
         public ?float $targetAmount,
-    ) {
-    }
+    ) {}
 
     public static function fixedTarget(string $sourceCurrency, string $targetCurrency, float $targetAmount): self
     {

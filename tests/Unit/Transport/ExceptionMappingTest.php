@@ -21,7 +21,7 @@ use Sujip\Wise\Tests\Support\TestClientFactory;
 
 final class ExceptionMappingTest extends TestCase
 {
-    public function testMapsAuthException(): void
+    public function test_maps_auth_exception(): void
     {
         $transport = new FakeTransport([Psr7Factory::response(401, '{"message":"unauthorized"}')]);
         $client = TestClientFactory::make($transport);
@@ -30,7 +30,7 @@ final class ExceptionMappingTest extends TestCase
         $client->request('GET', '/v3/quotes');
     }
 
-    public function testMapsRateLimitExceptionWithRetryAfter(): void
+    public function test_maps_rate_limit_exception_with_retry_after(): void
     {
         $transport = new FakeTransport([Psr7Factory::response(429, '{"message":"slow down"}', ['Retry-After' => '5'])]);
         $client = TestClientFactory::make($transport);
@@ -43,9 +43,9 @@ final class ExceptionMappingTest extends TestCase
         }
     }
 
-    public function testMapsRateLimitExceptionWithRetryAfterHttpDate(): void
+    public function test_maps_rate_limit_exception_with_retry_after_http_date(): void
     {
-        $header = gmdate('D, d M Y H:i:s', time() + 4) . ' GMT';
+        $header = gmdate('D, d M Y H:i:s', time() + 4).' GMT';
         $transport = new FakeTransport([Psr7Factory::response(429, '{"message":"slow down"}', ['Retry-After' => $header])]);
         $client = TestClientFactory::make($transport);
 
@@ -59,7 +59,7 @@ final class ExceptionMappingTest extends TestCase
         }
     }
 
-    public function testMapsApiException(): void
+    public function test_maps_api_exception(): void
     {
         $transport = new FakeTransport([Psr7Factory::response(500, '{"message":"boom"}')]);
         $client = TestClientFactory::make($transport);
@@ -68,19 +68,19 @@ final class ExceptionMappingTest extends TestCase
         $client->request('GET', '/v3/quotes');
     }
 
-    public function testThrowsWhenTransportMissing(): void
+    public function test_throws_when_transport_missing(): void
     {
         $this->expectExceptionMessage('Transport not configured');
 
         \Sujip\Wise\Wise::client(
             ClientConfig::productionApiToken('x'),
             null,
-            new Psr7Factory(),
-            new Psr7Factory(),
+            new Psr7Factory,
+            new Psr7Factory,
         );
     }
 
-    public function testThrowsWhenAuthenticatedRequestHasNoTokenProvider(): void
+    public function test_throws_when_authenticated_request_has_no_token_provider(): void
     {
         $transport = new FakeTransport([Psr7Factory::response(200, '{}')]);
         $client = TestClientFactory::make($transport, new ClientConfig(authMode: AuthMode::ApiToken, accessTokenProvider: null));
@@ -89,15 +89,16 @@ final class ExceptionMappingTest extends TestCase
         $client->request('GET', '/v1/profiles');
     }
 
-    public function testWrapsUnexpectedTransportThrowable(): void
+    public function test_wraps_unexpected_transport_throwable(): void
     {
-        $transport = new class () implements TransportInterface {
+        $transport = new class implements TransportInterface
+        {
             public function send(RequestInterface $request): \Psr\Http\Message\ResponseInterface
             {
                 throw new RuntimeException('socket failure');
             }
         };
-        $factory = new Psr7Factory();
+        $factory = new Psr7Factory;
         $client = \Sujip\Wise\Wise::client(ClientConfig::productionApiToken('test-token'), $transport, $factory, $factory);
 
         $this->expectException(TransportException::class);
@@ -105,7 +106,7 @@ final class ExceptionMappingTest extends TestCase
         $client->request('GET', '/v3/quotes');
     }
 
-    public function testThrowsValidationExceptionWhenSuccessfulPayloadIsInvalidJson(): void
+    public function test_throws_validation_exception_when_successful_payload_is_invalid_json(): void
     {
         $transport = new FakeTransport([Psr7Factory::response(200, '{not-json')]);
         $client = TestClientFactory::make($transport);

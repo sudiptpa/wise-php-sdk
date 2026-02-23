@@ -11,17 +11,16 @@ use Sujip\Wise\Contracts\MiddlewareInterface;
 final readonly class IdempotencyMiddleware implements MiddlewareInterface
 {
     /**
-     * @param list<string> $methods
+     * @param  list<string>  $methods
      */
     public function __construct(
         private string $key,
         private array $methods = ['POST'],
-    ) {
-    }
+    ) {}
 
     public function process(RequestInterface $request, callable $next): ResponseInterface
     {
-        if (in_array(strtoupper($request->getMethod()), $this->methods, true) && !$request->hasHeader('Idempotency-Key')) {
+        if (in_array(strtoupper($request->getMethod()), $this->methods, true) && ! $request->hasHeader('Idempotency-Key')) {
             $request = $request->withHeader('Idempotency-Key', $this->key);
         }
 

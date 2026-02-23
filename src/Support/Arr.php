@@ -7,7 +7,7 @@ namespace Sujip\Wise\Support;
 final class Arr
 {
     /**
-     * @param array<string, mixed> $input
+     * @param  array<string, mixed>  $input
      * @return array<string, mixed>
      */
     public static function onlyDefined(array $input): array

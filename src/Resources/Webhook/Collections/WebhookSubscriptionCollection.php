@@ -10,6 +10,4 @@ use Sujip\Wise\Support\Collection;
 /**
  * @extends Collection<WebhookSubscription>
  */
-final class WebhookSubscriptionCollection extends Collection
-{
-}
+final class WebhookSubscriptionCollection extends Collection {}

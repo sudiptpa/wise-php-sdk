@@ -13,8 +13,7 @@ final readonly class ListActivitiesRequest
         public ?string $until = null,
         public ?string $nextCursor = null,
         public ?int $size = null,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<string, mixed>

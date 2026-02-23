@@ -18,8 +18,7 @@ final readonly class Quote implements Hydratable
         public Fee $fee,
         public Rate $rate,
         public DeliveryEstimate $deliveryEstimate,
-    ) {
-    }
+    ) {}
 
     public static function fromArray(array $data): static
     {

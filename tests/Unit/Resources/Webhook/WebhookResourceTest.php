@@ -13,9 +13,9 @@ use Sujip\Wise\Tests\Support\TestClientFactory;
 
 final class WebhookResourceTest extends TestCase
 {
-    public function testCreatesApplicationSubscription(): void
+    public function test_creates_application_subscription(): void
     {
-        $fixture = file_get_contents(__DIR__ . '/../../../Fixtures/wise/webhook_subscription.json');
+        $fixture = file_get_contents(__DIR__.'/../../../Fixtures/wise/webhook_subscription.json');
         $transport = new FakeTransport([Psr7Factory::response(200, (string) $fixture)]);
         $client = TestClientFactory::make($transport);
 
@@ -29,11 +29,11 @@ final class WebhookResourceTest extends TestCase
         self::assertSame('/v3/applications/client-key/subscriptions', $transport->lastRequest()->getUri()->getPath());
     }
 
-    public function testListsAndGetsProfileSubscriptions(): void
+    public function test_lists_and_gets_profile_subscriptions(): void
     {
-        $fixture = file_get_contents(__DIR__ . '/../../../Fixtures/wise/webhook_subscription.json');
+        $fixture = file_get_contents(__DIR__.'/../../../Fixtures/wise/webhook_subscription.json');
         $transport = new FakeTransport([
-            Psr7Factory::response(200, '[' . (string) $fixture . ']'),
+            Psr7Factory::response(200, '['.(string) $fixture.']'),
             Psr7Factory::response(200, (string) $fixture),
         ]);
         $client = TestClientFactory::make($transport);
@@ -47,7 +47,7 @@ final class WebhookResourceTest extends TestCase
         self::assertSame('/v3/profiles/123/subscriptions/4001', $transport->requests()[1]->getUri()->getPath());
     }
 
-    public function testSendsApplicationTestNotification(): void
+    public function test_sends_application_test_notification(): void
     {
         $transport = new FakeTransport([Psr7Factory::response(204, '')]);
         $client = TestClientFactory::make($transport);
@@ -61,9 +61,9 @@ final class WebhookResourceTest extends TestCase
         self::assertSame('POST', $transport->lastRequest()->getMethod());
     }
 
-    public function testVerifier(): void
+    public function test_verifier(): void
     {
-        $verifier = new WebhookVerifier();
+        $verifier = new WebhookVerifier;
         $payload = '{"hello":"world"}';
         $secret = 'secret';
         $signature = base64_encode(hash_hmac('sha256', $payload, $secret, true));
@@ -71,13 +71,13 @@ final class WebhookResourceTest extends TestCase
         self::assertTrue($verifier->verify($payload, $signature, $secret));
     }
 
-    public function testVerifierAcceptsAlgorithmPrefixedSignatureHeaderValue(): void
+    public function test_verifier_accepts_algorithm_prefixed_signature_header_value(): void
     {
-        $verifier = new WebhookVerifier();
+        $verifier = new WebhookVerifier;
         $payload = '{"hello":"world"}';
         $secret = 'secret';
         $signature = base64_encode(hash_hmac('sha256', $payload, $secret, true));
 
-        self::assertTrue($verifier->verify($payload, 'sha256=' . $signature, $secret));
+        self::assertTrue($verifier->verify($payload, 'sha256='.$signature, $secret));
     }
 }

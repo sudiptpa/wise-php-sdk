@@ -9,6 +9,7 @@ use IteratorAggregate;
 
 /**
  * @template T
+ *
  * @extends IteratorAggregate<int, T>
  */
 interface CollectionInterface extends Countable, IteratorAggregate

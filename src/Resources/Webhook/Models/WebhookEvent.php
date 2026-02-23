@@ -9,9 +9,7 @@ use Sujip\Wise\Hydration\Cast;
 
 final readonly class WebhookEvent implements Hydratable
 {
-    public function __construct(public string $eventType, public ?string $sentAt)
-    {
-    }
+    public function __construct(public string $eventType, public ?string $sentAt) {}
 
     public static function fromArray(array $data): static
     {

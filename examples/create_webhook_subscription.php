@@ -7,7 +7,7 @@ use Sujip\Wise\Resources\Webhook\Requests\CreateWebhookSubscriptionRequest;
 use Sujip\Wise\Transport\Psr18Transport;
 use Sujip\Wise\Wise;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 $config = ClientConfig::productionOAuth2('oauth-token');
 $transport = new Psr18Transport($yourPsr18Client);
@@ -18,4 +18,4 @@ $subscription = $wise->webhook()->createApplicationSubscription(
     new CreateWebhookSubscriptionRequest('https://example.com/webhook', 'Transfers Hook', ['transfers#state-change'])
 );
 
-echo $subscription->id . PHP_EOL;
+echo $subscription->id.PHP_EOL;
