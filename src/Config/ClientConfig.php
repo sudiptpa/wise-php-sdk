@@ -11,9 +11,9 @@ use Sujip\Wise\Contracts\AccessTokenProviderInterface;
 
 final readonly class ClientConfig
 {
-    public const DEFAULT_BASE_URL = 'https://api.transferwise.com';
+    public const DEFAULT_BASE_URL = 'https://api.wise.com';
 
-    public const SANDBOX_BASE_URL = 'https://api.sandbox.transferwise.tech';
+    public const SANDBOX_BASE_URL = 'https://api.wise-sandbox.com';
 
     public function __construct(
         public AuthMode $authMode,

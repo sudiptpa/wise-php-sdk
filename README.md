@@ -28,8 +28,8 @@ $sandboxOAuth = ClientConfig::oauth2('oauth-access-token', ClientConfig::SANDBOX
 ```
 
 Base URLs:
-- Production: `https://api.transferwise.com`
-- Sandbox: `https://api.sandbox.transferwise.tech`
+- Production: `https://api.wise.com`
+- Sandbox: `https://api.wise-sandbox.com`
 
 For rotating OAuth2 tokens, provide your own token provider:
 ```php
