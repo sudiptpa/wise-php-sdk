@@ -1,0 +1,10 @@
+{
+  "id": 101,
+  "sourceCurrency": "USD",
+  "targetCurrency": "EUR",
+  "sourceAmount": 100,
+  "targetAmount": 92.5,
+  "fee": {"total": 1.2},
+  "rate": 0.925,
+  "estimatedDelivery": "2026-02-24T10:00:00Z"
+}

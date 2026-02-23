@@ -1,0 +1,8 @@
+{
+  "id": 2001,
+  "profile": 123,
+  "accountHolderName": "Jane Doe",
+  "currency": "EUR",
+  "type": "iban",
+  "details": {"iban": "DE123", "bic": "NTSBDEB1"}
+}

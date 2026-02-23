@@ -1,0 +1,116 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Sujip\Wise\Tests\Unit\Transport;
+
+use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\RequestInterface;
+use RuntimeException;
+use Sujip\Wise\Auth\AuthMode;
+use Sujip\Wise\Config\ClientConfig;
+use Sujip\Wise\Contracts\TransportInterface;
+use Sujip\Wise\Exceptions\ApiException;
+use Sujip\Wise\Exceptions\AuthException;
+use Sujip\Wise\Exceptions\RateLimitException;
+use Sujip\Wise\Exceptions\TransportException;
+use Sujip\Wise\Exceptions\ValidationException;
+use Sujip\Wise\Tests\Support\FakeTransport;
+use Sujip\Wise\Tests\Support\Psr7Factory;
+use Sujip\Wise\Tests\Support\TestClientFactory;
+
+final class ExceptionMappingTest extends TestCase
+{
+    public function testMapsAuthException(): void
+    {
+        $transport = new FakeTransport([Psr7Factory::response(401, '{"message":"unauthorized"}')]);
+        $client = TestClientFactory::make($transport);
+
+        $this->expectException(AuthException::class);
+        $client->request('GET', '/v3/quotes');
+    }
+
+    public function testMapsRateLimitExceptionWithRetryAfter(): void
+    {
+        $transport = new FakeTransport([Psr7Factory::response(429, '{"message":"slow down"}', ['Retry-After' => '5'])]);
+        $client = TestClientFactory::make($transport);
+
+        try {
+            $client->request('GET', '/v3/quotes');
+            self::fail('Expected exception not thrown.');
+        } catch (RateLimitException $e) {
+            self::assertSame(5, $e->retryAfter);
+        }
+    }
+
+    public function testMapsRateLimitExceptionWithRetryAfterHttpDate(): void
+    {
+        $header = gmdate('D, d M Y H:i:s', time() + 4) . ' GMT';
+        $transport = new FakeTransport([Psr7Factory::response(429, '{"message":"slow down"}', ['Retry-After' => $header])]);
+        $client = TestClientFactory::make($transport);
+
+        try {
+            $client->request('GET', '/v3/quotes');
+            self::fail('Expected exception not thrown.');
+        } catch (RateLimitException $e) {
+            self::assertNotNull($e->retryAfter);
+            self::assertGreaterThanOrEqual(0, (int) $e->retryAfter);
+            self::assertLessThanOrEqual(4, (int) $e->retryAfter);
+        }
+    }
+
+    public function testMapsApiException(): void
+    {
+        $transport = new FakeTransport([Psr7Factory::response(500, '{"message":"boom"}')]);
+        $client = TestClientFactory::make($transport);
+
+        $this->expectException(ApiException::class);
+        $client->request('GET', '/v3/quotes');
+    }
+
+    public function testThrowsWhenTransportMissing(): void
+    {
+        $this->expectExceptionMessage('Transport not configured');
+
+        \Sujip\Wise\Wise::client(
+            ClientConfig::productionApiToken('x'),
+            null,
+            new Psr7Factory(),
+            new Psr7Factory(),
+        );
+    }
+
+    public function testThrowsWhenAuthenticatedRequestHasNoTokenProvider(): void
+    {
+        $transport = new FakeTransport([Psr7Factory::response(200, '{}')]);
+        $client = TestClientFactory::make($transport, new ClientConfig(authMode: AuthMode::ApiToken, accessTokenProvider: null));
+
+        $this->expectException(ValidationException::class);
+        $client->request('GET', '/v1/profiles');
+    }
+
+    public function testWrapsUnexpectedTransportThrowable(): void
+    {
+        $transport = new class () implements TransportInterface {
+            public function send(RequestInterface $request): \Psr\Http\Message\ResponseInterface
+            {
+                throw new RuntimeException('socket failure');
+            }
+        };
+        $factory = new Psr7Factory();
+        $client = \Sujip\Wise\Wise::client(ClientConfig::productionApiToken('test-token'), $transport, $factory, $factory);
+
+        $this->expectException(TransportException::class);
+        $this->expectExceptionMessage('Transport send failed: socket failure');
+        $client->request('GET', '/v3/quotes');
+    }
+
+    public function testThrowsValidationExceptionWhenSuccessfulPayloadIsInvalidJson(): void
+    {
+        $transport = new FakeTransport([Psr7Factory::response(200, '{not-json')]);
+        $client = TestClientFactory::make($transport);
+
+        $this->expectException(ValidationException::class);
+        $client->request('GET', '/v3/quotes');
+    }
+}

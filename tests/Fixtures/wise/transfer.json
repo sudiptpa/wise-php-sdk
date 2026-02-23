@@ -1,0 +1,6 @@
+{
+  "id": 3001,
+  "targetAccount": 2001,
+  "quoteUuid": 101,
+  "status": "outgoing_payment_sent"
+}

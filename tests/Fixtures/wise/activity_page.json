@@ -1,0 +1,10 @@
+{
+  "activities": [
+    {
+      "status": "COMPLETED",
+      "title": "Transfer <b>completed</b>",
+      "resource": {"id": "3001", "type": "TRANSFER"}
+    }
+  ],
+  "nextCursor": "cursor_2"
+}

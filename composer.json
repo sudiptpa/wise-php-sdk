@@ -1,0 +1,49 @@
+{
+    "name": "sudiptpa/wise-php-sdk",
+    "description": "Unofficial Wise Platform PHP SDK with rich models and transport-agnostic architecture.",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.2",
+        "psr/http-client": "^1.0",
+        "psr/http-factory": "^1.1",
+        "psr/http-message": "^1.1 || ^2.0",
+        "psr/log": "^1.1 || ^2.0 || ^3.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.66",
+        "phpstan/phpstan": "^1.12",
+        "phpunit/phpunit": "^10.5"
+    },
+    "suggest": {
+        "ext-curl": "Use with a custom Curl transport implementation.",
+        "guzzlehttp/guzzle": "Use with Psr18Transport by passing a PSR-18 client.",
+        "http-interop/http-factory-guzzle": "PSR-17 factories for Guzzle users."
+    },
+    "autoload": {
+        "psr-4": {
+            "Sujip\\Wise\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sujip\\Wise\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "cs": "php-cs-fixer fix --allow-risky=yes --sequential --using-cache=no",
+        "cs:check": "php-cs-fixer fix --dry-run --diff --allow-risky=yes --sequential --using-cache=no",
+        "stan": "phpstan analyse --debug",
+        "test": "phpunit",
+        "qa": [
+            "@cs:check",
+            "@stan",
+            "@test"
+        ]
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

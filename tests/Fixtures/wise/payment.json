@@ -1,0 +1,7 @@
+{
+  "transferId": 3001,
+  "paymentOptions": [
+    {"type": "BALANCE", "fee": 0},
+    {"type": "BANK_TRANSFER", "fee": 1.25}
+  ]
+}
