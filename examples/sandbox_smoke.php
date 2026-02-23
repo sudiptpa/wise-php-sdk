@@ -134,7 +134,8 @@ function resolveAccessToken(string $mode): string
 
 function createStreamTransport(Psr7Factory $factory): TransportInterface
 {
-    return new class ($factory) implements TransportInterface {
+    return new class($factory) implements TransportInterface
+    {
         public function __construct(private readonly Psr7Factory $factory) {}
 
         public function send(RequestInterface $request): ResponseInterface
