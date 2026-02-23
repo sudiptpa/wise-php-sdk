@@ -66,4 +66,5 @@ Supported filters in `ListActivitiesRequest`:
 
 | SDK Method | HTTP | Path | Auth | Request | Response |
 |---|---|---|---|---|---|
-| `profile()->list()` | `GET` | `/v1/profiles` | token/oauth2 | - | `Collection<Profile>` |
+| `profile()->list()` | `GET` | `/v2/profiles` | token/oauth2 | - | `Collection<Profile>` |
+| `profile()->get()` | `GET` | `/v2/profiles/{profileId}` | token/oauth2 | - | `Profile` |
