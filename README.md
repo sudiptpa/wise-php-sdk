@@ -277,12 +277,22 @@ final class RedisWebhookReplayStore implements WebhookReplayStoreInterface
 - Current runtime target: PHP `^8.2`.
 - CI runs on `8.2`, `8.3`, `8.4`; `8.5` is experimental/non-blocking.
 
+## Developer Experience
+Transport recipes:
+- `docs/transports/guzzle.md`
+- `docs/transports/curl.md`
+- `docs/transports/laravel.md`
+
+Migration and upgrades:
+- `docs/MIGRATION.md`
+
+Other implementation references:
+- `docs/API_REFERENCE.md`
+- `docs/SANDBOX_SMOKE.md`
+
 ## Migration Note (Deprecated Config Constructors)
-The following remain available as compatibility aliases but should be replaced in new code:
-- `ClientConfig::productionApiToken()` -> `ClientConfig::apiToken()`
-- `ClientConfig::sandboxApiToken()` -> `ClientConfig::apiToken(..., ClientConfig::SANDBOX_BASE_URL)`
-- `ClientConfig::productionOAuth2()` -> `ClientConfig::oauth2()`
-- `ClientConfig::sandboxOAuth2()` -> `ClientConfig::oauth2(..., ClientConfig::SANDBOX_BASE_URL)`
+Deprecated constructors remain available as compatibility aliases.
+For exact before/after mappings and migration notes, see `docs/MIGRATION.md`.
 
 ## FAQ
 ### I get `invalid_token`. What should I check?
