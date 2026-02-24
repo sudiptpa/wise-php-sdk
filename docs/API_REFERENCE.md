@@ -68,3 +68,44 @@ Supported filters in `ListActivitiesRequest`:
 |---|---|---|---|---|---|
 | `profile()->list()` | `GET` | `/v2/profiles` | token/oauth2 | - | `Collection<Profile>` |
 | `profile()->get()` | `GET` | `/v2/profiles/{profileId}` | token/oauth2 | - | `Profile` |
+
+## Contact
+
+| SDK Method | HTTP | Path | Auth | Request | Response |
+|---|---|---|---|---|---|
+| `contact()->create()` | `POST` | `/v2/profiles/{profileId}/contacts?isDirectIdentifierCreation=true` | token/oauth2 | `CreateContactRequest` | `Contact` |
+
+## Currencies
+
+| SDK Method | HTTP | Path | Auth | Request | Response |
+|---|---|---|---|---|---|
+| `currencies()->list()` | `GET` | `/v1/currencies` | token/oauth2 | optional locale (`Accept-Language`) | `CurrencyCollection` |
+
+## Address
+
+| SDK Method | HTTP | Path | Auth | Request | Response |
+|---|---|---|---|---|---|
+| `address()->create()` | `POST` | `/v1/addresses` | token/oauth2 | `CreateAddressRequest` | `Address` |
+| `address()->list()` | `GET` | `/v1/addresses` | token/oauth2 | optional `profileId` query | `AddressCollection` |
+| `address()->get()` | `GET` | `/v1/addresses/{addressId}` | token/oauth2 | - | `Address` |
+| `address()->requirements()` | `GET` | `/v1/address-requirements` | token/oauth2 | - | `AddressRequirementCollection` |
+| `address()->requirements($request)` | `POST` | `/v1/address-requirements` | token/oauth2 | `ResolveAddressRequirementsRequest` | `AddressRequirementCollection` |
+
+## Balance
+
+| SDK Method | HTTP | Path | Auth | Request | Response |
+|---|---|---|---|---|---|
+| `balance()->create()` | `POST` | `/v4/profiles/{profileId}/balances` | token/oauth2 | `CreateBalanceRequest` | `Balance` |
+| `balance()->list()` | `GET` | `/v4/profiles/{profileId}/balances` | token/oauth2 | optional `types` query | `BalanceCollection` |
+| `balance()->get()` | `GET` | `/v4/profiles/{profileId}/balances/{balanceId}` | token/oauth2 | - | `Balance` |
+| `balance()->close()` | `DELETE` | `/v4/profiles/{profileId}/balances/{balanceId}` | token/oauth2 | - | `Balance` |
+| `balance()->move()` | `POST` | `/v2/profiles/{profileId}/balance-movements` | token/oauth2 | `CreateBalanceMovementRequest` | `BalanceMovement` |
+| `balance()->capacity()` | `GET` | `/v1/profiles/{profileId}/balance-capacity` | token/oauth2 | - | `BalanceCapacity` |
+| `balance()->addExcessMoneyAccount()` | `POST` | `/v1/profiles/{profileId}/excess-money-account` | token/oauth2 | `AddExcessMoneyAccountRequest` | `ExcessMoneyAccount` |
+| `balance()->totalFunds()` | `GET` | `/v1/profiles/{profileId}/total-funds/{currency}` | token/oauth2 | - | `TotalFunds` |
+
+## Rate
+
+| SDK Method | HTTP | Path | Auth | Request | Response |
+|---|---|---|---|---|---|
+| `rate()->list()` | `GET` | `/v1/rates` | token/oauth2 | optional `ListRatesRequest` query | `RateCollection` |

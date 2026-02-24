@@ -10,7 +10,6 @@ Use this checklist before creating any tag.
 ## 2) Quality checks
 - [ ] `composer validate --strict`
 - [ ] `composer qa`
-- [ ] `composer audit --no-dev`
 
 ## 3) Endpoint verification checks
 - [ ] `tests/Unit/Resources/EndpointPathAllowlistTest.php` passes

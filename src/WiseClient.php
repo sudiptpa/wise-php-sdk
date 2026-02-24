@@ -17,9 +17,14 @@ use Sujip\Wise\Exceptions\TransportException;
 use Sujip\Wise\Exceptions\ValidationException;
 use Sujip\Wise\Hydration\Hydrator;
 use Sujip\Wise\Resources\Activity\ActivityResource;
+use Sujip\Wise\Resources\Address\AddressResource;
+use Sujip\Wise\Resources\Balance\BalanceResource;
+use Sujip\Wise\Resources\Contact\ContactResource;
+use Sujip\Wise\Resources\Currencies\CurrenciesResource;
 use Sujip\Wise\Resources\Payment\PaymentResource;
 use Sujip\Wise\Resources\Profile\ProfileResource;
 use Sujip\Wise\Resources\Quote\QuoteResource;
+use Sujip\Wise\Resources\Rate\RateResource;
 use Sujip\Wise\Resources\RecipientAccount\RecipientAccountResource;
 use Sujip\Wise\Resources\Transfer\TransferResource;
 use Sujip\Wise\Resources\Webhook\WebhookResource;
@@ -77,6 +82,31 @@ final readonly class WiseClient
     public function profile(): ProfileResource
     {
         return new ProfileResource($this);
+    }
+
+    public function balance(): BalanceResource
+    {
+        return new BalanceResource($this);
+    }
+
+    public function rate(): RateResource
+    {
+        return new RateResource($this);
+    }
+
+    public function contact(): ContactResource
+    {
+        return new ContactResource($this);
+    }
+
+    public function currencies(): CurrenciesResource
+    {
+        return new CurrenciesResource($this);
+    }
+
+    public function address(): AddressResource
+    {
+        return new AddressResource($this);
     }
 
     public function hydrator(): Hydrator

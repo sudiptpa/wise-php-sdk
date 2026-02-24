@@ -1,0 +1,12 @@
+[
+  {
+    "id": 7001,
+    "profileId": 123,
+    "country": "US",
+    "details": {
+      "firstLine": "123 Main St",
+      "city": "New York",
+      "postCode": "10001"
+    }
+  }
+]

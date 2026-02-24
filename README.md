@@ -30,7 +30,24 @@ $wise = Wise::client($config, $transport, new RequestFactory(), new StreamFactor
 
 $profiles = $wise->profile()->list();
 $firstProfileId = $profiles->all()[0]->id ?? null;
+
+$rates = $wise->rate()->list();
+$balances = $wise->balance()->list((int) $firstProfileId);
 ```
+
+## Available Resources
+- `$wise->profile()`
+- `$wise->contact()`
+- `$wise->currencies()`
+- `$wise->address()`
+- `$wise->quote()`
+- `$wise->recipientAccount()`
+- `$wise->transfer()`
+- `$wise->payment()`
+- `$wise->webhook()`
+- `$wise->activity()`
+- `$wise->balance()`
+- `$wise->rate()`
 
 ## Configuration
 ```php
@@ -276,6 +293,7 @@ final class RedisWebhookReplayStore implements WebhookReplayStoreInterface
 - `docs/transports/curl.md`
 - `docs/transports/laravel.md`
 - `docs/API_REFERENCE.md`
+- `docs/WISE_API_STATUS.md`
 - `docs/SANDBOX_CHECKS.md`
 - `docs/VERSIONING.md`
 - `RELEASE.md`

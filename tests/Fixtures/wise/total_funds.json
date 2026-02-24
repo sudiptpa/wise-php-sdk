@@ -1,0 +1,11 @@
+{
+  "totalWorth": {"value": 1000.00, "currency": "USD"},
+  "totalAvailable": {"value": 900.00, "currency": "USD"},
+  "totalCash": {"value": 800.00, "currency": "USD"},
+  "overdraftAvailable": {"value": 50.00, "currency": "USD"},
+  "overdraftLimit": {"value": 100.00, "currency": "USD"},
+  "overdraftUsed": {"value": 10.00, "currency": "USD"},
+  "overdraftAvailableByCurrency": [
+    {"value": 50.00, "currency": "USD"}
+  ]
+}

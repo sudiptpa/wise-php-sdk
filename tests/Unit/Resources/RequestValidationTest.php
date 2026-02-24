@@ -6,10 +6,17 @@ namespace Sujip\Wise\Tests\Unit\Resources;
 
 use PHPUnit\Framework\TestCase;
 use Sujip\Wise\Exceptions\ValidationException;
+use Sujip\Wise\Resources\Address\Requests\CreateAddressRequest;
+use Sujip\Wise\Resources\Address\Requests\ResolveAddressRequirementsRequest;
+use Sujip\Wise\Resources\Balance\Requests\AddExcessMoneyAccountRequest;
+use Sujip\Wise\Resources\Balance\Requests\CreateBalanceMovementRequest;
+use Sujip\Wise\Resources\Balance\Requests\CreateBalanceRequest;
+use Sujip\Wise\Resources\Contact\Requests\CreateContactRequest;
 use Sujip\Wise\Resources\Payment\Requests\FundTransferRequest;
 use Sujip\Wise\Resources\Quote\Requests\CreateAuthenticatedQuoteRequest;
 use Sujip\Wise\Resources\Quote\Requests\CreateUnauthenticatedQuoteRequest;
 use Sujip\Wise\Resources\Quote\Requests\UpdateQuoteRequest;
+use Sujip\Wise\Resources\Rate\Requests\ListRatesRequest;
 use Sujip\Wise\Resources\RecipientAccount\Requests\CreateRecipientAccountRequest;
 use Sujip\Wise\Resources\Transfer\Requests\CreateTransferRequest;
 use Sujip\Wise\Resources\Transfer\Requests\TransferRequirementsRequest;
@@ -75,5 +82,53 @@ final class RequestValidationTest extends TestCase
     {
         $this->expectException(ValidationException::class);
         new CreateWebhookSubscriptionRequest('not-a-url', 'name');
+    }
+
+    public function test_balance_requests_reject_empty_payload(): void
+    {
+        $this->expectException(ValidationException::class);
+        new CreateBalanceRequest([]);
+    }
+
+    public function test_balance_movement_request_rejects_empty_payload(): void
+    {
+        $this->expectException(ValidationException::class);
+        new CreateBalanceMovementRequest([]);
+    }
+
+    public function test_excess_money_account_request_rejects_empty_payload(): void
+    {
+        $this->expectException(ValidationException::class);
+        new AddExcessMoneyAccountRequest([]);
+    }
+
+    public function test_list_rates_request_requires_source_and_target_together(): void
+    {
+        $this->expectException(ValidationException::class);
+        new ListRatesRequest(source: 'USD');
+    }
+
+    public function test_list_rates_request_rejects_invalid_group(): void
+    {
+        $this->expectException(ValidationException::class);
+        new ListRatesRequest(source: 'USD', target: 'EUR', group: 'week');
+    }
+
+    public function test_contact_request_validates_currency_and_identifier(): void
+    {
+        $this->expectException(ValidationException::class);
+        new CreateContactRequest('US', ' ');
+    }
+
+    public function test_create_address_request_rejects_empty_payload(): void
+    {
+        $this->expectException(ValidationException::class);
+        new CreateAddressRequest([]);
+    }
+
+    public function test_address_requirements_request_rejects_empty_payload(): void
+    {
+        $this->expectException(ValidationException::class);
+        new ResolveAddressRequirementsRequest([]);
     }
 }

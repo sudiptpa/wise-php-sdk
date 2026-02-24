@@ -1,0 +1,16 @@
+[
+  {
+    "code": "USD",
+    "name": "US Dollar",
+    "symbol": "$",
+    "countryKeywords": ["US", "USA"],
+    "supportsDecimals": true
+  },
+  {
+    "code": "JPY",
+    "name": "Japanese Yen",
+    "symbol": "\u00a5",
+    "countryKeywords": ["JP", "Japan"],
+    "supportsDecimals": false
+  }
+]
