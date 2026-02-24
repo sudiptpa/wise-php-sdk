@@ -6,6 +6,7 @@ namespace Sujip\Wise\Resources\Transfer\Models;
 
 use Sujip\Wise\Contracts\Hydratable;
 use Sujip\Wise\Hydration\Cast;
+use Sujip\Wise\Resources\Transfer\Enums\TransferStatus;
 
 final readonly class Transfer implements Hydratable
 {
@@ -26,18 +27,29 @@ final readonly class Transfer implements Hydratable
         );
     }
 
+    public function statusEnum(): ?TransferStatus
+    {
+        return TransferStatus::tryFrom($this->status);
+    }
+
     public function isCompleted(): bool
     {
-        return $this->status === 'completed' || $this->status === 'outgoing_payment_sent';
+        $status = $this->statusEnum();
+
+        return $status === TransferStatus::Completed || $status === TransferStatus::OutgoingPaymentSent;
     }
 
     public function isPending(): bool
     {
-        return in_array($this->status, ['incoming_payment_waiting', 'processing'], true);
+        $status = $this->statusEnum();
+
+        return $status === TransferStatus::IncomingPaymentWaiting || $status === TransferStatus::Processing;
     }
 
     public function isCancelled(): bool
     {
-        return in_array($this->status, ['cancelled', 'funds_refunded'], true);
+        $status = $this->statusEnum();
+
+        return $status === TransferStatus::Cancelled || $status === TransferStatus::FundsRefunded;
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sujip\Wise\Tests\Unit\Resources\Activity;
 
 use PHPUnit\Framework\TestCase;
+use Sujip\Wise\Resources\Activity\Enums\ActivityStatus;
 use Sujip\Wise\Resources\Activity\Requests\ListActivitiesRequest;
 use Sujip\Wise\Tests\Support\FakeTransport;
 use Sujip\Wise\Tests\Support\Psr7Factory;
@@ -23,6 +24,7 @@ final class ActivityResourceTest extends TestCase
         self::assertTrue($page->hasNext());
         self::assertSame('cursor_2', $page->nextCursor());
         self::assertSame('Transfer completed', $page->activities[0]->titlePlainText());
+        self::assertSame(ActivityStatus::Completed, $page->activities[0]->statusEnum());
 
         $query = $transport->lastRequest()->getUri()->getQuery();
         self::assertStringContainsString('nextCursor=cursor_1', $query);

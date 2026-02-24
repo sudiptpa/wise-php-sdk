@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sujip\Wise\Resources\Transfer\Requests;
 
+use Sujip\Wise\Exceptions\ValidationException;
 use Sujip\Wise\Resources\Quote\Models\Quote;
 use Sujip\Wise\Resources\RecipientAccount\Models\RecipientAccount;
 
@@ -13,7 +14,19 @@ final readonly class CreateTransferRequest
         public int $targetAccount,
         public string $quoteUuid,
         public ?string $customerTransactionId = null,
-    ) {}
+    ) {
+        if ($this->targetAccount <= 0) {
+            throw new ValidationException('targetAccount must be greater than zero.');
+        }
+
+        if (trim($this->quoteUuid) === '') {
+            throw new ValidationException('quoteUuid is required.');
+        }
+
+        if ($this->customerTransactionId !== null && trim($this->customerTransactionId) === '') {
+            throw new ValidationException('customerTransactionId cannot be empty when provided.');
+        }
+    }
 
     public static function from(Quote $quote, RecipientAccount $recipient, ?string $customerTransactionId = null): self
     {
