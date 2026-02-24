@@ -276,7 +276,8 @@ final class RedisWebhookReplayStore implements WebhookReplayStoreInterface
 - `docs/transports/curl.md`
 - `docs/transports/laravel.md`
 - `docs/API_REFERENCE.md`
-- `docs/SANDBOX_SMOKE.md`
+- `docs/ENDPOINT_COVERAGE_MATRIX.md`
+- `docs/SANDBOX_CHECKS.md`
 - `docs/VERSIONING.md`
 - `RELEASE.md`
 
@@ -303,5 +304,8 @@ composer qa
 ## API Reference
 See `docs/API_REFERENCE.md`.
 
-## Sandbox Smoke Test
-See `docs/SANDBOX_SMOKE.md`.
+## Endpoint Coverage Matrix
+See `docs/ENDPOINT_COVERAGE_MATRIX.md`.
+
+## Sandbox Checks
+See `docs/SANDBOX_CHECKS.md`.

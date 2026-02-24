@@ -1,4 +1,4 @@
-name: sandbox-smoke
+name: sandbox-full-check
 
 on:
   workflow_dispatch:
@@ -12,14 +12,14 @@ on:
           - api_token
           - oauth2
   schedule:
-    - cron: '21 2 * * *'
+    - cron: '17 4 * * *'
 
 concurrency:
-  group: sandbox-smoke-${{ github.ref }}
+  group: sandbox-full-check-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
-  smoke:
+  full-check:
     runs-on: ubuntu-latest
 
     steps:
@@ -35,8 +35,9 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
 
-      - name: Run sandbox smoke test
+      - name: Run full sandbox check
         env:
+          WISE_AUDIT_STRICT: '1'
           WISE_AUTH_MODE: ${{ github.event_name == 'schedule' && 'api_token' || inputs.auth_mode }}
           WISE_BASE_URL: ${{ secrets.WISE_BASE_URL }}
           WISE_PROFILE_ID: ${{ secrets.WISE_PROFILE_ID }}
@@ -48,5 +49,12 @@ jobs:
           WISE_OAUTH_TOKEN_URL: ${{ secrets.WISE_OAUTH_TOKEN_URL }}
           WISE_SOURCE_CURRENCY: ${{ secrets.WISE_SOURCE_CURRENCY }}
           WISE_TARGET_CURRENCY: ${{ secrets.WISE_TARGET_CURRENCY }}
+          WISE_SOURCE_AMOUNT: ${{ secrets.WISE_SOURCE_AMOUNT }}
           WISE_TARGET_AMOUNT: ${{ secrets.WISE_TARGET_AMOUNT }}
-        run: php examples/sandbox_smoke.php "${WISE_AUTH_MODE}"
+          WISE_RECIPIENT_CURRENCY: ${{ secrets.WISE_RECIPIENT_CURRENCY }}
+          WISE_RECIPIENT_TYPE: ${{ secrets.WISE_RECIPIENT_TYPE }}
+          WISE_RECIPIENT_HOLDER_NAME: ${{ secrets.WISE_RECIPIENT_HOLDER_NAME }}
+          WISE_RECIPIENT_DETAILS_JSON: ${{ secrets.WISE_RECIPIENT_DETAILS_JSON }}
+          WISE_CLIENT_KEY: ${{ secrets.WISE_CLIENT_KEY }}
+          WISE_WEBHOOK_URL: ${{ secrets.WISE_WEBHOOK_URL }}
+        run: php examples/sandbox_full_check.php "${WISE_AUTH_MODE}"

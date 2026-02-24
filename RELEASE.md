@@ -1,37 +1,39 @@
 # Release Checklist
 
-Use this checklist for every tagged release.
+Use this checklist before creating any tag.
 
-## 1) Prepare
-- [ ] Work on `main` is clean and CI is green
-- [ ] `composer qa` passes locally
-- [ ] No pending high-severity issues
+## 1) Starting checks
+- [ ] Worktree is clean on `main`
+- [ ] CI is green for required jobs
+- [ ] No open high-severity bugs/security issues
 
-## 2) Verify package quality
-- [ ] Run unit test suite
-- [ ] Run static analysis
-- [ ] Run coding standard check
-- [ ] Review new/changed public APIs for BC impact
+## 2) Quality checks
+- [ ] `composer validate --strict`
+- [ ] `composer qa`
+- [ ] `composer audit --no-dev`
 
-## 3) Update docs
-- [ ] Update `CHANGELOG.md` with release notes
-- [ ] Update README/examples if behavior changed
-- [ ] Confirm endpoint docs in `docs/API_REFERENCE.md` are accurate
+## 3) Endpoint verification checks
+- [ ] `tests/Unit/Resources/EndpointPathAllowlistTest.php` passes
+- [ ] `tests/Unit/Resources/EndpointCoverageMatrixTest.php` passes
+- [ ] `docs/API_REFERENCE.md` matches implemented endpoints
+- [ ] `docs/ENDPOINT_COVERAGE_MATRIX.md` updated for any endpoint change
+- [ ] `sandbox-full-check` workflow passes against sandbox credentials
 
-## 4) Version decision
-- [ ] Choose version bump type:
-  - [ ] PATCH
-  - [ ] MINOR
-  - [ ] MAJOR
-- [ ] Confirm SemVer rationale
+## 4) Docs and changelog
+- [ ] `CHANGELOG.md` updated
+- [ ] README/examples updated for any behavior changes
+- [ ] Security/upgrade notes updated when required
 
-## 5) Tag and publish
-- [ ] Create git tag (e.g. `v0.2.0`)
+## 5) Versioning
+- [ ] Decide SemVer bump (PATCH/MINOR/MAJOR)
+- [ ] Confirm BC impact is documented
+
+## 6) Tag and publish
+- [ ] Create tag (example: `v0.2.0`)
 - [ ] Push tag to GitHub
-- [ ] Create GitHub Release with changelog summary
-- [ ] Verify Packagist sync (if enabled)
+- [ ] Create GitHub release notes
+- [ ] Confirm Packagist sync
 
-## 6) Post-release checks
-- [ ] Install package in a clean sample project
-- [ ] Confirm latest tag appears on Packagist
-- [ ] Announce release (if applicable)
+## 7) Post-release checks
+- [ ] Install in a clean project and run a basic flow
+- [ ] Confirm docs links and examples still execute
