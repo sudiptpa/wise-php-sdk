@@ -43,6 +43,12 @@ Status legend:
 | Address | `GET /v1/addresses/{addressId}` | Implemented | get address |
 | Address | `GET /v1/address-requirements` | Implemented | generic requirements |
 | Address | `POST /v1/address-requirements` | Implemented | resolve requirements by payload |
+| Balance Statement | `GET /v1/profiles/{profileId}/balance-statements/{balanceId}/statement.json` | Implemented | statement export in json |
+| Bank Account Details | `POST /v1/profiles/{profileId}/account-details-orders` | Implemented | create account details order |
+| Bank Account Details | `POST /v3/profiles/{profileId}/bank-details` | Implemented | create bank details |
+| Bank Account Details | `GET /v1/profiles/{profileId}/account-details` | Implemented | list account details |
+| Bank Account Details | `GET /v3/profiles/{profileId}/account-details-orders` | Implemented | list orders |
+| Bank Account Details | `POST /v1/profiles/{profileId}/account-details/payments/{paymentId}/returns` | Implemented | mark payment return |
 | Balance | `POST /v4/profiles/{profileId}/balances` | Implemented | create |
 | Balance | `GET /v4/profiles/{profileId}/balances` | Implemented | list |
 | Balance | `GET /v4/profiles/{profileId}/balances/{balanceId}` | Implemented | get |
@@ -52,6 +58,13 @@ Status legend:
 | Balance | `POST /v1/profiles/{profileId}/excess-money-account` | Implemented | add excess money account |
 | Balance | `GET /v1/profiles/{profileId}/total-funds/{currency}` | Implemented | total funds |
 | Rate | `GET /v1/rates` | Implemented | list rates with optional filters |
+| User | `GET /v1/me` | Implemented | current user |
+| User | `GET /v1/users/{userId}` | Implemented | get user |
+| User | `POST /v1/users/exists` | Implemented | user exists check |
+| User | `POST /v1/user/signup/registration_code` | Implemented | create registration code |
+| User | `PUT /v1/users/{userId}/contact-email` | Implemented | update contact email |
+| User | `GET /v1/users/{userId}/contact-email` | Implemented | get contact email |
+| User Tokens | `POST /oauth/token` | Implemented | authorization/refresh/registration code token flows |
 
 ## Current Wise API Resources Not Yet Implemented
 
@@ -59,8 +72,6 @@ Status legend:
 |---|---|---|
 | 3D Secure Authentication | Planned | not in current payment-core SDK scope |
 | Additional Customer Verification | Planned | not in current payment-core SDK scope |
-| Balance Statement | Planned | not in current payment-core SDK scope |
-| Bank Account Details | Planned | not in current payment-core SDK scope |
 | Batch Group | Planned | not in current payment-core SDK scope |
 | Bulk Settlement | Planned | not in current payment-core SDK scope |
 | Card | Planned | not in current payment-core SDK scope |
@@ -85,9 +96,7 @@ Status legend:
 | Spend Controls | Planned | not in current payment-core SDK scope |
 | Spend Limits | Planned | not in current payment-core SDK scope |
 | Strong Customer Authentication | Planned | not in current payment-core SDK scope |
-| User | Planned | not in current payment-core SDK scope |
 | User Security | Planned | not in current payment-core SDK scope |
-| User Tokens | Planned | not in current payment-core SDK scope |
 
 ## Deprecated API Groups (Intentionally Skipped)
 

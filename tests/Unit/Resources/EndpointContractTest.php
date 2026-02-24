@@ -10,6 +10,10 @@ use Sujip\Wise\Resources\Address\Requests\ResolveAddressRequirementsRequest;
 use Sujip\Wise\Resources\Balance\Requests\AddExcessMoneyAccountRequest;
 use Sujip\Wise\Resources\Balance\Requests\CreateBalanceMovementRequest;
 use Sujip\Wise\Resources\Balance\Requests\CreateBalanceRequest;
+use Sujip\Wise\Resources\BalanceStatement\Requests\GetBalanceStatementRequest;
+use Sujip\Wise\Resources\BankAccountDetails\Requests\CreateBankDetailsRequest;
+use Sujip\Wise\Resources\BankAccountDetails\Requests\CreateDetailsOrderRequest;
+use Sujip\Wise\Resources\BankAccountDetails\Requests\MarkPaymentReturnRequest;
 use Sujip\Wise\Resources\Contact\Requests\CreateContactRequest;
 use Sujip\Wise\Resources\Payment\Requests\FundTransferRequest;
 use Sujip\Wise\Resources\Quote\Requests\CreateAuthenticatedQuoteRequest;
@@ -17,6 +21,10 @@ use Sujip\Wise\Resources\Quote\Requests\UpdateQuoteRequest;
 use Sujip\Wise\Resources\Rate\Requests\ListRatesRequest;
 use Sujip\Wise\Resources\RecipientAccount\Requests\CreateRecipientAccountRequest;
 use Sujip\Wise\Resources\Transfer\Requests\TransferRequirementsRequest;
+use Sujip\Wise\Resources\User\Requests\CreateRegistrationCodeRequest;
+use Sujip\Wise\Resources\User\Requests\UpdateUserContactEmailRequest;
+use Sujip\Wise\Resources\User\Requests\UserExistsRequest;
+use Sujip\Wise\Resources\UserTokens\Requests\CreateUserTokenRequest;
 use Sujip\Wise\Resources\Webhook\Requests\CreateWebhookSubscriptionRequest;
 use Sujip\Wise\Tests\Support\FakeTransport;
 use Sujip\Wise\Tests\Support\Psr7Factory;
@@ -327,5 +335,107 @@ final class EndpointContractTest extends TestCase
         $client->address()->requirements(new ResolveAddressRequirementsRequest(['country' => 'US']));
         self::assertSame('POST', $transport->requests()[4]->getMethod());
         self::assertSame('/v1/address-requirements', $transport->requests()[4]->getUri()->getPath());
+    }
+
+    public function test_balance_statement_contract(): void
+    {
+        $fixture = file_get_contents(__DIR__.'/../../Fixtures/wise/balance_statement.json');
+        $transport = new FakeTransport([Psr7Factory::response(200, (string) $fixture)]);
+        $client = TestClientFactory::make($transport);
+
+        $client->balanceStatement()->getJson(123, 501, new GetBalanceStatementRequest(type: 'COMPACT'));
+
+        self::assertSame('GET', $transport->lastRequest()->getMethod());
+        self::assertSame('/v1/profiles/123/balance-statements/501/statement.json', $transport->lastRequest()->getUri()->getPath());
+        self::assertStringContainsString('type=COMPACT', $transport->lastRequest()->getUri()->getQuery());
+    }
+
+    public function test_bank_account_details_contracts(): void
+    {
+        $order = file_get_contents(__DIR__.'/../../Fixtures/wise/bank_account_details_order.json');
+        $detail = file_get_contents(__DIR__.'/../../Fixtures/wise/bank_account_detail.json');
+        $details = file_get_contents(__DIR__.'/../../Fixtures/wise/bank_account_details_list.json');
+        $return = file_get_contents(__DIR__.'/../../Fixtures/wise/payment_return.json');
+        $transport = new FakeTransport([
+            Psr7Factory::response(200, (string) $order),
+            Psr7Factory::response(200, (string) $detail),
+            Psr7Factory::response(200, (string) $details),
+            Psr7Factory::response(200, (string) $order),
+            Psr7Factory::response(200, (string) $return),
+        ]);
+        $client = TestClientFactory::make($transport);
+
+        $client->bankAccountDetails()->createOrder(123, new CreateDetailsOrderRequest(['currency' => 'EUR']));
+        self::assertSame('POST', $transport->requests()[0]->getMethod());
+        self::assertSame('/v1/profiles/123/account-details-orders', $transport->requests()[0]->getUri()->getPath());
+
+        $client->bankAccountDetails()->createBankDetails(123, new CreateBankDetailsRequest(['currency' => 'EUR']));
+        self::assertSame('POST', $transport->requests()[1]->getMethod());
+        self::assertSame('/v3/profiles/123/bank-details', $transport->requests()[1]->getUri()->getPath());
+
+        $client->bankAccountDetails()->list(123);
+        self::assertSame('GET', $transport->requests()[2]->getMethod());
+        self::assertSame('/v1/profiles/123/account-details', $transport->requests()[2]->getUri()->getPath());
+
+        $client->bankAccountDetails()->listOrders(123);
+        self::assertSame('GET', $transport->requests()[3]->getMethod());
+        self::assertSame('/v3/profiles/123/account-details-orders', $transport->requests()[3]->getUri()->getPath());
+
+        $client->bankAccountDetails()->markPaymentReturn(123, 654, new MarkPaymentReturnRequest(['reason' => 'TEST']));
+        self::assertSame('POST', $transport->requests()[4]->getMethod());
+        self::assertSame('/v1/profiles/123/account-details/payments/654/returns', $transport->requests()[4]->getUri()->getPath());
+    }
+
+    public function test_user_contracts(): void
+    {
+        $user = file_get_contents(__DIR__.'/../../Fixtures/wise/user.json');
+        $exists = file_get_contents(__DIR__.'/../../Fixtures/wise/user_exists.json');
+        $registrationCode = file_get_contents(__DIR__.'/../../Fixtures/wise/registration_code.json');
+        $contactEmail = file_get_contents(__DIR__.'/../../Fixtures/wise/user_contact_email.json');
+        $transport = new FakeTransport([
+            Psr7Factory::response(200, (string) $user),
+            Psr7Factory::response(200, (string) $user),
+            Psr7Factory::response(200, (string) $exists),
+            Psr7Factory::response(200, (string) $registrationCode),
+            Psr7Factory::response(200, (string) $contactEmail),
+            Psr7Factory::response(200, (string) $contactEmail),
+        ]);
+        $client = TestClientFactory::make($transport);
+
+        $client->user()->me();
+        self::assertSame('GET', $transport->requests()[0]->getMethod());
+        self::assertSame('/v1/me', $transport->requests()[0]->getUri()->getPath());
+
+        $client->user()->get(77);
+        self::assertSame('GET', $transport->requests()[1]->getMethod());
+        self::assertSame('/v1/users/77', $transport->requests()[1]->getUri()->getPath());
+
+        $client->user()->exists(new UserExistsRequest('jane@example.com'));
+        self::assertSame('POST', $transport->requests()[2]->getMethod());
+        self::assertSame('/v1/users/exists', $transport->requests()[2]->getUri()->getPath());
+
+        $client->user()->createRegistrationCode(new CreateRegistrationCodeRequest('jane@example.com'));
+        self::assertSame('POST', $transport->requests()[3]->getMethod());
+        self::assertSame('/v1/user/signup/registration_code', $transport->requests()[3]->getUri()->getPath());
+
+        $client->user()->updateContactEmail(77, new UpdateUserContactEmailRequest('new@example.com'));
+        self::assertSame('PUT', $transport->requests()[4]->getMethod());
+        self::assertSame('/v1/users/77/contact-email', $transport->requests()[4]->getUri()->getPath());
+
+        $client->user()->contactEmail(77);
+        self::assertSame('GET', $transport->requests()[5]->getMethod());
+        self::assertSame('/v1/users/77/contact-email', $transport->requests()[5]->getUri()->getPath());
+    }
+
+    public function test_user_tokens_contract(): void
+    {
+        $fixture = file_get_contents(__DIR__.'/../../Fixtures/wise/user_token.json');
+        $transport = new FakeTransport([Psr7Factory::response(200, (string) $fixture)]);
+        $client = TestClientFactory::make($transport);
+
+        $client->userTokens()->create(CreateUserTokenRequest::refreshToken('cid', 'sec', 'rt'));
+
+        self::assertSame('POST', $transport->lastRequest()->getMethod());
+        self::assertSame('/oauth/token', $transport->lastRequest()->getUri()->getPath());
     }
 }

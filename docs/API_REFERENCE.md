@@ -109,3 +109,36 @@ Supported filters in `ListActivitiesRequest`:
 | SDK Method | HTTP | Path | Auth | Request | Response |
 |---|---|---|---|---|---|
 | `rate()->list()` | `GET` | `/v1/rates` | token/oauth2 | optional `ListRatesRequest` query | `RateCollection` |
+
+## Balance Statement
+
+| SDK Method | HTTP | Path | Auth | Request | Response |
+|---|---|---|---|---|---|
+| `balanceStatement()->getJson()` | `GET` | `/v1/profiles/{profileId}/balance-statements/{balanceId}/statement.json` | token/oauth2 | optional `GetBalanceStatementRequest` query | `BalanceStatement` |
+
+## Bank Account Details
+
+| SDK Method | HTTP | Path | Auth | Request | Response |
+|---|---|---|---|---|---|
+| `bankAccountDetails()->createOrder()` | `POST` | `/v1/profiles/{profileId}/account-details-orders` | token/oauth2 | `CreateDetailsOrderRequest` | `BankAccountDetailsOrder` |
+| `bankAccountDetails()->createBankDetails()` | `POST` | `/v3/profiles/{profileId}/bank-details` | token/oauth2 | `CreateBankDetailsRequest` | `BankAccountDetail` |
+| `bankAccountDetails()->list()` | `GET` | `/v1/profiles/{profileId}/account-details` | token/oauth2 | - | `BankAccountDetailsCollection` |
+| `bankAccountDetails()->listOrders()` | `GET` | `/v3/profiles/{profileId}/account-details-orders` | token/oauth2 | - | `BankAccountDetailsOrderCollection` |
+| `bankAccountDetails()->markPaymentReturn()` | `POST` | `/v1/profiles/{profileId}/account-details/payments/{paymentId}/returns` | token/oauth2 | `MarkPaymentReturnRequest` | `PaymentReturn` |
+
+## User
+
+| SDK Method | HTTP | Path | Auth | Request | Response |
+|---|---|---|---|---|---|
+| `user()->me()` | `GET` | `/v1/me` | token/oauth2 | - | `User` |
+| `user()->get()` | `GET` | `/v1/users/{userId}` | token/oauth2 | - | `User` |
+| `user()->exists()` | `POST` | `/v1/users/exists` | token/oauth2 | `UserExistsRequest` | `UserExistsResult` |
+| `user()->createRegistrationCode()` | `POST` | `/v1/user/signup/registration_code` | token/oauth2 | `CreateRegistrationCodeRequest` | `RegistrationCode` |
+| `user()->updateContactEmail()` | `PUT` | `/v1/users/{userId}/contact-email` | token/oauth2 | `UpdateUserContactEmailRequest` | `UserContactEmail` |
+| `user()->contactEmail()` | `GET` | `/v1/users/{userId}/contact-email` | token/oauth2 | - | `UserContactEmail` |
+
+## User Tokens
+
+| SDK Method | HTTP | Path | Auth | Request | Response |
+|---|---|---|---|---|---|
+| `userTokens()->create()` | `POST` | `/oauth/token` | none | `CreateUserTokenRequest` | `UserToken` |

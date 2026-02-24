@@ -11,6 +11,9 @@ use Sujip\Wise\Resources\Address\Requests\ResolveAddressRequirementsRequest;
 use Sujip\Wise\Resources\Balance\Requests\AddExcessMoneyAccountRequest;
 use Sujip\Wise\Resources\Balance\Requests\CreateBalanceMovementRequest;
 use Sujip\Wise\Resources\Balance\Requests\CreateBalanceRequest;
+use Sujip\Wise\Resources\BankAccountDetails\Requests\CreateBankDetailsRequest;
+use Sujip\Wise\Resources\BankAccountDetails\Requests\CreateDetailsOrderRequest;
+use Sujip\Wise\Resources\BankAccountDetails\Requests\MarkPaymentReturnRequest;
 use Sujip\Wise\Resources\Contact\Requests\CreateContactRequest;
 use Sujip\Wise\Resources\Payment\Requests\FundTransferRequest;
 use Sujip\Wise\Resources\Quote\Requests\CreateAuthenticatedQuoteRequest;
@@ -20,6 +23,10 @@ use Sujip\Wise\Resources\Rate\Requests\ListRatesRequest;
 use Sujip\Wise\Resources\RecipientAccount\Requests\CreateRecipientAccountRequest;
 use Sujip\Wise\Resources\Transfer\Requests\CreateTransferRequest;
 use Sujip\Wise\Resources\Transfer\Requests\TransferRequirementsRequest;
+use Sujip\Wise\Resources\User\Requests\CreateRegistrationCodeRequest;
+use Sujip\Wise\Resources\User\Requests\UpdateUserContactEmailRequest;
+use Sujip\Wise\Resources\User\Requests\UserExistsRequest;
+use Sujip\Wise\Resources\UserTokens\Requests\CreateUserTokenRequest;
 use Sujip\Wise\Resources\Webhook\Requests\CreateWebhookSubscriptionRequest;
 
 final class RequestValidationTest extends TestCase
@@ -130,5 +137,49 @@ final class RequestValidationTest extends TestCase
     {
         $this->expectException(ValidationException::class);
         new ResolveAddressRequirementsRequest([]);
+    }
+
+    public function test_create_details_order_request_rejects_empty_payload(): void
+    {
+        $this->expectException(ValidationException::class);
+        new CreateDetailsOrderRequest([]);
+    }
+
+    public function test_create_bank_details_request_rejects_empty_payload(): void
+    {
+        $this->expectException(ValidationException::class);
+        new CreateBankDetailsRequest([]);
+    }
+
+    public function test_mark_payment_return_request_rejects_empty_payload(): void
+    {
+        $this->expectException(ValidationException::class);
+        new MarkPaymentReturnRequest([]);
+    }
+
+    public function test_user_exists_request_rejects_invalid_email(): void
+    {
+        $this->expectException(ValidationException::class);
+        new UserExistsRequest('not-an-email');
+    }
+
+    public function test_create_registration_code_request_rejects_invalid_email(): void
+    {
+        $this->expectException(ValidationException::class);
+        new CreateRegistrationCodeRequest('not-an-email');
+    }
+
+    public function test_update_user_contact_email_request_rejects_invalid_email(): void
+    {
+        $this->expectException(ValidationException::class);
+        new UpdateUserContactEmailRequest('not-an-email');
+    }
+
+    public function test_user_token_request_builders_produce_payload(): void
+    {
+        $payload = CreateUserTokenRequest::refreshToken('client', 'secret', 'refresh')->toForm();
+
+        self::assertSame('refresh_token', $payload['grant_type'] ?? null);
+        self::assertSame('refresh', $payload['refresh_token'] ?? null);
     }
 }

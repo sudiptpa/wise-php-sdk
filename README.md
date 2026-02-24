@@ -48,6 +48,10 @@ $balances = $wise->balance()->list((int) $firstProfileId);
 - `$wise->activity()`
 - `$wise->balance()`
 - `$wise->rate()`
+- `$wise->balanceStatement()`
+- `$wise->bankAccountDetails()`
+- `$wise->user()`
+- `$wise->userTokens()`
 
 ## Configuration
 ```php

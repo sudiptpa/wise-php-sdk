@@ -1,0 +1,6 @@
+{
+  "transactions": [
+    {"id": "tx_1", "amount": {"value": -10, "currency": "EUR"}},
+    {"id": "tx_2", "amount": {"value": 20, "currency": "EUR"}}
+  ]
+}
