@@ -8,7 +8,9 @@ on:
     - cron: '37 3 * * 1'
 
 permissions:
+  actions: read
   contents: read
+  security-events: write
 
 jobs:
   composer-audit:
@@ -32,9 +34,15 @@ jobs:
 
   secret-scan:
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Gitleaks
         uses: gitleaks/gitleaks-action@v2
@@ -42,6 +50,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   codeql:
+    if: ${{ github.event.repository.private == false && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     runs-on: ubuntu-latest
     permissions:
       actions: read
