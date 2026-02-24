@@ -284,15 +284,14 @@ Transport recipes:
 - `docs/transports/laravel.md`
 
 Migration and upgrades:
-- `docs/MIGRATION.md`
+- Use `UPGRADE.md` for any future upgrade notes.
 
 Other implementation references:
 - `docs/API_REFERENCE.md`
 - `docs/SANDBOX_SMOKE.md`
 
-## Migration Note (Deprecated Config Constructors)
-Deprecated constructors remain available as compatibility aliases.
-For exact before/after mappings and migration notes, see `docs/MIGRATION.md`.
+## API Stability Note
+This is a fresh package line. We avoid legacy aliases and keep the public API forward-only.
 
 ## FAQ
 ### I get `invalid_token`. What should I check?
