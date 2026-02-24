@@ -290,9 +290,6 @@ Other implementation references:
 - `docs/API_REFERENCE.md`
 - `docs/SANDBOX_SMOKE.md`
 
-## API Stability Note
-This is a fresh package line. We avoid legacy aliases and keep the public API forward-only.
-
 ## FAQ
 ### I get `invalid_token`. What should I check?
 - Ensure sandbox token is used with sandbox base URL.
