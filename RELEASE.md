@@ -14,10 +14,8 @@ Use this checklist before creating any tag.
 
 ## 3) Endpoint verification checks
 - [ ] `tests/Unit/Resources/EndpointPathAllowlistTest.php` passes
-- [ ] `tests/Unit/Resources/EndpointCoverageMatrixTest.php` passes
 - [ ] `docs/API_REFERENCE.md` matches implemented endpoints
-- [ ] `docs/ENDPOINT_COVERAGE_MATRIX.md` updated for any endpoint change
-- [ ] `sandbox-full-check` workflow passes against sandbox credentials
+- [ ] `sandbox-check` workflow passes against sandbox credentials
 
 ## 4) Docs and changelog
 - [ ] `CHANGELOG.md` updated

@@ -12,4 +12,4 @@ All notable changes to this project will be documented in this file.
 - Added `activity()->iterate()` cursor iterator helper.
 - Added webhook replay protection utility (`WebhookReplayProtector`) and in-memory replay store.
 - Added `docs/API_REFERENCE.md` endpoint reference.
-- Added manual GitHub Actions sandbox smoke workflow and runbook (`docs/SANDBOX_SMOKE.md`).
+- Added manual GitHub Actions sandbox check workflow and runbook (`docs/SANDBOX_CHECKS.md`).
