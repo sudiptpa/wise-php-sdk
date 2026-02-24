@@ -11,6 +11,7 @@ use Sujip\Wise\Resources\Quote\Models\Quote;
 use Sujip\Wise\Resources\Quote\Models\Rate;
 use Sujip\Wise\Resources\RecipientAccount\Models\BankDetails;
 use Sujip\Wise\Resources\RecipientAccount\Models\RecipientAccount;
+use Sujip\Wise\Resources\Transfer\Enums\TransferStatus;
 use Sujip\Wise\Resources\Transfer\Requests\CreateTransferRequest;
 use Sujip\Wise\Resources\Transfer\Requests\TransferRequirementsRequest;
 use Sujip\Wise\Tests\Support\FakeTransport;
@@ -31,6 +32,7 @@ final class TransferResourceTest extends TestCase
         $transfer = $client->transfer()->create(CreateTransferRequest::from($quote, $recipient, 'ctx-1'));
 
         self::assertTrue($transfer->isCompleted());
+        self::assertSame(TransferStatus::OutgoingPaymentSent, $transfer->statusEnum());
         self::assertSame('/v1/transfers', $transport->lastRequest()->getUri()->getPath());
         self::assertStringContainsString('"quoteUuid":"101"', (string) $transport->lastRequest()->getBody());
     }

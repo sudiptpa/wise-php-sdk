@@ -14,7 +14,7 @@
 - `Models`: rich domain objects with helper methods.
 - `Hydration`: deterministic mapping from arrays to models.
 - `docs/API_REFERENCE.md`: implementation map for supported endpoints.
-- `docs/SANDBOX_SMOKE.md`: manual real-sandbox smoke-test runbook.
+- `docs/SANDBOX_CHECKS.md`: manual real-sandbox check runbook.
 
 ## Safety
 - Retry middleware is opt-in and respects `Retry-After`.

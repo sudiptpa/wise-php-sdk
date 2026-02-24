@@ -29,14 +29,14 @@ $config = new ClientConfig(
     authMode: $mode === 'oauth2' ? AuthMode::OAuth2 : AuthMode::ApiToken,
     accessTokenProvider: new StaticAccessTokenProvider($accessToken),
     baseUrl: $baseUrl,
-    userAgent: 'sudiptpa/wise-php-sdk-smoke',
+    userAgent: 'sudiptpa/wise-php-sdk-sandbox-check',
 );
 
 $factory = new Psr7Factory;
 $transport = createStreamTransport($factory);
 $wise = Wise::client($config, $transport, $factory, $factory);
 
-echo "Running sandbox smoke test with mode: {$mode}".PHP_EOL;
+echo "Running sandbox check with mode: {$mode}".PHP_EOL;
 echo "Base URL: {$baseUrl}".PHP_EOL;
 
 try {
@@ -58,9 +58,9 @@ try {
     $activityPage = $wise->activity()->list($profileId, new ListActivitiesRequest(size: 5));
     echo 'Activity list: OK ('.count($activityPage->activities).' activities)'.PHP_EOL;
 
-    echo 'Sandbox smoke test passed.'.PHP_EOL;
+    echo 'Sandbox check passed.'.PHP_EOL;
 } catch (WiseException|RuntimeException $e) {
-    fwrite(STDERR, 'Sandbox smoke test failed: '.$e->getMessage().PHP_EOL);
+    fwrite(STDERR, 'Sandbox check failed: '.$e->getMessage().PHP_EOL);
     exit(1);
 }
 

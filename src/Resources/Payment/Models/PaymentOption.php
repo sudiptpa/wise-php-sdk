@@ -6,6 +6,7 @@ namespace Sujip\Wise\Resources\Payment\Models;
 
 use Sujip\Wise\Contracts\Hydratable;
 use Sujip\Wise\Hydration\Cast;
+use Sujip\Wise\Resources\Payment\Enums\PaymentType;
 
 final readonly class PaymentOption implements Hydratable
 {
@@ -17,5 +18,10 @@ final readonly class PaymentOption implements Hydratable
             type: Cast::string($data, 'type', '') ?? '',
             fee: Cast::float($data, 'fee'),
         );
+    }
+
+    public function typeEnum(): ?PaymentType
+    {
+        return PaymentType::tryFrom(strtoupper($this->type));
     }
 }

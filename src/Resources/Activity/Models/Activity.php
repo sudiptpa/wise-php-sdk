@@ -6,6 +6,7 @@ namespace Sujip\Wise\Resources\Activity\Models;
 
 use Sujip\Wise\Contracts\Hydratable;
 use Sujip\Wise\Hydration\Cast;
+use Sujip\Wise\Resources\Activity\Enums\ActivityStatus;
 
 final readonly class Activity implements Hydratable
 {
@@ -29,6 +30,11 @@ final readonly class Activity implements Hydratable
     public function status(): string
     {
         return $this->statusValue;
+    }
+
+    public function statusEnum(): ?ActivityStatus
+    {
+        return ActivityStatus::tryFrom(strtoupper($this->statusValue));
     }
 
     public function title(): string
