@@ -1,0 +1,11 @@
+{
+  "id": 501,
+  "currency": "EUR",
+  "type": "STANDARD",
+  "name": "EUR balance",
+  "status": "open",
+  "amount": {
+    "value": 120.50,
+    "currency": "EUR"
+  }
+}

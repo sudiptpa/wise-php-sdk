@@ -1,0 +1,12 @@
+[
+  {
+    "key": "firstLine",
+    "group": "address",
+    "required": true
+  },
+  {
+    "key": "postCode",
+    "group": "address",
+    "required": true
+  }
+]

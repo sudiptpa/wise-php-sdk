@@ -17,11 +17,20 @@ use Sujip\Wise\Exceptions\TransportException;
 use Sujip\Wise\Exceptions\ValidationException;
 use Sujip\Wise\Hydration\Hydrator;
 use Sujip\Wise\Resources\Activity\ActivityResource;
+use Sujip\Wise\Resources\Address\AddressResource;
+use Sujip\Wise\Resources\Balance\BalanceResource;
+use Sujip\Wise\Resources\BalanceStatement\BalanceStatementResource;
+use Sujip\Wise\Resources\BankAccountDetails\BankAccountDetailsResource;
+use Sujip\Wise\Resources\Contact\ContactResource;
+use Sujip\Wise\Resources\Currencies\CurrenciesResource;
 use Sujip\Wise\Resources\Payment\PaymentResource;
 use Sujip\Wise\Resources\Profile\ProfileResource;
 use Sujip\Wise\Resources\Quote\QuoteResource;
+use Sujip\Wise\Resources\Rate\RateResource;
 use Sujip\Wise\Resources\RecipientAccount\RecipientAccountResource;
 use Sujip\Wise\Resources\Transfer\TransferResource;
+use Sujip\Wise\Resources\User\UserResource;
+use Sujip\Wise\Resources\UserTokens\UserTokensResource;
 use Sujip\Wise\Resources\Webhook\WebhookResource;
 use Sujip\Wise\Support\Arr;
 use Sujip\Wise\Support\Json;
@@ -79,6 +88,51 @@ final readonly class WiseClient
         return new ProfileResource($this);
     }
 
+    public function balance(): BalanceResource
+    {
+        return new BalanceResource($this);
+    }
+
+    public function rate(): RateResource
+    {
+        return new RateResource($this);
+    }
+
+    public function contact(): ContactResource
+    {
+        return new ContactResource($this);
+    }
+
+    public function currencies(): CurrenciesResource
+    {
+        return new CurrenciesResource($this);
+    }
+
+    public function address(): AddressResource
+    {
+        return new AddressResource($this);
+    }
+
+    public function balanceStatement(): BalanceStatementResource
+    {
+        return new BalanceStatementResource($this);
+    }
+
+    public function bankAccountDetails(): BankAccountDetailsResource
+    {
+        return new BankAccountDetailsResource($this);
+    }
+
+    public function user(): UserResource
+    {
+        return new UserResource($this);
+    }
+
+    public function userTokens(): UserTokensResource
+    {
+        return new UserTokensResource($this);
+    }
+
     public function hydrator(): Hydrator
     {
         return $this->hydrator;
@@ -113,6 +167,52 @@ final readonly class WiseClient
                 ->withHeader('Content-Type', 'application/json')
                 ->withBody($this->streamFactory->createStream(Json::encode($body)));
         }
+
+        foreach ($headers as $name => $value) {
+            $request = $request->withHeader($name, $value);
+        }
+
+        if ($authenticated) {
+            if ($this->authenticator === null) {
+                throw new ValidationException('Access token provider is required for authenticated requests.');
+            }
+            $request = $this->authenticator->authenticate($request);
+        }
+
+        try {
+            $response = $this->transport->send($request);
+        } catch (Throwable $e) {
+            if ($e instanceof TransportException) {
+                throw $e;
+            }
+
+            throw new TransportException('Transport send failed: '.$e->getMessage(), 0, $e);
+        }
+
+        $this->throwIfFailed($response);
+
+        return Json::decodeObjectStrict((string) $response->getBody());
+    }
+
+    /**
+     * @param  array<string, mixed>  $form
+     * @param  array<string, string>  $headers
+     * @return array<string, mixed>
+     */
+    public function requestForm(
+        string $method,
+        string $path,
+        array $form,
+        array $headers = [],
+        bool $authenticated = true,
+    ): array {
+        $url = rtrim($this->config->baseUrl, '/').'/'.ltrim($path, '/');
+
+        $request = $this->requestFactory->createRequest($method, $url)
+            ->withHeader('Accept', 'application/json')
+            ->withHeader('User-Agent', $this->config->userAgent)
+            ->withHeader('Content-Type', 'application/x-www-form-urlencoded')
+            ->withBody($this->streamFactory->createStream(http_build_query($form)));
 
         foreach ($headers as $name => $value) {
             $request = $request->withHeader($name, $value);
