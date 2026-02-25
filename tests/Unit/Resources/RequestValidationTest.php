@@ -182,4 +182,16 @@ final class RequestValidationTest extends TestCase
         self::assertSame('refresh_token', $payload['grant_type'] ?? null);
         self::assertSame('refresh', $payload['refresh_token'] ?? null);
     }
+
+    public function test_user_token_request_rejects_empty_client_id(): void
+    {
+        $this->expectException(ValidationException::class);
+        CreateUserTokenRequest::refreshToken('', 'secret', 'refresh');
+    }
+
+    public function test_user_token_request_rejects_invalid_redirect_uri(): void
+    {
+        $this->expectException(ValidationException::class);
+        CreateUserTokenRequest::authorizationCode('client', 'secret', 'code', 'not-a-url');
+    }
 }

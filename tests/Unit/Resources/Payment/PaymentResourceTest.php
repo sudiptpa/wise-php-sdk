@@ -23,6 +23,8 @@ final class PaymentResourceTest extends TestCase
 
         self::assertSame(3001, $payment->transferId);
         self::assertSame(PaymentType::Balance, $payment->options[0]->typeEnum());
+        self::assertTrue($payment->supportsBalance());
+        self::assertTrue($payment->supports(PaymentType::BankTransfer));
         self::assertSame('/v3/profiles/123/transfers/3001/payments', $transport->lastRequest()->getUri()->getPath());
     }
 }
