@@ -3,7 +3,7 @@
 ## Principles
 - Resources perform HTTP.
 - Models are immutable and never perform HTTP.
-- Request classes are explicit and human-readable.
+- Request classes are clear and purpose-specific.
 - Transport is user-supplied via `TransportInterface`.
 - Auth supports both Wise user API tokens and OAuth2 bearer tokens through a shared token-provider contract.
 
