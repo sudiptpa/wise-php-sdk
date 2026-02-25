@@ -36,20 +36,26 @@ final readonly class Transfer implements Hydratable
     {
         $status = $this->statusEnum();
 
-        return $status === TransferStatus::Completed || $status === TransferStatus::OutgoingPaymentSent;
+        return $status === TransferStatus::OutgoingPaymentSent;
     }
 
     public function isPending(): bool
     {
         $status = $this->statusEnum();
 
-        return $status === TransferStatus::IncomingPaymentWaiting || $status === TransferStatus::Processing;
+        return $status === TransferStatus::IncomingPaymentWaiting
+            || $status === TransferStatus::IncomingPaymentInitiated
+            || $status === TransferStatus::Processing
+            || $status === TransferStatus::FundsConverted;
     }
 
     public function isCancelled(): bool
     {
         $status = $this->statusEnum();
 
-        return $status === TransferStatus::Cancelled || $status === TransferStatus::FundsRefunded;
+        return $status === TransferStatus::Cancelled
+            || $status === TransferStatus::FundsRefunded
+            || $status === TransferStatus::BouncedBack
+            || $status === TransferStatus::ChargedBack;
     }
 }

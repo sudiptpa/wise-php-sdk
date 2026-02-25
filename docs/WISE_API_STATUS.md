@@ -66,7 +66,9 @@ Status legend:
 | User | `GET /v1/users/{userId}/contact-email` | Implemented | get contact email |
 | User Tokens | `POST /oauth/token` | Implemented | authorization/refresh/registration code token flows |
 
-## Current Wise API Resources Not Yet Implemented
+## Out of Scope For Current Phase (Non-Deprecated)
+
+These resources are available in Wise's current API reference, but are intentionally deferred in this phase while we focus on payment-core reliability and operational safety.
 
 | Resource | Status | Reason |
 |---|---|---|

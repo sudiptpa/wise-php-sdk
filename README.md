@@ -137,6 +137,11 @@ final class LaravelTransport implements \Sujip\Wise\Contracts\TransportInterface
 }
 ```
 
+See full transport setup guides:
+- `docs/transports/guzzle.md`
+- `docs/transports/curl.md`
+- `docs/transports/laravel.md`
+
 ## Send Money in 4 Steps
 ```php
 use Sujip\Wise\Resources\Payment\Requests\FundTransferRequest;
@@ -240,6 +245,7 @@ Notes:
 - Retry middleware applies only when enabled.
 - It retries 429 and selected 5xx responses.
 - Use idempotency keys for retryable write operations.
+- Idempotency key is attached to SDK `POST` operations when configured.
 
 ## Webhooks
 Create subscriptions through `WebhookResource`.
@@ -278,6 +284,20 @@ final class RedisWebhookReplayStore implements WebhookReplayStoreInterface
     }
 }
 ```
+
+## Production Checklist
+- Set `timeoutSeconds` to a value suitable for your runtime and workload.
+- Keep retries off by default; enable only with explicit retry methods and limits.
+- Use idempotency keys for retryable write flows.
+- Rotate API/OAuth credentials and never store them in source control.
+- Verify webhook signatures and enforce replay checks in persistent storage.
+- Track `requestId` / `correlationId` from exceptions in logs and alerts.
+
+## Test Confidence
+- Unit tests cover request path/method/body contracts for implemented endpoints.
+- Fixtures in `tests/Fixtures/wise` are used for deterministic model hydration tests.
+- Middleware tests cover retry, idempotency behavior, and logging sanitization.
+- Sandbox workflow provides scheduled live verification against Wise sandbox.
 
 ## Production Checklist
 - Set timeout and connect-timeout values.

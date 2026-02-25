@@ -16,6 +16,49 @@
 - `docs/API_REFERENCE.md`: implementation map for supported endpoints.
 - `docs/SANDBOX_CHECKS.md`: manual real-sandbox check runbook.
 
+## Project Tree
+```text
+wise-php-sdk/
+├── src/
+│   ├── Auth/
+│   ├── Config/
+│   ├── Contracts/
+│   ├── Exceptions/
+│   ├── Hydration/
+│   ├── Resources/
+│   │   ├── Activity/
+│   │   ├── Address/
+│   │   ├── Balance/
+│   │   ├── BalanceStatement/
+│   │   ├── BankAccountDetails/
+│   │   ├── Contact/
+│   │   ├── Currencies/
+│   │   ├── Payment/
+│   │   ├── Profile/
+│   │   ├── Quote/
+│   │   ├── Rate/
+│   │   ├── RecipientAccount/
+│   │   ├── Transfer/
+│   │   ├── User/
+│   │   ├── UserTokens/
+│   │   └── Webhook/
+│   ├── Support/
+│   ├── Transport/
+│   ├── Wise.php
+│   └── WiseClient.php
+├── tests/
+│   ├── Fixtures/wise/
+│   ├── Support/
+│   └── Unit/
+├── examples/
+├── docs/
+│   ├── API_REFERENCE.md
+│   ├── SANDBOX_CHECKS.md
+│   ├── VERSIONING.md
+│   └── WISE_API_STATUS.md
+└── .github/workflows/
+```
+
 ## Safety
 - Retry middleware is opt-in and respects `Retry-After`.
 - Idempotency middleware is opt-in and applies to POST methods.

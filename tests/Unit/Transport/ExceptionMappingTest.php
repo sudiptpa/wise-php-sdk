@@ -68,6 +68,26 @@ final class ExceptionMappingTest extends TestCase
         $client->request('GET', '/v3/quotes');
     }
 
+    public function test_maps_request_and_correlation_ids_into_api_exception(): void
+    {
+        $transport = new FakeTransport([
+            Psr7Factory::response(
+                500,
+                '{"message":"boom"}',
+                ['x-request-id' => 'req-123', 'x-correlation-id' => 'corr-456'],
+            ),
+        ]);
+        $client = TestClientFactory::make($transport);
+
+        try {
+            $client->request('GET', '/v3/quotes');
+            self::fail('Expected exception not thrown.');
+        } catch (ApiException $e) {
+            self::assertSame('req-123', $e->requestId);
+            self::assertSame('corr-456', $e->correlationId);
+        }
+    }
+
     public function test_throws_when_transport_missing(): void
     {
         $this->expectExceptionMessage('Transport not configured');

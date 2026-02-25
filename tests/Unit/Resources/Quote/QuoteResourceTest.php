@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sujip\Wise\Tests\Unit\Resources\Quote;
 
 use PHPUnit\Framework\TestCase;
+use Sujip\Wise\Resources\Quote\Enums\QuoteStatus;
 use Sujip\Wise\Resources\Quote\Requests\CreateAuthenticatedQuoteRequest;
 use Sujip\Wise\Resources\Quote\Requests\UpdateQuoteRequest;
 use Sujip\Wise\Tests\Support\FakeTransport;
@@ -22,6 +23,8 @@ final class QuoteResourceTest extends TestCase
         $quote = $client->quote()->createAuthenticated(123, CreateAuthenticatedQuoteRequest::fixedTarget('USD', 'EUR', 92.5));
 
         self::assertSame('101', $quote->id);
+        self::assertSame(QuoteStatus::Pending, $quote->statusEnum());
+        self::assertTrue($quote->isPending());
         self::assertSame('POST', $transport->lastRequest()->getMethod());
         self::assertSame('/v3/profiles/123/quotes', $transport->lastRequest()->getUri()->getPath());
         self::assertSame('Bearer test-token', $transport->lastRequest()->getHeaderLine('Authorization'));
