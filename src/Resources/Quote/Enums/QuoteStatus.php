@@ -8,7 +8,6 @@ enum QuoteStatus: string
 {
     case Pending = 'PENDING';
     case Accepted = 'ACCEPTED';
+    case Funded = 'FUNDED';
     case Expired = 'EXPIRED';
-    case Rejected = 'REJECTED';
-    case Cancelled = 'CANCELLED';
 }

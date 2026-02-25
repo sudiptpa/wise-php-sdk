@@ -6,8 +6,9 @@ namespace Sujip\Wise\Resources\Activity\Enums;
 
 enum ActivityStatus: string
 {
+    case RequiresAttention = 'REQUIRES_ATTENTION';
+    case InProgress = 'IN_PROGRESS';
+    case Upcoming = 'UPCOMING';
     case Completed = 'COMPLETED';
-    case Pending = 'PENDING';
     case Cancelled = 'CANCELLED';
-    case Failed = 'FAILED';
 }
