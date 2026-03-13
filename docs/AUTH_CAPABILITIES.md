@@ -21,9 +21,10 @@ Typical fit:
 Important limits:
 - personal tokens are not the partner path
 - they do not let you manage other Wise customer accounts
-- API funding should not be assumed to work with personal tokens
+- if your profile is in the UK or EEA, do not rely on personal-token funding by API
+- outside the UK/EEA, funding can still depend on your account setup
 
-For this SDK, treat personal-token funding as unavailable unless Wise has explicitly confirmed your account setup supports it.
+If API funding matters for your use case, check directly with Wise before relying on personal-token funding.
 
 ## OAuth2
 
@@ -48,7 +49,7 @@ Important limits:
 | Create quotes | Yes | Yes |
 | Create recipient accounts | Yes | Yes |
 | Create transfer drafts | Yes | Yes |
-| Fund transfers through API | Do not rely on this | Yes, partner setup required |
+| Fund transfers through API | UK/EEA: no. Other profiles: check with Wise | Yes, partner setup required |
 | Manage other Wise customer accounts | No | Yes, partner setup required |
 | Exchange OAuth tokens with `/oauth/token` | No | Yes, app credentials required |
 | Application-level subscriptions | No | Yes, partner setup required |

@@ -82,13 +82,15 @@ See the full auth capability guide:
 |---|---|---|
 | Read your own account data | Yes | Yes |
 | Create quotes and transfer drafts | Yes | Yes |
-| Fund transfers through API | Do not rely on this | Yes, in partner setups |
+| Fund transfers through API | Limited and not guaranteed | Yes, in partner setups |
 | Manage other Wise accounts | No | Yes, in partner setups |
 | Use `/oauth/token` app credentials flow | No | Yes |
 
 Notes:
 - Personal API tokens are for your own Wise account.
 - OAuth2 with `clientId` / `clientSecret` is the Wise partner path.
+- If your profile is in the UK or EEA, do not rely on personal-token funding by API.
+- Outside the UK/EEA, funding can still depend on your account setup. Check with Wise if this matters for your use case.
 - If you only need self-account automation, start with personal token support.
 - If you need delegated account access or API funding flows, plan for OAuth2.
 
@@ -183,7 +185,8 @@ $payment = $wise->payment()->fundTransfer(123, $transfer->id, new FundTransferRe
 
 Important:
 - The funding step is not the same as creating a draft transfer.
-- Personal-token users should treat API funding as unavailable unless Wise has confirmed it for their account setup.
+- If your profile is in the UK or EEA, do not rely on personal-token funding by API.
+- Outside the UK/EEA, check with Wise if API funding is important for your flow.
 - In most cases, personal-token users will create the transfer draft by API and complete funding in Wise web or mobile.
 - OAuth2 partner environments are the expected path for API funding.
 
