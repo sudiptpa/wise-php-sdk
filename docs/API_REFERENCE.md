@@ -2,6 +2,11 @@
 
 Implemented operations in this SDK (non-deprecated scope only).
 
+Auth labels in this file:
+- `token/oauth2`: the SDK supports either auth style, but Wise account type, region, and permissions still decide whether the request will succeed.
+- `oauth2 partner`: treat this as partner-oriented OAuth2 usage.
+- `none`: the request itself is unauthenticated.
+
 ## Quote
 
 | SDK Method | HTTP | Path | Auth | Request | Response |
@@ -31,17 +36,22 @@ Implemented operations in this SDK (non-deprecated scope only).
 
 | SDK Method | HTTP | Path | Auth | Request | Response |
 |---|---|---|---|---|---|
-| `payment()->fundTransfer()` | `POST` | `/v3/profiles/{profileId}/transfers/{transferId}/payments` | token/oauth2 | `FundTransferRequest` | `Payment` |
+| `payment()->fundTransfer()` | `POST` | `/v3/profiles/{profileId}/transfers/{transferId}/payments` | oauth2 partner | `FundTransferRequest` | `Payment` |
+
+Notes:
+- Creating a transfer draft and funding a transfer are separate steps.
+- For this SDK, treat API funding as an OAuth2 partner flow.
+- Personal-token users should expect to complete funding in Wise web or mobile unless Wise has confirmed otherwise for their account.
 
 ## Webhook
 
 | SDK Method | HTTP | Path | Auth | Request | Response |
 |---|---|---|---|---|---|
-| `webhook()->createApplicationSubscription()` | `POST` | `/v3/applications/{clientKey}/subscriptions` | token/oauth2 | `CreateWebhookSubscriptionRequest` | `WebhookSubscription` |
-| `webhook()->listApplicationSubscriptions()` | `GET` | `/v3/applications/{clientKey}/subscriptions` | token/oauth2 | - | `WebhookSubscriptionCollection` |
-| `webhook()->getApplicationSubscription()` | `GET` | `/v3/applications/{clientKey}/subscriptions/{subscriptionId}` | token/oauth2 | - | `WebhookSubscription` |
-| `webhook()->deleteApplicationSubscription()` | `DELETE` | `/v3/applications/{clientKey}/subscriptions/{subscriptionId}` | token/oauth2 | - | `void` |
-| `webhook()->sendApplicationTestNotification()` | `POST` | `/v3/applications/{clientKey}/subscriptions/{subscriptionId}/test-notifications` | token/oauth2 | - | `void` |
+| `webhook()->createApplicationSubscription()` | `POST` | `/v3/applications/{clientKey}/subscriptions` | oauth2 partner | `CreateWebhookSubscriptionRequest` | `WebhookSubscription` |
+| `webhook()->listApplicationSubscriptions()` | `GET` | `/v3/applications/{clientKey}/subscriptions` | oauth2 partner | - | `WebhookSubscriptionCollection` |
+| `webhook()->getApplicationSubscription()` | `GET` | `/v3/applications/{clientKey}/subscriptions/{subscriptionId}` | oauth2 partner | - | `WebhookSubscription` |
+| `webhook()->deleteApplicationSubscription()` | `DELETE` | `/v3/applications/{clientKey}/subscriptions/{subscriptionId}` | oauth2 partner | - | `void` |
+| `webhook()->sendApplicationTestNotification()` | `POST` | `/v3/applications/{clientKey}/subscriptions/{subscriptionId}/test-notifications` | oauth2 partner | - | `void` |
 | `webhook()->createProfileSubscription()` | `POST` | `/v3/profiles/{profileId}/subscriptions` | token/oauth2 | `CreateWebhookSubscriptionRequest` | `WebhookSubscription` |
 | `webhook()->listProfileSubscriptions()` | `GET` | `/v3/profiles/{profileId}/subscriptions` | token/oauth2 | - | `WebhookSubscriptionCollection` |
 | `webhook()->getProfileSubscription()` | `GET` | `/v3/profiles/{profileId}/subscriptions/{subscriptionId}` | token/oauth2 | - | `WebhookSubscription` |
@@ -142,3 +152,7 @@ Supported filters in `ListActivitiesRequest`:
 | SDK Method | HTTP | Path | Auth | Request | Response |
 |---|---|---|---|---|---|
 | `userTokens()->create()` | `POST` | `/oauth/token` | none | `CreateUserTokenRequest` | `UserToken` |
+
+Notes:
+- This endpoint exchanges OAuth-related grant payloads.
+- In practice, `clientId` / `clientSecret` flows are part of Wise's partner-oriented OAuth setup.
