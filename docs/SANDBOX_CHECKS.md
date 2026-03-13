@@ -42,3 +42,6 @@ For `oauth2` mode:
 - Do not use production secrets in CI.
 - Keep logs masked. Do not print tokens, client secrets, or full webhook payloads in workflow output.
 - Keep this workflow lightweight and deterministic: profile list, quote create, activity list.
+- Personal token mode is the default path for self-account checks.
+- OAuth2 mode should be treated as partner-oriented and may not be available unless Wise has enabled it for your setup.
+- Funding flows are intentionally excluded from this quick sandbox check.
