@@ -2,6 +2,11 @@
 
 Unofficial PHP SDK for Wise Platform APIs.
 
+[![Tests](https://github.com/sudiptpa/wise-php-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/sudiptpa/wise-php-sdk/actions/workflows/ci.yml)
+[![Latest Version](https://img.shields.io/packagist/v/sudiptpa/wise-php-sdk.svg)](https://packagist.org/packages/sudiptpa/wise-php-sdk)
+[![Total Downloads](https://img.shields.io/packagist/dt/sudiptpa/wise-php-sdk.svg)](https://packagist.org/packages/sudiptpa/wise-php-sdk)
+[![License](https://img.shields.io/packagist/l/sudiptpa/wise-php-sdk.svg)](LICENSE)
+
 ## Unofficial Disclaimer
 This package is not affiliated with, endorsed by, or maintained by Wise.
 
