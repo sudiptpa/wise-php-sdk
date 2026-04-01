@@ -7,6 +7,12 @@ Unofficial PHP SDK for Wise Platform APIs.
 [![Total Downloads](https://img.shields.io/packagist/dt/sudiptpa/wise-php-sdk.svg)](https://packagist.org/packages/sudiptpa/wise-php-sdk)
 [![License](https://img.shields.io/packagist/l/sudiptpa/wise-php-sdk.svg)](LICENSE)
 
+---
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-ea4aaa?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/sudiptpa)
+
+If this package has been useful to you, GitHub Sponsors is a simple way to support ongoing maintenance, improvements, and future releases.
+
 ## Unofficial Disclaimer
 This package is not affiliated with, endorsed by, or maintained by Wise.
 
