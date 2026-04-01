@@ -1,6 +1,6 @@
-# wise-php-sdk
+# Wise PHP SDK
 
-Unofficial PHP SDK for Wise Platform APIs.
+Wise PHP SDK for Wise Platform APIs.
 
 [![Tests](https://github.com/sudiptpa/wise-php-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/sudiptpa/wise-php-sdk/actions/workflows/ci.yml)
 [![Latest Version](https://img.shields.io/packagist/v/sudiptpa/wise-php-sdk.svg)](https://packagist.org/packages/sudiptpa/wise-php-sdk)
