@@ -57,6 +57,12 @@ Notes:
 | `webhook()->getProfileSubscription()` | `GET` | `/v3/profiles/{profileId}/subscriptions/{subscriptionId}` | token/oauth2 | - | `WebhookSubscription` |
 | `webhook()->deleteProfileSubscription()` | `DELETE` | `/v3/profiles/{profileId}/subscriptions/{subscriptionId}` | token/oauth2 | - | `void` |
 
+Notes:
+- Build the request body with `CreateWebhookSubscriptionRequest::for($name, $triggerOn, $url, $version = '4.0.0')`, which sends the documented `{"name", "trigger_on", "delivery": {"version", "url"}}` shape. A subscription listens for one trigger.
+- The deprecated `CreateWebhookSubscriptionRequest` constructor still sends the legacy `{"url", "name", "triggers"}` shape.
+- Incoming events are signed with RSA-SHA256 over the raw body and the Base64 signature is sent in `X-Signature-SHA256`. Verify it with `WebhookSignatureVerifier` (`sandbox()` / `production()`), which supports multiple keys for rotation. The HMAC-based `WebhookVerifier` is deprecated.
+- `X-Delivery-Id` is unique per notification and is the natural key for replay protection (`WebhookReplayProtector`).
+
 ## Activity
 
 | SDK Method | HTTP | Path | Auth | Request | Response |

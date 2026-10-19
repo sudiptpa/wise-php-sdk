@@ -4,8 +4,16 @@ declare(strict_types=1);
 
 namespace Sujip\Wise\Resources\Webhook;
 
+/**
+ * @deprecated Wise signs webhook events with an RSA private key and publishes the matching public
+ *             keys; it does not use a shared HMAC secret. Use {@see WebhookSignatureVerifier} instead.
+ *             This class is kept unchanged for backwards compatibility.
+ */
 final class WebhookVerifier
 {
+    /**
+     * @deprecated Use {@see WebhookSignatureVerifier::verify()} instead.
+     */
     public function verify(string $payload, string $providedSignature, string $secret): bool
     {
         $computed = base64_encode(hash_hmac('sha256', $payload, $secret, true));

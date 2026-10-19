@@ -29,6 +29,79 @@ final class WebhookResourceTest extends TestCase
         self::assertSame('/v3/applications/client-key/subscriptions', $transport->lastRequest()->getUri()->getPath());
     }
 
+    public function test_creates_application_subscription_with_documented_body(): void
+    {
+        $fixture = file_get_contents(__DIR__.'/../../../Fixtures/wise/webhook_subscription.json');
+        $transport = new FakeTransport([Psr7Factory::response(200, (string) $fixture)]);
+        $client = TestClientFactory::make($transport);
+
+        $client->webhook()->createApplicationSubscription('client-key', CreateWebhookSubscriptionRequest::for(
+            name: 'Transfers Hook',
+            triggerOn: 'transfers#state-change',
+            url: 'https://example.com/hook',
+        ));
+
+        self::assertSame(
+            [
+                'name' => 'Transfers Hook',
+                'trigger_on' => 'transfers#state-change',
+                'delivery' => [
+                    'version' => '4.0.0',
+                    'url' => 'https://example.com/hook',
+                ],
+            ],
+            json_decode((string) $transport->lastRequest()->getBody(), true),
+        );
+    }
+
+    public function test_documented_body_accepts_an_explicit_delivery_version(): void
+    {
+        $fixture = file_get_contents(__DIR__.'/../../../Fixtures/wise/webhook_subscription.json');
+        $transport = new FakeTransport([Psr7Factory::response(200, (string) $fixture)]);
+        $client = TestClientFactory::make($transport);
+
+        $client->webhook()->createProfileSubscription(123, CreateWebhookSubscriptionRequest::for(
+            name: 'Profile Hook',
+            triggerOn: 'balances#credit',
+            url: 'https://example.com/hook',
+            version: '2.0.0',
+        ));
+
+        self::assertSame(
+            [
+                'name' => 'Profile Hook',
+                'trigger_on' => 'balances#credit',
+                'delivery' => [
+                    'version' => '2.0.0',
+                    'url' => 'https://example.com/hook',
+                ],
+            ],
+            json_decode((string) $transport->lastRequest()->getBody(), true),
+        );
+    }
+
+    public function test_legacy_constructor_keeps_sending_the_legacy_body(): void
+    {
+        $fixture = file_get_contents(__DIR__.'/../../../Fixtures/wise/webhook_subscription.json');
+        $transport = new FakeTransport([Psr7Factory::response(200, (string) $fixture)]);
+        $client = TestClientFactory::make($transport);
+
+        $client->webhook()->createApplicationSubscription('client-key', new CreateWebhookSubscriptionRequest(
+            url: 'https://example.com/hook',
+            name: 'Transfers Hook',
+            triggers: ['transfers#state-change'],
+        ));
+
+        self::assertSame(
+            [
+                'url' => 'https://example.com/hook',
+                'name' => 'Transfers Hook',
+                'triggers' => ['transfers#state-change'],
+            ],
+            json_decode((string) $transport->lastRequest()->getBody(), true),
+        );
+    }
+
     public function test_lists_and_gets_profile_subscriptions(): void
     {
         $fixture = file_get_contents(__DIR__.'/../../../Fixtures/wise/webhook_subscription.json');

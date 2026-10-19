@@ -286,26 +286,56 @@ Notes:
 - Idempotency key is attached to SDK `POST` operations when configured.
 
 ## Webhooks
-Create subscriptions through `WebhookResource`.
-
-Verify payload signatures before processing:
+Create subscriptions through `WebhookResource`. Wise expects one trigger per subscription and a
+`delivery` block, which `CreateWebhookSubscriptionRequest::for()` builds:
 ```php
-use Sujip\Wise\Resources\Webhook\WebhookVerifier;
+use Sujip\Wise\Resources\Webhook\Requests\CreateWebhookSubscriptionRequest;
 
-$payload = file_get_contents('php://input') ?: '';
-$signature = $_SERVER['HTTP_X_SIGNATURE_SHA256'] ?? '';
-$secret = 'your-webhook-secret';
-
-$ok = (new WebhookVerifier())->verify($payload, $signature, $secret);
+$subscription = $wise->webhook()->createApplicationSubscription(
+    'your-client-key',
+    CreateWebhookSubscriptionRequest::for(
+        name: 'Transfers Hook',
+        triggerOn: 'transfers#state-change',
+        url: 'https://example.com/webhooks/wise',
+    ),
+);
 ```
 
-Replay protection helper:
+Wise signs each event with an RSA private key (SHA-256 digest of the raw body, Base64 encoded in the
+`X-Signature-SHA256` header) and publishes the matching public keys. Verify the raw request body
+before processing:
+```php
+use Sujip\Wise\Resources\Webhook\WebhookSignatureVerifier;
+
+$rawBody = file_get_contents('php://input') ?: '';
+$signature = $_SERVER['HTTP_X_SIGNATURE_SHA256'] ?? '';
+
+$verifier = WebhookSignatureVerifier::sandbox(); // WebhookSignatureVerifier::production() for live traffic
+
+if (! $verifier->verify($rawBody, $signature)) {
+    http_response_code(401);
+    exit('Invalid signature');
+}
+```
+
+- Verify the body exactly as received: decoding and re-encoding the JSON changes the signed bytes.
+- Pass several PEM keys (`new WebhookSignatureVerifier([$oldPem, $currentPem])`) to support Wise key rotation.
+- `X-Test-Notification: true` marks test messages sent while setting up a subscription.
+- Respond with a `2xx` status within 5 seconds; Wise retries failed deliveries.
+- `WebhookVerifier` (HMAC with a shared secret) is deprecated because Wise does not use HMAC signatures.
+
+Replay protection helper, keyed by the unique `X-Delivery-Id` header and the event `sent_at` timestamp:
 ```php
 use Sujip\Wise\Resources\Webhook\WebhookReplayProtector;
 use Sujip\Wise\Support\InMemoryWebhookReplayStore;
 
+$event = json_decode($rawBody, true, 512, JSON_THROW_ON_ERROR);
+
 $replayProtector = new WebhookReplayProtector(new InMemoryWebhookReplayStore(), 300);
-$replayProtector->validate($eventId, $eventTimestamp);
+$replayProtector->validate(
+    $_SERVER['HTTP_X_DELIVERY_ID'] ?? '',
+    (int) strtotime((string) ($event['sent_at'] ?? '')),
+);
 ```
 
 Redis replay store example:
