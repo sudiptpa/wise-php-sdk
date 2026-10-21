@@ -64,7 +64,7 @@ Status legend:
 | User | `POST /v1/user/signup/registration_code` | Implemented | create registration code |
 | User | `PUT /v1/users/{userId}/contact-email` | Implemented | update contact email |
 | User | `GET /v1/users/{userId}/contact-email` | Implemented | get contact email |
-| User Tokens | `POST /oauth/token` | Implemented | authorization/refresh/registration code token flows |
+| User Tokens | `POST /oauth/token` | Implemented | client credentials, authorization code, refresh token, and registration code grants (HTTP Basic client auth) |
 
 ## Out of Scope For Current Phase (Non-Deprecated)
 
@@ -81,7 +81,6 @@ These resources are available in Wise's current API reference, but are intention
 | Card Order | Planned | not in current payment-core SDK scope |
 | Card Transaction | Planned | not in current payment-core SDK scope |
 | Claim Account | Planned | not in current payment-core SDK scope |
-| Client Credentials Token | Planned | not in current payment-core SDK scope |
 | Comparison | Planned | not in current payment-core SDK scope |
 | Delivery Estimate | Planned | not in current payment-core SDK scope |
 | Direct Debit Account | Planned | not in current payment-core SDK scope |

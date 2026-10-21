@@ -12,7 +12,13 @@ final class UserTokensResource extends Resource
 {
     public function create(CreateUserTokenRequest $request): UserToken
     {
-        $payload = $this->client->requestForm('POST', '/oauth/token', $request->toForm(), authenticated: false);
+        $payload = $this->client->requestForm(
+            'POST',
+            '/oauth/token',
+            $request->toForm(),
+            headers: ['Authorization' => $request->basicAuthHeader()],
+            authenticated: false,
+        );
 
         return UserToken::fromArray($payload);
     }

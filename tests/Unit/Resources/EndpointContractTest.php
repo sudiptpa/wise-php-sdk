@@ -111,7 +111,7 @@ final class EndpointContractTest extends TestCase
         ]);
         $client = TestClientFactory::make($transport);
 
-        $client->webhook()->createApplicationSubscription('app-key', new CreateWebhookSubscriptionRequest('https://example.test/hook', 'Name'));
+        $client->webhook()->createApplicationSubscription('app-key', CreateWebhookSubscriptionRequest::for('Name', 'transfers#state-change', 'https://example.test/hook'));
         self::assertSame('POST', $transport->requests()[0]->getMethod());
         self::assertSame('/v3/applications/app-key/subscriptions', $transport->requests()[0]->getUri()->getPath());
 
@@ -143,7 +143,7 @@ final class EndpointContractTest extends TestCase
         ]);
         $client = TestClientFactory::make($transport);
 
-        $client->webhook()->createProfileSubscription(123, new CreateWebhookSubscriptionRequest('https://example.test/hook', 'Name'));
+        $client->webhook()->createProfileSubscription(123, CreateWebhookSubscriptionRequest::for('Name', 'transfers#state-change', 'https://example.test/hook'));
         self::assertSame('POST', $transport->requests()[0]->getMethod());
         self::assertSame('/v3/profiles/123/subscriptions', $transport->requests()[0]->getUri()->getPath());
 

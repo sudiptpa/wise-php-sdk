@@ -6,6 +6,7 @@ Auth labels in this file:
 - `token/oauth2`: the SDK supports either auth style, but Wise account type, region, and permissions still decide whether the request will succeed.
 - `oauth2 partner`: treat this as partner-oriented OAuth2 usage.
 - `none`: the request itself is unauthenticated.
+- `client basic`: no bearer token; the OAuth client ID and secret are sent as HTTP Basic auth.
 
 ## Quote
 
@@ -56,6 +57,12 @@ Notes:
 | `webhook()->listProfileSubscriptions()` | `GET` | `/v3/profiles/{profileId}/subscriptions` | token/oauth2 | - | `WebhookSubscriptionCollection` |
 | `webhook()->getProfileSubscription()` | `GET` | `/v3/profiles/{profileId}/subscriptions/{subscriptionId}` | token/oauth2 | - | `WebhookSubscription` |
 | `webhook()->deleteProfileSubscription()` | `DELETE` | `/v3/profiles/{profileId}/subscriptions/{subscriptionId}` | token/oauth2 | - | `void` |
+
+Notes:
+- Build the request body with `CreateWebhookSubscriptionRequest::for($name, $triggerOn, $url, $version = '4.0.0')`, which sends the documented `{"name", "trigger_on", "delivery": {"version", "url"}}` shape. A subscription listens for one trigger.
+- The deprecated `CreateWebhookSubscriptionRequest` constructor still sends the legacy `{"url", "name", "triggers"}` shape.
+- Incoming events are signed with RSA-SHA256 over the raw body and the Base64 signature is sent in `X-Signature-SHA256`. Verify it with `WebhookSignatureVerifier` (`sandbox()` / `production()`), which supports multiple keys for rotation. The HMAC-based `WebhookVerifier` is deprecated.
+- `X-Delivery-Id` is unique per notification and is the natural key for replay protection (`WebhookReplayProtector`).
 
 ## Activity
 
@@ -151,8 +158,23 @@ Supported filters in `ListActivitiesRequest`:
 
 | SDK Method | HTTP | Path | Auth | Request | Response |
 |---|---|---|---|---|---|
-| `userTokens()->create()` | `POST` | `/oauth/token` | none | `CreateUserTokenRequest` | `UserToken` |
+| `userTokens()->create()` | `POST` | `/oauth/token` | client basic | `CreateUserTokenRequest` | `UserToken` |
+
+Request builders (all send `Authorization: Basic base64(clientId:clientSecret)`; the client secret is never put in the form body):
+
+| Builder | Form body |
+|---|---|
+| `CreateUserTokenRequest::clientCredentials($clientId, $clientSecret)` | `grant_type=client_credentials` |
+| `CreateUserTokenRequest::authorizationCode($clientId, $clientSecret, $code, $redirectUri)` | `grant_type=authorization_code`, `client_id`, `code`, `redirect_uri` |
+| `CreateUserTokenRequest::refreshToken($clientId, $clientSecret, $refreshToken)` | `grant_type=refresh_token`, `refresh_token` |
+| `CreateUserTokenRequest::registrationCodeForEmail($clientId, $clientSecret, $email, $registrationCode)` | `grant_type=registration_code`, `client_id`, `email`, `registration_code` |
+| `CreateUserTokenRequest::registrationCode(...)` (deprecated, no `email`) | `grant_type=registration_code`, `client_id`, `registration_code` |
+
+`UserToken` fields: `accessToken`, `refreshToken`, `tokenType`, `expiresIn`, `expiresAt`, `refreshTokenExpiresIn`, `refreshTokenExpiresAt`, `scope`, `createdAt`. `expiresAt($now = null)` returns `expires_at`, or `$now + expires_in` when Wise omits it.
+
+`Auth\ClientCredentialsTokenProvider` implements `AccessTokenProviderInterface`: it fetches a client credentials token, caches it in memory, and fetches a new one when the token is within the expiry margin (default 60 seconds).
 
 Notes:
-- This endpoint exchanges OAuth-related grant payloads.
+- Client credentials tokens do not include a refresh token; request a new one when the token expires (12 hours).
+- Wise allows only one valid user access token at a time; a new token invalidates the previous one.
 - In practice, `clientId` / `clientSecret` flows are part of Wise's partner-oriented OAuth setup.

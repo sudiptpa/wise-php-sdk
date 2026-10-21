@@ -41,6 +41,12 @@ Important limits:
 - Wise support has confirmed that OAuth app credentials are provided to approved partner flows
 - this is a more complex integration path than personal tokens
 
+Token types:
+- client credentials token: application-level access, for example application webhook subscriptions, unauthenticated quotes, user creation, and embedded-model partner requests. Valid for 12 hours with no refresh token. Use `CreateUserTokenRequest::clientCredentials()` or `ClientCredentialsTokenProvider`.
+- user access token: acts on behalf of one Wise user. Obtain it with `authorizationCode()` or `registrationCodeForEmail()`, then keep it fresh with `refreshToken()`. Only the most recently issued user access token is valid.
+
+The SDK sends `client_id:client_secret` as HTTP Basic auth on every `/oauth/token` request, as Wise documents.
+
 ## Capability Summary
 
 | Capability | Personal API Token | OAuth2 |
@@ -52,13 +58,15 @@ Important limits:
 | Fund transfers through API | UK/EEA: no. Other profiles: check with Wise | Yes, partner setup required |
 | Manage other Wise customer accounts | No | Yes, partner setup required |
 | Exchange OAuth tokens with `/oauth/token` | No | Yes, app credentials required |
+| Client credentials (application-level) token | No | Yes, app credentials required |
 | Application-level subscriptions | No | Yes, partner setup required |
 
 ## How To Read The SDK Docs
 
 - `token/oauth2` means the SDK can attach either auth style, but Wise account permissions still decide whether the call succeeds.
 - `oauth2 partner` means you should treat the endpoint as partner-only.
-- `none` means the request itself is unauthenticated, such as token exchange or unauthenticated quote creation.
+- `none` means the request itself is unauthenticated, such as unauthenticated quote creation.
+- `client basic` means the request uses your OAuth client ID and secret as HTTP Basic auth instead of a bearer token, such as token exchange.
 
 ## Practical Recommendation
 

@@ -91,6 +91,18 @@ final class RequestValidationTest extends TestCase
         new CreateWebhookSubscriptionRequest('not-a-url', 'name');
     }
 
+    public function test_webhook_subscription_documented_body_rejects_an_empty_trigger(): void
+    {
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('trigger_on cannot be empty.');
+
+        CreateWebhookSubscriptionRequest::for(
+            name: 'Transfers Hook',
+            triggerOn: '  ',
+            url: 'https://example.com/hook',
+        );
+    }
+
     public function test_balance_requests_reject_empty_payload(): void
     {
         $this->expectException(ValidationException::class);
@@ -181,6 +193,7 @@ final class RequestValidationTest extends TestCase
 
         self::assertSame('refresh_token', $payload['grant_type'] ?? null);
         self::assertSame('refresh', $payload['refresh_token'] ?? null);
+        self::assertArrayNotHasKey('client_secret', $payload);
     }
 
     public function test_user_token_request_rejects_empty_client_id(): void

@@ -126,6 +126,54 @@ $config = new ClientConfig(
 );
 ```
 
+### OAuth tokens (`/oauth/token`)
+Every token request sends your `client_id:client_secret` as HTTP Basic auth. The client secret is never put in the form body.
+
+```php
+use Sujip\Wise\Resources\UserTokens\Requests\CreateUserTokenRequest;
+
+// Application-level client credentials token (valid 12 hours, no refresh token)
+$token = $wise->userTokens()->create(CreateUserTokenRequest::clientCredentials($clientId, $clientSecret));
+
+// User access tokens
+$token = $wise->userTokens()->create(CreateUserTokenRequest::authorizationCode($clientId, $clientSecret, $code, $redirectUri));
+$token = $wise->userTokens()->create(CreateUserTokenRequest::registrationCodeForEmail($clientId, $clientSecret, $email, $registrationCode));
+$token = $wise->userTokens()->create(CreateUserTokenRequest::refreshToken($clientId, $clientSecret, $refreshToken));
+
+$token->accessToken;
+$token->expiresAt(); // expires_at, or now + expires_in
+```
+
+To call application-level endpoints with a client credentials token, use `ClientCredentialsTokenProvider`. It caches the token in memory and fetches a new one shortly before it expires:
+
+```php
+use Sujip\Wise\Auth\AuthMode;
+use Sujip\Wise\Auth\ClientCredentialsTokenProvider;
+use Sujip\Wise\Config\ClientConfig;
+use Sujip\Wise\Wise;
+
+// The token client only sends the unauthenticated /oauth/token request.
+$tokenClient = Wise::client(
+    new ClientConfig(authMode: AuthMode::OAuth2, baseUrl: ClientConfig::SANDBOX_BASE_URL),
+    $transport,
+    new RequestFactory(),
+    new StreamFactory(),
+);
+
+$wise = Wise::client(
+    new ClientConfig(
+        authMode: AuthMode::OAuth2,
+        accessTokenProvider: new ClientCredentialsTokenProvider($tokenClient, $clientId, $clientSecret),
+        baseUrl: ClientConfig::SANDBOX_BASE_URL,
+    ),
+    $transport,
+    new RequestFactory(),
+    new StreamFactory(),
+);
+```
+
+The cache lives only for the lifetime of the provider object. To share tokens across processes, store them in your own cache.
+
 ## Transport Options (Choose One)
 The SDK does not pick a transport for you.
 
@@ -286,26 +334,56 @@ Notes:
 - Idempotency key is attached to SDK `POST` operations when configured.
 
 ## Webhooks
-Create subscriptions through `WebhookResource`.
-
-Verify payload signatures before processing:
+Create subscriptions through `WebhookResource`. Wise expects one trigger per subscription and a
+`delivery` block, which `CreateWebhookSubscriptionRequest::for()` builds:
 ```php
-use Sujip\Wise\Resources\Webhook\WebhookVerifier;
+use Sujip\Wise\Resources\Webhook\Requests\CreateWebhookSubscriptionRequest;
 
-$payload = file_get_contents('php://input') ?: '';
-$signature = $_SERVER['HTTP_X_SIGNATURE_SHA256'] ?? '';
-$secret = 'your-webhook-secret';
-
-$ok = (new WebhookVerifier())->verify($payload, $signature, $secret);
+$subscription = $wise->webhook()->createApplicationSubscription(
+    'your-client-key',
+    CreateWebhookSubscriptionRequest::for(
+        name: 'Transfers Hook',
+        triggerOn: 'transfers#state-change',
+        url: 'https://example.com/webhooks/wise',
+    ),
+);
 ```
 
-Replay protection helper:
+Wise signs each event with an RSA private key (SHA-256 digest of the raw body, Base64 encoded in the
+`X-Signature-SHA256` header) and publishes the matching public keys. Verify the raw request body
+before processing:
+```php
+use Sujip\Wise\Resources\Webhook\WebhookSignatureVerifier;
+
+$rawBody = file_get_contents('php://input') ?: '';
+$signature = $_SERVER['HTTP_X_SIGNATURE_SHA256'] ?? '';
+
+$verifier = WebhookSignatureVerifier::sandbox(); // WebhookSignatureVerifier::production() for live traffic
+
+if (! $verifier->verify($rawBody, $signature)) {
+    http_response_code(401);
+    exit('Invalid signature');
+}
+```
+
+- Verify the body exactly as received: decoding and re-encoding the JSON changes the signed bytes.
+- Pass several PEM keys (`new WebhookSignatureVerifier([$oldPem, $currentPem])`) to support Wise key rotation.
+- `X-Test-Notification: true` marks test messages sent while setting up a subscription.
+- Respond with a `2xx` status within 5 seconds; Wise retries failed deliveries.
+- `WebhookVerifier` (HMAC with a shared secret) is deprecated because Wise does not use HMAC signatures.
+
+Replay protection helper, keyed by the unique `X-Delivery-Id` header and the event `sent_at` timestamp:
 ```php
 use Sujip\Wise\Resources\Webhook\WebhookReplayProtector;
 use Sujip\Wise\Support\InMemoryWebhookReplayStore;
 
+$event = json_decode($rawBody, true, 512, JSON_THROW_ON_ERROR);
+
 $replayProtector = new WebhookReplayProtector(new InMemoryWebhookReplayStore(), 300);
-$replayProtector->validate($eventId, $eventTimestamp);
+$replayProtector->validate(
+    $_SERVER['HTTP_X_DELIVERY_ID'] ?? '',
+    (int) strtotime((string) ($event['sent_at'] ?? '')),
+);
 ```
 
 Redis replay store example:

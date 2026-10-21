@@ -15,7 +15,11 @@ $wise = Wise::client($config, $transport, $yourRequestFactory, $yourStreamFactor
 
 $subscription = $wise->webhook()->createApplicationSubscription(
     'client-key',
-    new CreateWebhookSubscriptionRequest('https://example.com/webhook', 'Transfers Hook', ['transfers#state-change'])
+    CreateWebhookSubscriptionRequest::for(
+        name: 'Transfers Hook',
+        triggerOn: 'transfers#state-change',
+        url: 'https://example.com/webhook',
+    ),
 );
 
 echo $subscription->id.PHP_EOL;
