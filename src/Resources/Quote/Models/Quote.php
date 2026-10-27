@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Quote\Models;
+namespace Theocode\Wise\Resources\Quote\Models;
 
-use Sujip\Wise\Contracts\Hydratable;
-use Sujip\Wise\Hydration\Cast;
-use Sujip\Wise\Resources\Quote\Enums\QuoteStatus;
+use Theocode\Wise\Contracts\Hydratable;
+use Theocode\Wise\Hydration\Cast;
+use Theocode\Wise\Resources\Quote\Enums\QuoteStatus;
 
 final readonly class Quote implements Hydratable
 {

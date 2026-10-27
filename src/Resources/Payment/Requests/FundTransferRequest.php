@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Payment\Requests;
+namespace Theocode\Wise\Resources\Payment\Requests;
 
-use Sujip\Wise\Exceptions\ValidationException;
-use Sujip\Wise\Resources\Payment\Enums\PaymentType;
+use Theocode\Wise\Exceptions\ValidationException;
+use Theocode\Wise\Resources\Payment\Enums\PaymentType;
 
 final readonly class FundTransferRequest
 {

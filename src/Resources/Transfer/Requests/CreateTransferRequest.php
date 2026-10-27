@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Transfer\Requests;
+namespace Theocode\Wise\Resources\Transfer\Requests;
 
-use Sujip\Wise\Exceptions\ValidationException;
-use Sujip\Wise\Resources\Quote\Models\Quote;
-use Sujip\Wise\Resources\RecipientAccount\Models\RecipientAccount;
+use Theocode\Wise\Exceptions\ValidationException;
+use Theocode\Wise\Resources\Quote\Models\Quote;
+use Theocode\Wise\Resources\RecipientAccount\Models\RecipientAccount;
 
 final readonly class CreateTransferRequest
 {

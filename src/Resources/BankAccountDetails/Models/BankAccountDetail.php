@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\BankAccountDetails\Models;
+namespace Theocode\Wise\Resources\BankAccountDetails\Models;
 
-use Sujip\Wise\Contracts\Hydratable;
-use Sujip\Wise\Hydration\Cast;
+use Theocode\Wise\Contracts\Hydratable;
+use Theocode\Wise\Hydration\Cast;
 
 final readonly class BankAccountDetail implements Hydratable
 {

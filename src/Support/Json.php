@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Support;
+namespace Theocode\Wise\Support;
 
 use JsonException;
-use Sujip\Wise\Exceptions\ValidationException;
+use Theocode\Wise\Exceptions\ValidationException;
 
 final class Json
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Exceptions;
+namespace Theocode\Wise\Exceptions;
 
 class RateLimitException extends ApiException
 {

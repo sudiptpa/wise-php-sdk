@@ -1,10 +1,36 @@
 {
-    "name": "sudiptpa/wise-php-sdk",
+    "name": "theocode12/wise-php-sdk",
     "description": "Unofficial Wise Platform PHP SDK with rich models and transport-agnostic architecture.",
+    "keywords": [
+        "wise",
+        "transferwise",
+        "payments",
+        "payouts",
+        "sdk",
+        "api"
+    ],
     "type": "library",
+    "homepage": "https://github.com/Theocode12/wise-php-sdk",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Theocode12",
+            "homepage": "https://github.com/Theocode12",
+            "role": "Maintainer"
+        },
+        {
+            "name": "Sujip Thapa",
+            "homepage": "https://github.com/sudiptpa",
+            "role": "Original author"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/Theocode12/wise-php-sdk/issues",
+        "source": "https://github.com/Theocode12/wise-php-sdk"
+    },
     "require": {
         "php": "^8.2",
+        "ext-openssl": "*",
         "psr/http-client": "^1.0",
         "psr/http-factory": "^1.1",
         "psr/http-message": "^1.1 || ^2.0",
@@ -22,12 +48,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Sujip\\Wise\\": "src/"
+            "Theocode\\Wise\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Sujip\\Wise\\Tests\\": "tests/"
+            "Theocode\\Wise\\Tests\\": "tests/"
         }
     },
     "scripts": {

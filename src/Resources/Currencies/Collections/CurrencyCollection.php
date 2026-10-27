@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Currencies\Collections;
+namespace Theocode\Wise\Resources\Currencies\Collections;
 
-use Sujip\Wise\Resources\Currencies\Models\Currency;
-use Sujip\Wise\Support\Collection;
+use Theocode\Wise\Resources\Currencies\Models\Currency;
+use Theocode\Wise\Support\Collection;
 
 /**
  * @extends Collection<Currency>

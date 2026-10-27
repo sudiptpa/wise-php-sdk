@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources;
+namespace Theocode\Wise\Resources;
 
-use Sujip\Wise\WiseClient;
+use Theocode\Wise\WiseClient;
 
 abstract class Resource
 {

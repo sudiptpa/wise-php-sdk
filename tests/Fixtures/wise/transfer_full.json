@@ -1,0 +1,24 @@
+{
+  "id": 16521632,
+  "user": 4342275,
+  "targetAccount": 8692237,
+  "sourceAccount": null,
+  "quote": null,
+  "quoteUuid": "8fa9be20-ba43-4b15-abbb-9424e1481050",
+  "status": "incoming_payment_waiting",
+  "reference": "reference text",
+  "rate": 0.89,
+  "created": "2017-11-24 10:47:49",
+  "business": null,
+  "transferRequest": null,
+  "details": {
+    "reference": "Testing"
+  },
+  "hasActiveIssues": false,
+  "sourceCurrency": "EUR",
+  "sourceValue": 133.5,
+  "targetCurrency": "GBP",
+  "targetValue": 150,
+  "customerTransactionId": "54a6bc09-cef9-49a8-9041-f1f0c654cd88",
+  "payinSessionId": "23330542-8e9e-419f-95eb-312b880f92ad"
+}

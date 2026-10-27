@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Webhook;
+namespace Theocode\Wise\Resources\Webhook;
 
-use Sujip\Wise\Resources\Resource;
-use Sujip\Wise\Resources\Webhook\Collections\WebhookSubscriptionCollection;
-use Sujip\Wise\Resources\Webhook\Models\WebhookSubscription;
-use Sujip\Wise\Resources\Webhook\Requests\CreateWebhookSubscriptionRequest;
+use Theocode\Wise\Resources\Resource;
+use Theocode\Wise\Resources\Webhook\Collections\WebhookSubscriptionCollection;
+use Theocode\Wise\Resources\Webhook\Models\WebhookSubscription;
+use Theocode\Wise\Resources\Webhook\Requests\CreateWebhookSubscriptionRequest;
 
 final class WebhookResource extends Resource
 {

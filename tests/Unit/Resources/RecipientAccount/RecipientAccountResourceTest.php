@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Tests\Unit\Resources\RecipientAccount;
+namespace Theocode\Wise\Tests\Unit\Resources\RecipientAccount;
 
 use PHPUnit\Framework\TestCase;
-use Sujip\Wise\Resources\RecipientAccount\Requests\CreateRecipientAccountRequest;
-use Sujip\Wise\Tests\Support\FakeTransport;
-use Sujip\Wise\Tests\Support\Psr7Factory;
-use Sujip\Wise\Tests\Support\TestClientFactory;
+use Theocode\Wise\Resources\RecipientAccount\Requests\CreateRecipientAccountRequest;
+use Theocode\Wise\Tests\Support\FakeTransport;
+use Theocode\Wise\Tests\Support\Psr7Factory;
+use Theocode\Wise\Tests\Support\TestClientFactory;
 
 final class RecipientAccountResourceTest extends TestCase
 {

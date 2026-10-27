@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise;
+namespace Theocode\Wise;
 
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
-use Sujip\Wise\Config\ClientConfig;
-use Sujip\Wise\Contracts\MiddlewareInterface;
-use Sujip\Wise\Contracts\TransportInterface;
-use Sujip\Wise\Exceptions\WiseException;
-use Sujip\Wise\Transport\Middleware\IdempotencyMiddleware;
-use Sujip\Wise\Transport\Middleware\LoggingMiddleware;
-use Sujip\Wise\Transport\Middleware\RetryMiddleware;
-use Sujip\Wise\Transport\MiddlewareTransport;
+use Theocode\Wise\Config\ClientConfig;
+use Theocode\Wise\Contracts\MiddlewareInterface;
+use Theocode\Wise\Contracts\TransportInterface;
+use Theocode\Wise\Exceptions\WiseException;
+use Theocode\Wise\Transport\Middleware\IdempotencyMiddleware;
+use Theocode\Wise\Transport\Middleware\LoggingMiddleware;
+use Theocode\Wise\Transport\Middleware\RetryMiddleware;
+use Theocode\Wise\Transport\MiddlewareTransport;
 
 final class Wise
 {

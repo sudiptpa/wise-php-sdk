@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Balance\Models;
+namespace Theocode\Wise\Resources\Balance\Models;
 
-use Sujip\Wise\Contracts\Hydratable;
+use Theocode\Wise\Contracts\Hydratable;
 
 final readonly class BalanceCapacity implements Hydratable
 {

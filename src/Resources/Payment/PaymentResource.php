@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Payment;
+namespace Theocode\Wise\Resources\Payment;
 
-use Sujip\Wise\Resources\Payment\Models\Payment;
-use Sujip\Wise\Resources\Payment\Requests\FundTransferRequest;
-use Sujip\Wise\Resources\Resource;
+use Theocode\Wise\Resources\Payment\Models\Payment;
+use Theocode\Wise\Resources\Payment\Requests\FundTransferRequest;
+use Theocode\Wise\Resources\Resource;
 
 final class PaymentResource extends Resource
 {

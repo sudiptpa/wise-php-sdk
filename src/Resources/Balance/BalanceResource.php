@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Balance;
+namespace Theocode\Wise\Resources\Balance;
 
-use Sujip\Wise\Exceptions\ValidationException;
-use Sujip\Wise\Resources\Balance\Collections\BalanceCollection;
-use Sujip\Wise\Resources\Balance\Models\Balance;
-use Sujip\Wise\Resources\Balance\Models\BalanceCapacity;
-use Sujip\Wise\Resources\Balance\Models\BalanceMovement;
-use Sujip\Wise\Resources\Balance\Models\ExcessMoneyAccount;
-use Sujip\Wise\Resources\Balance\Models\TotalFunds;
-use Sujip\Wise\Resources\Balance\Requests\AddExcessMoneyAccountRequest;
-use Sujip\Wise\Resources\Balance\Requests\CreateBalanceMovementRequest;
-use Sujip\Wise\Resources\Balance\Requests\CreateBalanceRequest;
-use Sujip\Wise\Resources\Resource;
+use Theocode\Wise\Exceptions\ValidationException;
+use Theocode\Wise\Resources\Balance\Collections\BalanceCollection;
+use Theocode\Wise\Resources\Balance\Models\Balance;
+use Theocode\Wise\Resources\Balance\Models\BalanceCapacity;
+use Theocode\Wise\Resources\Balance\Models\BalanceMovement;
+use Theocode\Wise\Resources\Balance\Models\ExcessMoneyAccount;
+use Theocode\Wise\Resources\Balance\Models\TotalFunds;
+use Theocode\Wise\Resources\Balance\Requests\AddExcessMoneyAccountRequest;
+use Theocode\Wise\Resources\Balance\Requests\CreateBalanceMovementRequest;
+use Theocode\Wise\Resources\Balance\Requests\CreateBalanceRequest;
+use Theocode\Wise\Resources\Resource;
 
 final class BalanceResource extends Resource
 {

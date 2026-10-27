@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Tests\Support;
+namespace Theocode\Wise\Tests\Support;
 
-use Sujip\Wise\Config\ClientConfig;
-use Sujip\Wise\Wise;
-use Sujip\Wise\WiseClient;
+use Theocode\Wise\Config\ClientConfig;
+use Theocode\Wise\Wise;
+use Theocode\Wise\WiseClient;
 
 final class TestClientFactory
 {

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Tests\Unit\Resources\Contact;
+namespace Theocode\Wise\Tests\Unit\Resources\Contact;
 
 use PHPUnit\Framework\TestCase;
-use Sujip\Wise\Resources\Contact\Requests\CreateContactRequest;
-use Sujip\Wise\Tests\Support\FakeTransport;
-use Sujip\Wise\Tests\Support\Psr7Factory;
-use Sujip\Wise\Tests\Support\TestClientFactory;
+use Theocode\Wise\Resources\Contact\Requests\CreateContactRequest;
+use Theocode\Wise\Tests\Support\FakeTransport;
+use Theocode\Wise\Tests\Support\Psr7Factory;
+use Theocode\Wise\Tests\Support\TestClientFactory;
 
 final class ContactResourceTest extends TestCase
 {

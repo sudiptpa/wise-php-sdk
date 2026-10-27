@@ -31,7 +31,7 @@ Examples:
 
 ## Public API surface
 Public API includes:
-- `Sujip\Wise\*` public classes and methods
+- `Theocode\Wise\*` public classes and methods
 - Request/Model constructors and public properties
 - Exception types and key public fields
 - Documented config options and scripts

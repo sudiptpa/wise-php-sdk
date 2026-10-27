@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Rate\Models;
+namespace Theocode\Wise\Resources\Rate\Models;
 
 use DateTimeImmutable;
-use Sujip\Wise\Contracts\Hydratable;
-use Sujip\Wise\Hydration\Cast;
+use Theocode\Wise\Contracts\Hydratable;
+use Theocode\Wise\Hydration\Cast;
 
 final readonly class Rate implements Hydratable
 {

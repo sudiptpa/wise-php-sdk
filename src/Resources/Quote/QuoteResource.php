@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Quote;
+namespace Theocode\Wise\Resources\Quote;
 
-use Sujip\Wise\Resources\Quote\Models\Quote;
-use Sujip\Wise\Resources\Quote\Requests\CreateAuthenticatedQuoteRequest;
-use Sujip\Wise\Resources\Quote\Requests\CreateUnauthenticatedQuoteRequest;
-use Sujip\Wise\Resources\Quote\Requests\UpdateQuoteRequest;
-use Sujip\Wise\Resources\Resource;
+use Theocode\Wise\Resources\Quote\Models\Quote;
+use Theocode\Wise\Resources\Quote\Requests\CreateAuthenticatedQuoteRequest;
+use Theocode\Wise\Resources\Quote\Requests\CreateUnauthenticatedQuoteRequest;
+use Theocode\Wise\Resources\Quote\Requests\UpdateQuoteRequest;
+use Theocode\Wise\Resources\Resource;
 
 final class QuoteResource extends Resource
 {

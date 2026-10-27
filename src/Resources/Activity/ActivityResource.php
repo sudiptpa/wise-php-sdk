@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Activity;
+namespace Theocode\Wise\Resources\Activity;
 
 use Generator;
-use Sujip\Wise\Resources\Activity\Models\Activity;
-use Sujip\Wise\Resources\Activity\Models\ActivityPage;
-use Sujip\Wise\Resources\Activity\Requests\ListActivitiesRequest;
-use Sujip\Wise\Resources\Resource;
+use Theocode\Wise\Resources\Activity\Models\Activity;
+use Theocode\Wise\Resources\Activity\Models\ActivityPage;
+use Theocode\Wise\Resources\Activity\Requests\ListActivitiesRequest;
+use Theocode\Wise\Resources\Resource;
 
 final class ActivityResource extends Resource
 {

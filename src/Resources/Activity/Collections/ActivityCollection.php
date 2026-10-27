@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Activity\Collections;
+namespace Theocode\Wise\Resources\Activity\Collections;
 
-use Sujip\Wise\Resources\Activity\Models\Activity;
-use Sujip\Wise\Support\Collection;
+use Theocode\Wise\Resources\Activity\Models\Activity;
+use Theocode\Wise\Support\Collection;
 
 /**
  * @extends Collection<Activity>

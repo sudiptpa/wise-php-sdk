@@ -2,17 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\UserTokens;
+namespace Theocode\Wise\Resources\UserTokens;
 
-use Sujip\Wise\Resources\Resource;
-use Sujip\Wise\Resources\UserTokens\Models\UserToken;
-use Sujip\Wise\Resources\UserTokens\Requests\CreateUserTokenRequest;
+use Theocode\Wise\Resources\Resource;
+use Theocode\Wise\Resources\UserTokens\Models\UserToken;
+use Theocode\Wise\Resources\UserTokens\Requests\CreateUserTokenRequest;
 
 final class UserTokensResource extends Resource
 {
     public function create(CreateUserTokenRequest $request): UserToken
     {
-        $payload = $this->client->requestForm('POST', '/oauth/token', $request->toForm(), authenticated: false);
+        $payload = $this->client->requestForm(
+            'POST',
+            '/oauth/token',
+            $request->toForm(),
+            headers: ['Authorization' => $request->basicAuthHeader()],
+            authenticated: false,
+        );
 
         return UserToken::fromArray($payload);
     }

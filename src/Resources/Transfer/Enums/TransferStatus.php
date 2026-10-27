@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Transfer\Enums;
+namespace Theocode\Wise\Resources\Transfer\Enums;
 
 enum TransferStatus: string
 {

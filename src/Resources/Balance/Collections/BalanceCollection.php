@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Balance\Collections;
+namespace Theocode\Wise\Resources\Balance\Collections;
 
-use Sujip\Wise\Resources\Balance\Models\Balance;
-use Sujip\Wise\Support\Collection;
+use Theocode\Wise\Resources\Balance\Models\Balance;
+use Theocode\Wise\Support\Collection;
 
 /**
  * @extends Collection<Balance>

@@ -6,6 +6,7 @@ Auth labels in this file:
 - `token/oauth2`: the SDK supports either auth style, but Wise account type, region, and permissions still decide whether the request will succeed.
 - `oauth2 partner`: treat this as partner-oriented OAuth2 usage.
 - `none`: the request itself is unauthenticated.
+- `client basic`: no bearer token; the OAuth client ID and secret are sent as HTTP Basic auth.
 
 ## Quote
 
@@ -23,14 +24,41 @@ Auth labels in this file:
 | `recipientAccount()->create()` | `POST` | `/v1/accounts` | token/oauth2 | `CreateRecipientAccountRequest` | `RecipientAccount` |
 | `recipientAccount()->list()` | `GET` | `/v1/accounts` | token/oauth2 | optional `profile` query | `RecipientAccountCollection` |
 | `recipientAccount()->get()` | `GET` | `/v1/accounts/{accountId}` | token/oauth2 | - | `RecipientAccount` |
+| `recipientAccount()->requirementsForQuote()` | `GET` | `/v1/quotes/{quoteId}/account-requirements` | token/oauth2 | optional `AccountRequirementsOptions` query | `AccountRequirementCollection` |
+| `recipientAccount()->refreshRequirementsForQuote()` | `POST` | `/v1/quotes/{quoteId}/account-requirements` | token/oauth2 | `CreateRecipientAccountRequest` or array | `AccountRequirementCollection` |
+| `recipientAccount()->requirementsForRoute()` | `GET` | `/v1/account-requirements` | token/oauth2 | `source`, `target`, `sourceAmount` (+ options) | `AccountRequirementCollection` |
+
+Notes:
+- All account-requirements methods send the `Accept-Minor-Version: 1` header to enable the v1.1 dynamic-form response.
+- `requirementsForQuote()` is the recommended entry point (profile context is known); `requirementsForRoute()` works without a quote but is generally not recommended.
+- `refreshRequirementsForQuote()` posts the same recipient payload you would send to `/v1/accounts`, and should be called after a field flagged `refreshRequirementsOnChange` changes.
 
 ## Transfer
 
 | SDK Method | HTTP | Path | Auth | Request | Response |
 |---|---|---|---|---|---|
 | `transfer()->create()` | `POST` | `/v1/transfers` | token/oauth2 | `CreateTransferRequest` | `Transfer` |
+| `transfer()->list()` | `GET` | `/v1/transfers` | token/oauth2 | `ListTransfersRequest` | `TransferCollection` |
+| `transfer()->iterate()` | repeated `GET` | `/v1/transfers` | token/oauth2 | `ListTransfersRequest` | `Generator<Transfer>` |
 | `transfer()->get()` | `GET` | `/v1/transfers/{transferId}` | token/oauth2 | - | `Transfer` |
+| `transfer()->cancel()` | `PUT` | `/v1/transfers/{transferId}/cancel` | token/oauth2 | - | `Transfer` |
 | `transfer()->requirements()` | `POST` | `/v1/transfer-requirements` | token/oauth2 | `TransferRequirementsRequest` | `TransferRequirements` |
+
+Supported filters in `ListTransfersRequest`:
+- `profile`
+- `statuses` (sent as a comma-separated `status` query parameter)
+- `sourceCurrency`
+- `targetCurrency`
+- `createdDateStart` / `createdDateEnd` (dates, formatted `Y-m-d`)
+- `limit`
+- `offset`
+
+`Transfer` exposes the full Wise transfer payload: `user`, `sourceAccount`, `reference` (prefers `details.reference`),
+`rate`, `created` (`?DateTimeImmutable` parsed from `Y-m-d H:i:s` UTC), `business`, `hasActiveIssues`, `sourceCurrency`,
+`sourceValue`, `targetCurrency`, `targetValue`, `customerTransactionId`, `payinSessionId`, `details`, and `raw`.
+
+Cancellation is only possible while a transfer is `incoming_payment_waiting`; otherwise Wise returns `409` with
+`transfer.cancellation.not.allowed`, detectable via `ApiException::hasErrorCode('transfer.cancellation.not.allowed')`.
 
 ## Payment / Funding
 
@@ -56,6 +84,12 @@ Notes:
 | `webhook()->listProfileSubscriptions()` | `GET` | `/v3/profiles/{profileId}/subscriptions` | token/oauth2 | - | `WebhookSubscriptionCollection` |
 | `webhook()->getProfileSubscription()` | `GET` | `/v3/profiles/{profileId}/subscriptions/{subscriptionId}` | token/oauth2 | - | `WebhookSubscription` |
 | `webhook()->deleteProfileSubscription()` | `DELETE` | `/v3/profiles/{profileId}/subscriptions/{subscriptionId}` | token/oauth2 | - | `void` |
+
+Notes:
+- Build the request body with `CreateWebhookSubscriptionRequest::for($name, $triggerOn, $url, $version = '4.0.0')`, which sends the documented `{"name", "trigger_on", "delivery": {"version", "url"}}` shape. A subscription listens for one trigger.
+- The deprecated `CreateWebhookSubscriptionRequest` constructor still sends the legacy `{"url", "name", "triggers"}` shape.
+- Incoming events are signed with RSA-SHA256 over the raw body and the Base64 signature is sent in `X-Signature-SHA256`. Verify it with `WebhookSignatureVerifier` (`sandbox()` / `production()`), which supports multiple keys for rotation. The HMAC-based `WebhookVerifier` is deprecated.
+- `X-Delivery-Id` is unique per notification and is the natural key for replay protection (`WebhookReplayProtector`).
 
 ## Activity
 
@@ -151,8 +185,23 @@ Supported filters in `ListActivitiesRequest`:
 
 | SDK Method | HTTP | Path | Auth | Request | Response |
 |---|---|---|---|---|---|
-| `userTokens()->create()` | `POST` | `/oauth/token` | none | `CreateUserTokenRequest` | `UserToken` |
+| `userTokens()->create()` | `POST` | `/oauth/token` | client basic | `CreateUserTokenRequest` | `UserToken` |
+
+Request builders (all send `Authorization: Basic base64(clientId:clientSecret)`; the client secret is never put in the form body):
+
+| Builder | Form body |
+|---|---|
+| `CreateUserTokenRequest::clientCredentials($clientId, $clientSecret)` | `grant_type=client_credentials` |
+| `CreateUserTokenRequest::authorizationCode($clientId, $clientSecret, $code, $redirectUri)` | `grant_type=authorization_code`, `client_id`, `code`, `redirect_uri` |
+| `CreateUserTokenRequest::refreshToken($clientId, $clientSecret, $refreshToken)` | `grant_type=refresh_token`, `refresh_token` |
+| `CreateUserTokenRequest::registrationCodeForEmail($clientId, $clientSecret, $email, $registrationCode)` | `grant_type=registration_code`, `client_id`, `email`, `registration_code` |
+| `CreateUserTokenRequest::registrationCode(...)` (deprecated, no `email`) | `grant_type=registration_code`, `client_id`, `registration_code` |
+
+`UserToken` fields: `accessToken`, `refreshToken`, `tokenType`, `expiresIn`, `expiresAt`, `refreshTokenExpiresIn`, `refreshTokenExpiresAt`, `scope`, `createdAt`. `expiresAt($now = null)` returns `expires_at`, or `$now + expires_in` when Wise omits it.
+
+`Auth\ClientCredentialsTokenProvider` implements `AccessTokenProviderInterface`: it fetches a client credentials token, caches it in memory, and fetches a new one when the token is within the expiry margin (default 60 seconds).
 
 Notes:
-- This endpoint exchanges OAuth-related grant payloads.
+- Client credentials tokens do not include a refresh token; request a new one when the token expires (12 hours).
+- Wise allows only one valid user access token at a time; a new token invalidates the previous one.
 - In practice, `clientId` / `clientSecret` flows are part of Wise's partner-oriented OAuth setup.

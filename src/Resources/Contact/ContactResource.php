@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Contact;
+namespace Theocode\Wise\Resources\Contact;
 
-use Sujip\Wise\Resources\Contact\Models\Contact;
-use Sujip\Wise\Resources\Contact\Requests\CreateContactRequest;
-use Sujip\Wise\Resources\Resource;
+use Theocode\Wise\Resources\Contact\Models\Contact;
+use Theocode\Wise\Resources\Contact\Requests\CreateContactRequest;
+use Theocode\Wise\Resources\Resource;
 
 final class ContactResource extends Resource
 {

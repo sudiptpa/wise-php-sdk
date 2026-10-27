@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Tests\Unit\Resources\BankAccountDetails;
+namespace Theocode\Wise\Tests\Unit\Resources\BankAccountDetails;
 
 use PHPUnit\Framework\TestCase;
-use Sujip\Wise\Resources\BankAccountDetails\Requests\CreateBankDetailsRequest;
-use Sujip\Wise\Resources\BankAccountDetails\Requests\CreateDetailsOrderRequest;
-use Sujip\Wise\Resources\BankAccountDetails\Requests\MarkPaymentReturnRequest;
-use Sujip\Wise\Tests\Support\FakeTransport;
-use Sujip\Wise\Tests\Support\Psr7Factory;
-use Sujip\Wise\Tests\Support\TestClientFactory;
+use Theocode\Wise\Resources\BankAccountDetails\Requests\CreateBankDetailsRequest;
+use Theocode\Wise\Resources\BankAccountDetails\Requests\CreateDetailsOrderRequest;
+use Theocode\Wise\Resources\BankAccountDetails\Requests\MarkPaymentReturnRequest;
+use Theocode\Wise\Tests\Support\FakeTransport;
+use Theocode\Wise\Tests\Support\Psr7Factory;
+use Theocode\Wise\Tests\Support\TestClientFactory;
 
 final class BankAccountDetailsResourceTest extends TestCase
 {

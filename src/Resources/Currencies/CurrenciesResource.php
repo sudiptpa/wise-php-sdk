@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Currencies;
+namespace Theocode\Wise\Resources\Currencies;
 
-use Sujip\Wise\Resources\Currencies\Collections\CurrencyCollection;
-use Sujip\Wise\Resources\Currencies\Models\Currency;
-use Sujip\Wise\Resources\Resource;
+use Theocode\Wise\Resources\Currencies\Collections\CurrencyCollection;
+use Theocode\Wise\Resources\Currencies\Models\Currency;
+use Theocode\Wise\Resources\Resource;
 
 final class CurrenciesResource extends Resource
 {

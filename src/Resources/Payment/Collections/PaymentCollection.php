@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Payment\Collections;
+namespace Theocode\Wise\Resources\Payment\Collections;
 
-use Sujip\Wise\Resources\Payment\Models\Payment;
-use Sujip\Wise\Support\Collection;
+use Theocode\Wise\Resources\Payment\Models\Payment;
+use Theocode\Wise\Support\Collection;
 
 /**
  * @extends Collection<Payment>

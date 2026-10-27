@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Activity\Models;
+namespace Theocode\Wise\Resources\Activity\Models;
 
-use Sujip\Wise\Contracts\Hydratable;
-use Sujip\Wise\Hydration\Cast;
-use Sujip\Wise\Resources\Activity\Enums\ActivityStatus;
+use Theocode\Wise\Contracts\Hydratable;
+use Theocode\Wise\Hydration\Cast;
+use Theocode\Wise\Resources\Activity\Enums\ActivityStatus;
 
 final readonly class Activity implements Hydratable
 {

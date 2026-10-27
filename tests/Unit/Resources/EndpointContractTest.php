@@ -2,33 +2,34 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Tests\Unit\Resources;
+namespace Theocode\Wise\Tests\Unit\Resources;
 
 use PHPUnit\Framework\TestCase;
-use Sujip\Wise\Resources\Address\Requests\CreateAddressRequest;
-use Sujip\Wise\Resources\Address\Requests\ResolveAddressRequirementsRequest;
-use Sujip\Wise\Resources\Balance\Requests\AddExcessMoneyAccountRequest;
-use Sujip\Wise\Resources\Balance\Requests\CreateBalanceMovementRequest;
-use Sujip\Wise\Resources\Balance\Requests\CreateBalanceRequest;
-use Sujip\Wise\Resources\BalanceStatement\Requests\GetBalanceStatementRequest;
-use Sujip\Wise\Resources\BankAccountDetails\Requests\CreateBankDetailsRequest;
-use Sujip\Wise\Resources\BankAccountDetails\Requests\CreateDetailsOrderRequest;
-use Sujip\Wise\Resources\BankAccountDetails\Requests\MarkPaymentReturnRequest;
-use Sujip\Wise\Resources\Contact\Requests\CreateContactRequest;
-use Sujip\Wise\Resources\Payment\Requests\FundTransferRequest;
-use Sujip\Wise\Resources\Quote\Requests\CreateAuthenticatedQuoteRequest;
-use Sujip\Wise\Resources\Quote\Requests\UpdateQuoteRequest;
-use Sujip\Wise\Resources\Rate\Requests\ListRatesRequest;
-use Sujip\Wise\Resources\RecipientAccount\Requests\CreateRecipientAccountRequest;
-use Sujip\Wise\Resources\Transfer\Requests\TransferRequirementsRequest;
-use Sujip\Wise\Resources\User\Requests\CreateRegistrationCodeRequest;
-use Sujip\Wise\Resources\User\Requests\UpdateUserContactEmailRequest;
-use Sujip\Wise\Resources\User\Requests\UserExistsRequest;
-use Sujip\Wise\Resources\UserTokens\Requests\CreateUserTokenRequest;
-use Sujip\Wise\Resources\Webhook\Requests\CreateWebhookSubscriptionRequest;
-use Sujip\Wise\Tests\Support\FakeTransport;
-use Sujip\Wise\Tests\Support\Psr7Factory;
-use Sujip\Wise\Tests\Support\TestClientFactory;
+use Theocode\Wise\Resources\Address\Requests\CreateAddressRequest;
+use Theocode\Wise\Resources\Address\Requests\ResolveAddressRequirementsRequest;
+use Theocode\Wise\Resources\Balance\Requests\AddExcessMoneyAccountRequest;
+use Theocode\Wise\Resources\Balance\Requests\CreateBalanceMovementRequest;
+use Theocode\Wise\Resources\Balance\Requests\CreateBalanceRequest;
+use Theocode\Wise\Resources\BalanceStatement\Requests\GetBalanceStatementRequest;
+use Theocode\Wise\Resources\BankAccountDetails\Requests\CreateBankDetailsRequest;
+use Theocode\Wise\Resources\BankAccountDetails\Requests\CreateDetailsOrderRequest;
+use Theocode\Wise\Resources\BankAccountDetails\Requests\MarkPaymentReturnRequest;
+use Theocode\Wise\Resources\Contact\Requests\CreateContactRequest;
+use Theocode\Wise\Resources\Payment\Requests\FundTransferRequest;
+use Theocode\Wise\Resources\Quote\Requests\CreateAuthenticatedQuoteRequest;
+use Theocode\Wise\Resources\Quote\Requests\UpdateQuoteRequest;
+use Theocode\Wise\Resources\Rate\Requests\ListRatesRequest;
+use Theocode\Wise\Resources\RecipientAccount\Requests\CreateRecipientAccountRequest;
+use Theocode\Wise\Resources\Transfer\Requests\ListTransfersRequest;
+use Theocode\Wise\Resources\Transfer\Requests\TransferRequirementsRequest;
+use Theocode\Wise\Resources\User\Requests\CreateRegistrationCodeRequest;
+use Theocode\Wise\Resources\User\Requests\UpdateUserContactEmailRequest;
+use Theocode\Wise\Resources\User\Requests\UserExistsRequest;
+use Theocode\Wise\Resources\UserTokens\Requests\CreateUserTokenRequest;
+use Theocode\Wise\Resources\Webhook\Requests\CreateWebhookSubscriptionRequest;
+use Theocode\Wise\Tests\Support\FakeTransport;
+use Theocode\Wise\Tests\Support\Psr7Factory;
+use Theocode\Wise\Tests\Support\TestClientFactory;
 
 final class EndpointContractTest extends TestCase
 {
@@ -69,6 +70,35 @@ final class EndpointContractTest extends TestCase
         self::assertSame('/v1/accounts/2001', $transport->requests()[1]->getUri()->getPath());
     }
 
+    public function test_recipient_account_requirements_contract(): void
+    {
+        $fixture = file_get_contents(__DIR__.'/../../Fixtures/wise/account_requirements.json');
+        $transport = new FakeTransport([
+            Psr7Factory::response(200, (string) $fixture),
+            Psr7Factory::response(200, (string) $fixture),
+            Psr7Factory::response(200, (string) $fixture),
+        ]);
+        $client = TestClientFactory::make($transport);
+
+        $client->recipientAccount()->requirementsForQuote('q-1');
+        self::assertSame('GET', $transport->requests()[0]->getMethod());
+        self::assertSame('/v1/quotes/q-1/account-requirements', $transport->requests()[0]->getUri()->getPath());
+
+        $client->recipientAccount()->refreshRequirementsForQuote('q-1', new CreateRecipientAccountRequest(
+            profile: 123,
+            accountHolderName: 'Jane Doe',
+            currency: 'EUR',
+            type: 'iban',
+            details: ['iban' => 'DE123'],
+        ));
+        self::assertSame('POST', $transport->requests()[1]->getMethod());
+        self::assertSame('/v1/quotes/q-1/account-requirements', $transport->requests()[1]->getUri()->getPath());
+
+        $client->recipientAccount()->requirementsForRoute('GBP', 'EUR', 1000.0);
+        self::assertSame('GET', $transport->requests()[2]->getMethod());
+        self::assertSame('/v1/account-requirements', $transport->requests()[2]->getUri()->getPath());
+    }
+
     public function test_transfer_get_and_requirements_contract(): void
     {
         $fixture = file_get_contents(__DIR__.'/../../Fixtures/wise/transfer.json');
@@ -85,6 +115,27 @@ final class EndpointContractTest extends TestCase
         $client->transfer()->requirements(new TransferRequirementsRequest(['targetAccount' => 2001, 'quoteUuid' => 'q-1']));
         self::assertSame('POST', $transport->requests()[1]->getMethod());
         self::assertSame('/v1/transfer-requirements', $transport->requests()[1]->getUri()->getPath());
+    }
+
+    public function test_transfer_list_and_cancel_contract(): void
+    {
+        $full = file_get_contents(__DIR__.'/../../Fixtures/wise/transfer_full.json');
+        $list = file_get_contents(__DIR__.'/../../Fixtures/wise/transfer_list.json');
+        $transport = new FakeTransport([
+            Psr7Factory::response(200, (string) $list),
+            Psr7Factory::response(200, (string) $full),
+        ]);
+        $client = TestClientFactory::make($transport);
+
+        $client->transfer()->list(new ListTransfersRequest(profile: 123, limit: 10));
+        self::assertSame('GET', $transport->requests()[0]->getMethod());
+        self::assertSame('/v1/transfers', $transport->requests()[0]->getUri()->getPath());
+        self::assertStringContainsString('profile=123', $transport->requests()[0]->getUri()->getQuery());
+        self::assertStringContainsString('limit=10', $transport->requests()[0]->getUri()->getQuery());
+
+        $client->transfer()->cancel(3001);
+        self::assertSame('PUT', $transport->requests()[1]->getMethod());
+        self::assertSame('/v1/transfers/3001/cancel', $transport->requests()[1]->getUri()->getPath());
     }
 
     public function test_payment_fund_transfer_contract(): void
@@ -111,7 +162,7 @@ final class EndpointContractTest extends TestCase
         ]);
         $client = TestClientFactory::make($transport);
 
-        $client->webhook()->createApplicationSubscription('app-key', new CreateWebhookSubscriptionRequest('https://example.test/hook', 'Name'));
+        $client->webhook()->createApplicationSubscription('app-key', CreateWebhookSubscriptionRequest::for('Name', 'transfers#state-change', 'https://example.test/hook'));
         self::assertSame('POST', $transport->requests()[0]->getMethod());
         self::assertSame('/v3/applications/app-key/subscriptions', $transport->requests()[0]->getUri()->getPath());
 
@@ -143,7 +194,7 @@ final class EndpointContractTest extends TestCase
         ]);
         $client = TestClientFactory::make($transport);
 
-        $client->webhook()->createProfileSubscription(123, new CreateWebhookSubscriptionRequest('https://example.test/hook', 'Name'));
+        $client->webhook()->createProfileSubscription(123, CreateWebhookSubscriptionRequest::for('Name', 'transfers#state-change', 'https://example.test/hook'));
         self::assertSame('POST', $transport->requests()[0]->getMethod());
         self::assertSame('/v3/profiles/123/subscriptions', $transport->requests()[0]->getUri()->getPath());
 

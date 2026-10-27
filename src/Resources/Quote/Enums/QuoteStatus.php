@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Quote\Enums;
+namespace Theocode\Wise\Resources\Quote\Enums;
 
 enum QuoteStatus: string
 {

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Tests\Unit\Resources\Address;
+namespace Theocode\Wise\Tests\Unit\Resources\Address;
 
 use PHPUnit\Framework\TestCase;
-use Sujip\Wise\Resources\Address\Requests\CreateAddressRequest;
-use Sujip\Wise\Resources\Address\Requests\ResolveAddressRequirementsRequest;
-use Sujip\Wise\Tests\Support\FakeTransport;
-use Sujip\Wise\Tests\Support\Psr7Factory;
-use Sujip\Wise\Tests\Support\TestClientFactory;
+use Theocode\Wise\Resources\Address\Requests\CreateAddressRequest;
+use Theocode\Wise\Resources\Address\Requests\ResolveAddressRequirementsRequest;
+use Theocode\Wise\Tests\Support\FakeTransport;
+use Theocode\Wise\Tests\Support\Psr7Factory;
+use Theocode\Wise\Tests\Support\TestClientFactory;
 
 final class AddressResourceTest extends TestCase
 {

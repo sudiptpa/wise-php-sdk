@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Tests\Unit\Resources;
+namespace Theocode\Wise\Tests\Unit\Resources;
 
 use PHPUnit\Framework\TestCase;
 
@@ -53,6 +53,7 @@ final class EndpointPathAllowlistTest extends TestCase
             'DELETE /v3/applications/{$clientKey}/subscriptions/{$subscriptionId}',
             'DELETE /v3/profiles/{$profileId}/subscriptions/{$subscriptionId}',
             'DELETE /v4/profiles/{$profileId}/balances/{$balanceId}',
+            'GET /v1/account-requirements',
             'GET /v1/accounts',
             'GET /v1/accounts/{$accountId}',
             'GET /v1/address-requirements',
@@ -65,7 +66,9 @@ final class EndpointPathAllowlistTest extends TestCase
             'GET /v1/profiles/{$profileId}/balance-capacity',
             'GET /v1/profiles/{$profileId}/balance-statements/{$balanceId}/statement.json',
             'GET /v1/profiles/{$profileId}/total-funds/{$normalizedCurrency}',
+            'GET /v1/quotes/{$quoteId}/account-requirements',
             'GET /v1/rates',
+            'GET /v1/transfers',
             'GET /v1/transfers/{$transferId}',
             'GET /v1/users/{$userId}',
             'GET /v1/users/{$userId}/contact-email',
@@ -87,6 +90,7 @@ final class EndpointPathAllowlistTest extends TestCase
             'POST /v1/profiles/{$profileId}/account-details-orders',
             'POST /v1/profiles/{$profileId}/account-details/payments/{$paymentId}/returns',
             'POST /v1/profiles/{$profileId}/excess-money-account',
+            'POST /v1/quotes/{$quoteId}/account-requirements',
             'POST /v1/transfer-requirements',
             'POST /v1/transfers',
             'POST /v1/user/signup/registration_code',
@@ -101,6 +105,7 @@ final class EndpointPathAllowlistTest extends TestCase
             'POST /v3/profiles/{$profileId}/transfers/{$transferId}/payments',
             'POST /v3/quotes',
             'POST /v4/profiles/{$profileId}/balances',
+            'PUT /v1/transfers/{$transferId}/cancel',
             'PUT /v1/users/{$userId}/contact-email',
         ];
 

@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Sujip\Wise\Auth\AuthMode;
-use Sujip\Wise\Auth\StaticAccessTokenProvider;
-use Sujip\Wise\Config\ClientConfig;
-use Sujip\Wise\Contracts\TransportInterface;
-use Sujip\Wise\Exceptions\WiseException;
-use Sujip\Wise\Resources\Activity\Requests\ListActivitiesRequest;
-use Sujip\Wise\Resources\Quote\Requests\CreateAuthenticatedQuoteRequest;
-use Sujip\Wise\Tests\Support\Psr7Factory;
-use Sujip\Wise\Wise;
+use Theocode\Wise\Auth\AuthMode;
+use Theocode\Wise\Auth\StaticAccessTokenProvider;
+use Theocode\Wise\Config\ClientConfig;
+use Theocode\Wise\Contracts\TransportInterface;
+use Theocode\Wise\Exceptions\WiseException;
+use Theocode\Wise\Resources\Activity\Requests\ListActivitiesRequest;
+use Theocode\Wise\Resources\Quote\Requests\CreateAuthenticatedQuoteRequest;
+use Theocode\Wise\Tests\Support\Psr7Factory;
+use Theocode\Wise\Wise;
 
 require __DIR__.'/../vendor/autoload.php';
 
@@ -29,7 +29,7 @@ $config = new ClientConfig(
     authMode: $mode === 'oauth2' ? AuthMode::OAuth2 : AuthMode::ApiToken,
     accessTokenProvider: new StaticAccessTokenProvider($accessToken),
     baseUrl: $baseUrl,
-    userAgent: 'sudiptpa/wise-php-sdk-sandbox-check',
+    userAgent: 'theocode12/wise-php-sdk-sandbox-check',
 );
 
 $factory = new Psr7Factory;

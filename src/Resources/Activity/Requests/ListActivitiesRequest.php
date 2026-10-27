@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Activity\Requests;
+namespace Theocode\Wise\Resources\Activity\Requests;
 
 final readonly class ListActivitiesRequest
 {

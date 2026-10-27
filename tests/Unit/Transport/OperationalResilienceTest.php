@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Tests\Unit\Transport;
+namespace Theocode\Wise\Tests\Unit\Transport;
 
 use PHPUnit\Framework\TestCase;
-use Sujip\Wise\Auth\AuthMode;
-use Sujip\Wise\Auth\StaticAccessTokenProvider;
-use Sujip\Wise\Config\ClientConfig;
-use Sujip\Wise\Resources\Quote\Requests\CreateAuthenticatedQuoteRequest;
-use Sujip\Wise\Tests\Support\FakeTransport;
-use Sujip\Wise\Tests\Support\Psr7Factory;
-use Sujip\Wise\Tests\Support\TestClientFactory;
+use Theocode\Wise\Auth\AuthMode;
+use Theocode\Wise\Auth\StaticAccessTokenProvider;
+use Theocode\Wise\Config\ClientConfig;
+use Theocode\Wise\Resources\Quote\Requests\CreateAuthenticatedQuoteRequest;
+use Theocode\Wise\Tests\Support\FakeTransport;
+use Theocode\Wise\Tests\Support\Psr7Factory;
+use Theocode\Wise\Tests\Support\TestClientFactory;
 
 final class OperationalResilienceTest extends TestCase
 {

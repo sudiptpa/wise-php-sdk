@@ -12,9 +12,9 @@ composer require guzzlehttp/guzzle http-interop/http-factory-guzzle
 use GuzzleHttp\Client;
 use Http\Factory\Guzzle\RequestFactory;
 use Http\Factory\Guzzle\StreamFactory;
-use Sujip\Wise\Config\ClientConfig;
-use Sujip\Wise\Transport\Psr18Transport;
-use Sujip\Wise\Wise;
+use Theocode\Wise\Config\ClientConfig;
+use Theocode\Wise\Transport\Psr18Transport;
+use Theocode\Wise\Wise;
 
 $config = ClientConfig::apiToken('your-token', ClientConfig::SANDBOX_BASE_URL);
 

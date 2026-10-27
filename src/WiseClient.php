@@ -2,38 +2,38 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise;
+namespace Theocode\Wise;
 
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
-use Sujip\Wise\Auth\TokenAuthenticator;
-use Sujip\Wise\Config\ClientConfig;
-use Sujip\Wise\Contracts\TransportInterface;
-use Sujip\Wise\Exceptions\ApiException;
-use Sujip\Wise\Exceptions\AuthException;
-use Sujip\Wise\Exceptions\RateLimitException;
-use Sujip\Wise\Exceptions\TransportException;
-use Sujip\Wise\Exceptions\ValidationException;
-use Sujip\Wise\Hydration\Hydrator;
-use Sujip\Wise\Resources\Activity\ActivityResource;
-use Sujip\Wise\Resources\Address\AddressResource;
-use Sujip\Wise\Resources\Balance\BalanceResource;
-use Sujip\Wise\Resources\BalanceStatement\BalanceStatementResource;
-use Sujip\Wise\Resources\BankAccountDetails\BankAccountDetailsResource;
-use Sujip\Wise\Resources\Contact\ContactResource;
-use Sujip\Wise\Resources\Currencies\CurrenciesResource;
-use Sujip\Wise\Resources\Payment\PaymentResource;
-use Sujip\Wise\Resources\Profile\ProfileResource;
-use Sujip\Wise\Resources\Quote\QuoteResource;
-use Sujip\Wise\Resources\Rate\RateResource;
-use Sujip\Wise\Resources\RecipientAccount\RecipientAccountResource;
-use Sujip\Wise\Resources\Transfer\TransferResource;
-use Sujip\Wise\Resources\User\UserResource;
-use Sujip\Wise\Resources\UserTokens\UserTokensResource;
-use Sujip\Wise\Resources\Webhook\WebhookResource;
-use Sujip\Wise\Support\Arr;
-use Sujip\Wise\Support\Json;
+use Theocode\Wise\Auth\TokenAuthenticator;
+use Theocode\Wise\Config\ClientConfig;
+use Theocode\Wise\Contracts\TransportInterface;
+use Theocode\Wise\Exceptions\ApiException;
+use Theocode\Wise\Exceptions\AuthException;
+use Theocode\Wise\Exceptions\RateLimitException;
+use Theocode\Wise\Exceptions\TransportException;
+use Theocode\Wise\Exceptions\ValidationException;
+use Theocode\Wise\Hydration\Hydrator;
+use Theocode\Wise\Resources\Activity\ActivityResource;
+use Theocode\Wise\Resources\Address\AddressResource;
+use Theocode\Wise\Resources\Balance\BalanceResource;
+use Theocode\Wise\Resources\BalanceStatement\BalanceStatementResource;
+use Theocode\Wise\Resources\BankAccountDetails\BankAccountDetailsResource;
+use Theocode\Wise\Resources\Contact\ContactResource;
+use Theocode\Wise\Resources\Currencies\CurrenciesResource;
+use Theocode\Wise\Resources\Payment\PaymentResource;
+use Theocode\Wise\Resources\Profile\ProfileResource;
+use Theocode\Wise\Resources\Quote\QuoteResource;
+use Theocode\Wise\Resources\Rate\RateResource;
+use Theocode\Wise\Resources\RecipientAccount\RecipientAccountResource;
+use Theocode\Wise\Resources\Transfer\TransferResource;
+use Theocode\Wise\Resources\User\UserResource;
+use Theocode\Wise\Resources\UserTokens\UserTokensResource;
+use Theocode\Wise\Resources\Webhook\WebhookResource;
+use Theocode\Wise\Support\Arr;
+use Theocode\Wise\Support\Json;
 use Throwable;
 
 final readonly class WiseClient

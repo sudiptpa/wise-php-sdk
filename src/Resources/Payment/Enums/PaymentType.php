@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Payment\Enums;
+namespace Theocode\Wise\Resources\Payment\Enums;
 
 enum PaymentType: string
 {

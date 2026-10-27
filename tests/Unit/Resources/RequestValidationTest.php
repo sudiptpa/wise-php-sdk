@@ -2,32 +2,36 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Tests\Unit\Resources;
+namespace Theocode\Wise\Tests\Unit\Resources;
 
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
-use Sujip\Wise\Exceptions\ValidationException;
-use Sujip\Wise\Resources\Address\Requests\CreateAddressRequest;
-use Sujip\Wise\Resources\Address\Requests\ResolveAddressRequirementsRequest;
-use Sujip\Wise\Resources\Balance\Requests\AddExcessMoneyAccountRequest;
-use Sujip\Wise\Resources\Balance\Requests\CreateBalanceMovementRequest;
-use Sujip\Wise\Resources\Balance\Requests\CreateBalanceRequest;
-use Sujip\Wise\Resources\BankAccountDetails\Requests\CreateBankDetailsRequest;
-use Sujip\Wise\Resources\BankAccountDetails\Requests\CreateDetailsOrderRequest;
-use Sujip\Wise\Resources\BankAccountDetails\Requests\MarkPaymentReturnRequest;
-use Sujip\Wise\Resources\Contact\Requests\CreateContactRequest;
-use Sujip\Wise\Resources\Payment\Requests\FundTransferRequest;
-use Sujip\Wise\Resources\Quote\Requests\CreateAuthenticatedQuoteRequest;
-use Sujip\Wise\Resources\Quote\Requests\CreateUnauthenticatedQuoteRequest;
-use Sujip\Wise\Resources\Quote\Requests\UpdateQuoteRequest;
-use Sujip\Wise\Resources\Rate\Requests\ListRatesRequest;
-use Sujip\Wise\Resources\RecipientAccount\Requests\CreateRecipientAccountRequest;
-use Sujip\Wise\Resources\Transfer\Requests\CreateTransferRequest;
-use Sujip\Wise\Resources\Transfer\Requests\TransferRequirementsRequest;
-use Sujip\Wise\Resources\User\Requests\CreateRegistrationCodeRequest;
-use Sujip\Wise\Resources\User\Requests\UpdateUserContactEmailRequest;
-use Sujip\Wise\Resources\User\Requests\UserExistsRequest;
-use Sujip\Wise\Resources\UserTokens\Requests\CreateUserTokenRequest;
-use Sujip\Wise\Resources\Webhook\Requests\CreateWebhookSubscriptionRequest;
+use Theocode\Wise\Exceptions\ValidationException;
+use Theocode\Wise\Resources\Address\Requests\CreateAddressRequest;
+use Theocode\Wise\Resources\Address\Requests\ResolveAddressRequirementsRequest;
+use Theocode\Wise\Resources\Balance\Requests\AddExcessMoneyAccountRequest;
+use Theocode\Wise\Resources\Balance\Requests\CreateBalanceMovementRequest;
+use Theocode\Wise\Resources\Balance\Requests\CreateBalanceRequest;
+use Theocode\Wise\Resources\BankAccountDetails\Requests\CreateBankDetailsRequest;
+use Theocode\Wise\Resources\BankAccountDetails\Requests\CreateDetailsOrderRequest;
+use Theocode\Wise\Resources\BankAccountDetails\Requests\MarkPaymentReturnRequest;
+use Theocode\Wise\Resources\Contact\Requests\CreateContactRequest;
+use Theocode\Wise\Resources\Payment\Requests\FundTransferRequest;
+use Theocode\Wise\Resources\Quote\Requests\CreateAuthenticatedQuoteRequest;
+use Theocode\Wise\Resources\Quote\Requests\CreateUnauthenticatedQuoteRequest;
+use Theocode\Wise\Resources\Quote\Requests\UpdateQuoteRequest;
+use Theocode\Wise\Resources\Rate\Requests\ListRatesRequest;
+use Theocode\Wise\Resources\RecipientAccount\Requests\AccountRequirementsOptions;
+use Theocode\Wise\Resources\RecipientAccount\Requests\CreateRecipientAccountRequest;
+use Theocode\Wise\Resources\Transfer\Enums\TransferStatus;
+use Theocode\Wise\Resources\Transfer\Requests\CreateTransferRequest;
+use Theocode\Wise\Resources\Transfer\Requests\ListTransfersRequest;
+use Theocode\Wise\Resources\Transfer\Requests\TransferRequirementsRequest;
+use Theocode\Wise\Resources\User\Requests\CreateRegistrationCodeRequest;
+use Theocode\Wise\Resources\User\Requests\UpdateUserContactEmailRequest;
+use Theocode\Wise\Resources\User\Requests\UserExistsRequest;
+use Theocode\Wise\Resources\UserTokens\Requests\CreateUserTokenRequest;
+use Theocode\Wise\Resources\Webhook\Requests\CreateWebhookSubscriptionRequest;
 
 final class RequestValidationTest extends TestCase
 {
@@ -67,6 +71,12 @@ final class RequestValidationTest extends TestCase
         new CreateRecipientAccountRequest(0, 'Jane', 'EUR', 'iban', []);
     }
 
+    public function test_account_requirements_options_rejects_invalid_originator_legal_entity_type(): void
+    {
+        $this->expectException(ValidationException::class);
+        new AccountRequirementsOptions(originatorLegalEntityType: 'SOLE_TRADER');
+    }
+
     public function test_create_transfer_request_rejects_invalid_identifiers(): void
     {
         $this->expectException(ValidationException::class);
@@ -79,6 +89,39 @@ final class RequestValidationTest extends TestCase
         new TransferRequirementsRequest([]);
     }
 
+    public function test_list_transfers_request_rejects_non_positive_profile(): void
+    {
+        $this->expectException(ValidationException::class);
+        new ListTransfersRequest(profile: 0);
+    }
+
+    public function test_list_transfers_request_rejects_invalid_limit(): void
+    {
+        $this->expectException(ValidationException::class);
+        new ListTransfersRequest(limit: 0);
+    }
+
+    public function test_list_transfers_request_rejects_negative_offset(): void
+    {
+        $this->expectException(ValidationException::class);
+        new ListTransfersRequest(offset: -1);
+    }
+
+    public function test_list_transfers_request_serializes_statuses_and_dates(): void
+    {
+        $request = new ListTransfersRequest(
+            statuses: [TransferStatus::Processing, 'cancelled'],
+            createdDateStart: new DateTimeImmutable('2024-03-01'),
+            createdDateEnd: new DateTimeImmutable('2024-03-31'),
+        );
+
+        self::assertSame([
+            'status' => 'processing,cancelled',
+            'createdDateStart' => '2024-03-01',
+            'createdDateEnd' => '2024-03-31',
+        ], $request->toQuery());
+    }
+
     public function test_fund_transfer_request_rejects_unsupported_type(): void
     {
         $this->expectException(ValidationException::class);
@@ -89,6 +132,18 @@ final class RequestValidationTest extends TestCase
     {
         $this->expectException(ValidationException::class);
         new CreateWebhookSubscriptionRequest('not-a-url', 'name');
+    }
+
+    public function test_webhook_subscription_documented_body_rejects_an_empty_trigger(): void
+    {
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('trigger_on cannot be empty.');
+
+        CreateWebhookSubscriptionRequest::for(
+            name: 'Transfers Hook',
+            triggerOn: '  ',
+            url: 'https://example.com/hook',
+        );
     }
 
     public function test_balance_requests_reject_empty_payload(): void
@@ -181,6 +236,7 @@ final class RequestValidationTest extends TestCase
 
         self::assertSame('refresh_token', $payload['grant_type'] ?? null);
         self::assertSame('refresh', $payload['refresh_token'] ?? null);
+        self::assertArrayNotHasKey('client_secret', $payload);
     }
 
     public function test_user_token_request_rejects_empty_client_id(): void

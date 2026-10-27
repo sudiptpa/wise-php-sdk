@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Transport;
+namespace Theocode\Wise\Transport;
 
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Sujip\Wise\Contracts\TransportInterface;
-use Sujip\Wise\Exceptions\TransportException;
+use Theocode\Wise\Contracts\TransportInterface;
+use Theocode\Wise\Exceptions\TransportException;
 use Throwable;
 
 final readonly class Psr18Transport implements TransportInterface

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Contact\Models;
+namespace Theocode\Wise\Resources\Contact\Models;
 
-use Sujip\Wise\Contracts\Hydratable;
-use Sujip\Wise\Hydration\Cast;
+use Theocode\Wise\Contracts\Hydratable;
+use Theocode\Wise\Hydration\Cast;
 
 final readonly class Contact implements Hydratable
 {

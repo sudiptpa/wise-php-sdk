@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\User;
+namespace Theocode\Wise\Resources\User;
 
-use Sujip\Wise\Resources\Resource;
-use Sujip\Wise\Resources\User\Models\RegistrationCode;
-use Sujip\Wise\Resources\User\Models\User;
-use Sujip\Wise\Resources\User\Models\UserContactEmail;
-use Sujip\Wise\Resources\User\Models\UserExistsResult;
-use Sujip\Wise\Resources\User\Requests\CreateRegistrationCodeRequest;
-use Sujip\Wise\Resources\User\Requests\UpdateUserContactEmailRequest;
-use Sujip\Wise\Resources\User\Requests\UserExistsRequest;
+use Theocode\Wise\Resources\Resource;
+use Theocode\Wise\Resources\User\Models\RegistrationCode;
+use Theocode\Wise\Resources\User\Models\User;
+use Theocode\Wise\Resources\User\Models\UserContactEmail;
+use Theocode\Wise\Resources\User\Models\UserExistsResult;
+use Theocode\Wise\Resources\User\Requests\CreateRegistrationCodeRequest;
+use Theocode\Wise\Resources\User\Requests\UpdateUserContactEmailRequest;
+use Theocode\Wise\Resources\User\Requests\UserExistsRequest;
 
 final class UserResource extends Resource
 {

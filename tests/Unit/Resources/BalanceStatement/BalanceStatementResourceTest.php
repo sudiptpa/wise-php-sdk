@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Tests\Unit\Resources\BalanceStatement;
+namespace Theocode\Wise\Tests\Unit\Resources\BalanceStatement;
 
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
-use Sujip\Wise\Resources\BalanceStatement\Requests\GetBalanceStatementRequest;
-use Sujip\Wise\Tests\Support\FakeTransport;
-use Sujip\Wise\Tests\Support\Psr7Factory;
-use Sujip\Wise\Tests\Support\TestClientFactory;
+use Theocode\Wise\Resources\BalanceStatement\Requests\GetBalanceStatementRequest;
+use Theocode\Wise\Tests\Support\FakeTransport;
+use Theocode\Wise\Tests\Support\Psr7Factory;
+use Theocode\Wise\Tests\Support\TestClientFactory;
 
 final class BalanceStatementResourceTest extends TestCase
 {

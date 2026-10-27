@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\BalanceStatement;
+namespace Theocode\Wise\Resources\BalanceStatement;
 
-use Sujip\Wise\Resources\BalanceStatement\Models\BalanceStatement;
-use Sujip\Wise\Resources\BalanceStatement\Requests\GetBalanceStatementRequest;
-use Sujip\Wise\Resources\Resource;
+use Theocode\Wise\Resources\BalanceStatement\Models\BalanceStatement;
+use Theocode\Wise\Resources\BalanceStatement\Requests\GetBalanceStatementRequest;
+use Theocode\Wise\Resources\Resource;
 
 final class BalanceStatementResource extends Resource
 {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\User\Requests;
+namespace Theocode\Wise\Resources\User\Requests;
 
-use Sujip\Wise\Exceptions\ValidationException;
+use Theocode\Wise\Exceptions\ValidationException;
 
 final readonly class UpdateUserContactEmailRequest
 {

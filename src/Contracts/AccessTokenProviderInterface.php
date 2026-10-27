@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Contracts;
+namespace Theocode\Wise\Contracts;
 
 interface AccessTokenProviderInterface
 {

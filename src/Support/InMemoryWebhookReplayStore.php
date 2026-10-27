@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Support;
+namespace Theocode\Wise\Support;
 
-use Sujip\Wise\Contracts\WebhookReplayStoreInterface;
+use Theocode\Wise\Contracts\WebhookReplayStoreInterface;
 
 final class InMemoryWebhookReplayStore implements WebhookReplayStoreInterface
 {

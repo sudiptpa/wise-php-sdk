@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\BalanceStatement\Requests;
+namespace Theocode\Wise\Resources\BalanceStatement\Requests;
 
 use DateTimeInterface;
 

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Tests\Support;
+namespace Theocode\Wise\Tests\Support;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Sujip\Wise\Contracts\TransportInterface;
-use Sujip\Wise\Exceptions\TransportException;
+use Theocode\Wise\Contracts\TransportInterface;
+use Theocode\Wise\Exceptions\TransportException;
 
 final class FakeTransport implements TransportInterface
 {

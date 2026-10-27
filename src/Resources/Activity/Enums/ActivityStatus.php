@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Activity\Enums;
+namespace Theocode\Wise\Resources\Activity\Enums;
 
 enum ActivityStatus: string
 {

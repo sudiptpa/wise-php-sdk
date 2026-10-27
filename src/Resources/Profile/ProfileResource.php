@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Profile;
+namespace Theocode\Wise\Resources\Profile;
 
-use Sujip\Wise\Resources\Profile\Models\Profile;
-use Sujip\Wise\Resources\Resource;
-use Sujip\Wise\Support\Collection;
+use Theocode\Wise\Resources\Profile\Models\Profile;
+use Theocode\Wise\Resources\Resource;
+use Theocode\Wise\Support\Collection;
 
 final class ProfileResource extends Resource
 {

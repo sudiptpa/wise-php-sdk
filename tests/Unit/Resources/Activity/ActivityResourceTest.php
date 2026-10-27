@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Tests\Unit\Resources\Activity;
+namespace Theocode\Wise\Tests\Unit\Resources\Activity;
 
 use PHPUnit\Framework\TestCase;
-use Sujip\Wise\Resources\Activity\Enums\ActivityStatus;
-use Sujip\Wise\Resources\Activity\Requests\ListActivitiesRequest;
-use Sujip\Wise\Tests\Support\FakeTransport;
-use Sujip\Wise\Tests\Support\Psr7Factory;
-use Sujip\Wise\Tests\Support\TestClientFactory;
+use Theocode\Wise\Resources\Activity\Enums\ActivityStatus;
+use Theocode\Wise\Resources\Activity\Requests\ListActivitiesRequest;
+use Theocode\Wise\Tests\Support\FakeTransport;
+use Theocode\Wise\Tests\Support\Psr7Factory;
+use Theocode\Wise\Tests\Support\TestClientFactory;
 
 final class ActivityResourceTest extends TestCase
 {

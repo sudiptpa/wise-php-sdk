@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Tests\Unit\Transport;
+namespace Theocode\Wise\Tests\Unit\Transport;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use RuntimeException;
-use Sujip\Wise\Auth\AuthMode;
-use Sujip\Wise\Config\ClientConfig;
-use Sujip\Wise\Contracts\TransportInterface;
-use Sujip\Wise\Exceptions\ApiException;
-use Sujip\Wise\Exceptions\AuthException;
-use Sujip\Wise\Exceptions\RateLimitException;
-use Sujip\Wise\Exceptions\TransportException;
-use Sujip\Wise\Exceptions\ValidationException;
-use Sujip\Wise\Tests\Support\FakeTransport;
-use Sujip\Wise\Tests\Support\Psr7Factory;
-use Sujip\Wise\Tests\Support\TestClientFactory;
+use Theocode\Wise\Auth\AuthMode;
+use Theocode\Wise\Config\ClientConfig;
+use Theocode\Wise\Contracts\TransportInterface;
+use Theocode\Wise\Exceptions\ApiException;
+use Theocode\Wise\Exceptions\AuthException;
+use Theocode\Wise\Exceptions\RateLimitException;
+use Theocode\Wise\Exceptions\TransportException;
+use Theocode\Wise\Exceptions\ValidationException;
+use Theocode\Wise\Tests\Support\FakeTransport;
+use Theocode\Wise\Tests\Support\Psr7Factory;
+use Theocode\Wise\Tests\Support\TestClientFactory;
 
 final class ExceptionMappingTest extends TestCase
 {
@@ -92,7 +92,7 @@ final class ExceptionMappingTest extends TestCase
     {
         $this->expectExceptionMessage('Transport not configured');
 
-        \Sujip\Wise\Wise::client(
+        \Theocode\Wise\Wise::client(
             ClientConfig::apiToken('x'),
             null,
             new Psr7Factory,
@@ -119,7 +119,7 @@ final class ExceptionMappingTest extends TestCase
             }
         };
         $factory = new Psr7Factory;
-        $client = \Sujip\Wise\Wise::client(ClientConfig::apiToken('test-token'), $transport, $factory, $factory);
+        $client = \Theocode\Wise\Wise::client(ClientConfig::apiToken('test-token'), $transport, $factory, $factory);
 
         $this->expectException(TransportException::class);
         $this->expectExceptionMessage('Transport send failed: socket failure');

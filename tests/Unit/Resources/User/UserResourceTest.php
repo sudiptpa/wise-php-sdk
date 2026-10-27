@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Tests\Unit\Resources\User;
+namespace Theocode\Wise\Tests\Unit\Resources\User;
 
 use PHPUnit\Framework\TestCase;
-use Sujip\Wise\Resources\User\Requests\CreateRegistrationCodeRequest;
-use Sujip\Wise\Resources\User\Requests\UpdateUserContactEmailRequest;
-use Sujip\Wise\Resources\User\Requests\UserExistsRequest;
-use Sujip\Wise\Tests\Support\FakeTransport;
-use Sujip\Wise\Tests\Support\Psr7Factory;
-use Sujip\Wise\Tests\Support\TestClientFactory;
+use Theocode\Wise\Resources\User\Requests\CreateRegistrationCodeRequest;
+use Theocode\Wise\Resources\User\Requests\UpdateUserContactEmailRequest;
+use Theocode\Wise\Resources\User\Requests\UserExistsRequest;
+use Theocode\Wise\Tests\Support\FakeTransport;
+use Theocode\Wise\Tests\Support\Psr7Factory;
+use Theocode\Wise\Tests\Support\TestClientFactory;
 
 final class UserResourceTest extends TestCase
 {

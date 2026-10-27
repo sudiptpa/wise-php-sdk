@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Tests\Unit\Transport;
+namespace Theocode\Wise\Tests\Unit\Transport;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
 use Stringable;
-use Sujip\Wise\Tests\Support\Psr7Factory;
-use Sujip\Wise\Transport\Middleware\IdempotencyMiddleware;
-use Sujip\Wise\Transport\Middleware\LoggingMiddleware;
-use Sujip\Wise\Transport\Middleware\RetryMiddleware;
+use Theocode\Wise\Tests\Support\Psr7Factory;
+use Theocode\Wise\Transport\Middleware\IdempotencyMiddleware;
+use Theocode\Wise\Transport\Middleware\LoggingMiddleware;
+use Theocode\Wise\Transport\Middleware\RetryMiddleware;
 
 final class MiddlewareTest extends TestCase
 {

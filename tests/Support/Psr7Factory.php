@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Tests\Support;
+namespace Theocode\Wise\Tests\Support;
 
 use InvalidArgumentException;
 use Psr\Http\Message\RequestFactoryInterface;

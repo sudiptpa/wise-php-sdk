@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Hydration;
+namespace Theocode\Wise\Hydration;
 
-use Sujip\Wise\Contracts\Hydratable;
+use Theocode\Wise\Contracts\Hydratable;
 
 final class Hydrator
 {

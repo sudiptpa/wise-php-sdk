@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Tests\Unit\Resources\Quote;
+namespace Theocode\Wise\Tests\Unit\Resources\Quote;
 
 use PHPUnit\Framework\TestCase;
-use Sujip\Wise\Resources\Quote\Enums\QuoteStatus;
-use Sujip\Wise\Resources\Quote\Requests\CreateAuthenticatedQuoteRequest;
-use Sujip\Wise\Resources\Quote\Requests\UpdateQuoteRequest;
-use Sujip\Wise\Tests\Support\FakeTransport;
-use Sujip\Wise\Tests\Support\Psr7Factory;
-use Sujip\Wise\Tests\Support\TestClientFactory;
+use Theocode\Wise\Resources\Quote\Enums\QuoteStatus;
+use Theocode\Wise\Resources\Quote\Requests\CreateAuthenticatedQuoteRequest;
+use Theocode\Wise\Resources\Quote\Requests\UpdateQuoteRequest;
+use Theocode\Wise\Tests\Support\FakeTransport;
+use Theocode\Wise\Tests\Support\Psr7Factory;
+use Theocode\Wise\Tests\Support\TestClientFactory;
 
 final class QuoteResourceTest extends TestCase
 {
@@ -37,7 +37,7 @@ final class QuoteResourceTest extends TestCase
         $client = TestClientFactory::make($transport);
 
         $client->quote()->createUnauthenticated(
-            new \Sujip\Wise\Resources\Quote\Requests\CreateUnauthenticatedQuoteRequest('USD', 'EUR', 100.0),
+            new \Theocode\Wise\Resources\Quote\Requests\CreateUnauthenticatedQuoteRequest('USD', 'EUR', 100.0),
         );
 
         self::assertSame('/v3/quotes', $transport->lastRequest()->getUri()->getPath());

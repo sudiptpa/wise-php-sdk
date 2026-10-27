@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\BankAccountDetails;
+namespace Theocode\Wise\Resources\BankAccountDetails;
 
-use Sujip\Wise\Resources\BankAccountDetails\Collections\BankAccountDetailsCollection;
-use Sujip\Wise\Resources\BankAccountDetails\Collections\BankAccountDetailsOrderCollection;
-use Sujip\Wise\Resources\BankAccountDetails\Models\BankAccountDetail;
-use Sujip\Wise\Resources\BankAccountDetails\Models\BankAccountDetailsOrder;
-use Sujip\Wise\Resources\BankAccountDetails\Models\PaymentReturn;
-use Sujip\Wise\Resources\BankAccountDetails\Requests\CreateBankDetailsRequest;
-use Sujip\Wise\Resources\BankAccountDetails\Requests\CreateDetailsOrderRequest;
-use Sujip\Wise\Resources\BankAccountDetails\Requests\MarkPaymentReturnRequest;
-use Sujip\Wise\Resources\Resource;
+use Theocode\Wise\Resources\BankAccountDetails\Collections\BankAccountDetailsCollection;
+use Theocode\Wise\Resources\BankAccountDetails\Collections\BankAccountDetailsOrderCollection;
+use Theocode\Wise\Resources\BankAccountDetails\Models\BankAccountDetail;
+use Theocode\Wise\Resources\BankAccountDetails\Models\BankAccountDetailsOrder;
+use Theocode\Wise\Resources\BankAccountDetails\Models\PaymentReturn;
+use Theocode\Wise\Resources\BankAccountDetails\Requests\CreateBankDetailsRequest;
+use Theocode\Wise\Resources\BankAccountDetails\Requests\CreateDetailsOrderRequest;
+use Theocode\Wise\Resources\BankAccountDetails\Requests\MarkPaymentReturnRequest;
+use Theocode\Wise\Resources\Resource;
 
 final class BankAccountDetailsResource extends Resource
 {

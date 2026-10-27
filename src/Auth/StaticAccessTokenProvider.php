@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Auth;
+namespace Theocode\Wise\Auth;
 
-use Sujip\Wise\Contracts\AccessTokenProviderInterface;
+use Theocode\Wise\Contracts\AccessTokenProviderInterface;
 
 final readonly class StaticAccessTokenProvider implements AccessTokenProviderInterface
 {

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Transport\Middleware;
+namespace Theocode\Wise\Transport\Middleware;
 
 use Closure;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Sujip\Wise\Contracts\MiddlewareInterface;
+use Theocode\Wise\Contracts\MiddlewareInterface;
 
 final class RetryMiddleware implements MiddlewareInterface
 {

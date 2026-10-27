@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Address;
+namespace Theocode\Wise\Resources\Address;
 
-use Sujip\Wise\Resources\Address\Collections\AddressCollection;
-use Sujip\Wise\Resources\Address\Collections\AddressRequirementCollection;
-use Sujip\Wise\Resources\Address\Models\Address;
-use Sujip\Wise\Resources\Address\Models\AddressRequirement;
-use Sujip\Wise\Resources\Address\Requests\CreateAddressRequest;
-use Sujip\Wise\Resources\Address\Requests\ResolveAddressRequirementsRequest;
-use Sujip\Wise\Resources\Resource;
+use Theocode\Wise\Resources\Address\Collections\AddressCollection;
+use Theocode\Wise\Resources\Address\Collections\AddressRequirementCollection;
+use Theocode\Wise\Resources\Address\Models\Address;
+use Theocode\Wise\Resources\Address\Models\AddressRequirement;
+use Theocode\Wise\Resources\Address\Requests\CreateAddressRequest;
+use Theocode\Wise\Resources\Address\Requests\ResolveAddressRequirementsRequest;
+use Theocode\Wise\Resources\Resource;
 
 final class AddressResource extends Resource
 {

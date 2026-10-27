@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Hydration;
+namespace Theocode\Wise\Hydration;
 
 use DateTimeImmutable;
 

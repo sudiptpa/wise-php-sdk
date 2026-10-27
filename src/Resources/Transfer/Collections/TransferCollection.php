@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Transfer\Collections;
+namespace Theocode\Wise\Resources\Transfer\Collections;
 
-use Sujip\Wise\Resources\Transfer\Models\Transfer;
-use Sujip\Wise\Support\Collection;
+use Theocode\Wise\Resources\Transfer\Models\Transfer;
+use Theocode\Wise\Support\Collection;
 
 /**
  * @extends Collection<Transfer>

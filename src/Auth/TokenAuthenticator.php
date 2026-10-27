@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Auth;
+namespace Theocode\Wise\Auth;
 
 use Psr\Http\Message\RequestInterface;
-use Sujip\Wise\Contracts\AccessTokenProviderInterface;
+use Theocode\Wise\Contracts\AccessTokenProviderInterface;
 
 final readonly class TokenAuthenticator
 {

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Transport;
+namespace Theocode\Wise\Transport;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Sujip\Wise\Contracts\MiddlewareInterface;
-use Sujip\Wise\Contracts\TransportInterface;
+use Theocode\Wise\Contracts\MiddlewareInterface;
+use Theocode\Wise\Contracts\TransportInterface;
 
 final readonly class MiddlewareTransport implements TransportInterface
 {

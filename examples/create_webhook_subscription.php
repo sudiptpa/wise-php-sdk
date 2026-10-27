@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use Sujip\Wise\Config\ClientConfig;
-use Sujip\Wise\Resources\Webhook\Requests\CreateWebhookSubscriptionRequest;
-use Sujip\Wise\Transport\Psr18Transport;
-use Sujip\Wise\Wise;
+use Theocode\Wise\Config\ClientConfig;
+use Theocode\Wise\Resources\Webhook\Requests\CreateWebhookSubscriptionRequest;
+use Theocode\Wise\Transport\Psr18Transport;
+use Theocode\Wise\Wise;
 
 require __DIR__.'/../vendor/autoload.php';
 
@@ -15,7 +15,11 @@ $wise = Wise::client($config, $transport, $yourRequestFactory, $yourStreamFactor
 
 $subscription = $wise->webhook()->createApplicationSubscription(
     'client-key',
-    new CreateWebhookSubscriptionRequest('https://example.com/webhook', 'Transfers Hook', ['transfers#state-change'])
+    CreateWebhookSubscriptionRequest::for(
+        name: 'Transfers Hook',
+        triggerOn: 'transfers#state-change',
+        url: 'https://example.com/webhook',
+    ),
 );
 
 echo $subscription->id.PHP_EOL;

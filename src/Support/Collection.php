@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Support;
+namespace Theocode\Wise\Support;
 
 use ArrayIterator;
-use Sujip\Wise\Contracts\CollectionInterface;
+use Theocode\Wise\Contracts\CollectionInterface;
 use Traversable;
 
 /**

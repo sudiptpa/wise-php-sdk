@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Tests\Unit\Resources\Webhook;
+namespace Theocode\Wise\Tests\Unit\Resources\Webhook;
 
 use PHPUnit\Framework\TestCase;
-use Sujip\Wise\Exceptions\ValidationException;
-use Sujip\Wise\Resources\Webhook\WebhookReplayProtector;
-use Sujip\Wise\Support\InMemoryWebhookReplayStore;
+use Theocode\Wise\Exceptions\ValidationException;
+use Theocode\Wise\Resources\Webhook\WebhookReplayProtector;
+use Theocode\Wise\Support\InMemoryWebhookReplayStore;
 
 final class WebhookReplayProtectorTest extends TestCase
 {

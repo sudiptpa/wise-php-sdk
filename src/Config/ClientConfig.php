@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Config;
+namespace Theocode\Wise\Config;
 
 use Psr\Log\LoggerInterface;
-use Sujip\Wise\Auth\AuthMode;
-use Sujip\Wise\Auth\StaticAccessTokenProvider;
-use Sujip\Wise\Contracts\AccessTokenProviderInterface;
+use Theocode\Wise\Auth\AuthMode;
+use Theocode\Wise\Auth\StaticAccessTokenProvider;
+use Theocode\Wise\Contracts\AccessTokenProviderInterface;
 
 final readonly class ClientConfig
 {
@@ -20,7 +20,7 @@ final readonly class ClientConfig
         public ?AccessTokenProviderInterface $accessTokenProvider = null,
         public string $baseUrl = self::DEFAULT_BASE_URL,
         public float $timeoutSeconds = 30.0,
-        public string $userAgent = 'sudiptpa/wise-php-sdk',
+        public string $userAgent = 'theocode12/wise-php-sdk',
         public bool $retryEnabled = false,
         public int $retryMaxAttempts = 3,
         public int $retryBaseDelayMs = 200,

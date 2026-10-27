@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Payment\Models;
+namespace Theocode\Wise\Resources\Payment\Models;
 
-use Sujip\Wise\Contracts\Hydratable;
-use Sujip\Wise\Hydration\Cast;
-use Sujip\Wise\Resources\Payment\Enums\PaymentType;
+use Theocode\Wise\Contracts\Hydratable;
+use Theocode\Wise\Hydration\Cast;
+use Theocode\Wise\Resources\Payment\Enums\PaymentType;
 
 final readonly class PaymentOption implements Hydratable
 {

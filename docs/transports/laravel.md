@@ -33,12 +33,12 @@ use GuzzleHttp\Client;
 use Http\Factory\Guzzle\RequestFactory;
 use Http\Factory\Guzzle\StreamFactory;
 use Illuminate\Support\ServiceProvider;
-use Sujip\Wise\Auth\AuthMode;
-use Sujip\Wise\Auth\StaticAccessTokenProvider;
-use Sujip\Wise\Config\ClientConfig;
-use Sujip\Wise\Transport\Psr18Transport;
-use Sujip\Wise\Wise;
-use Sujip\Wise\WiseClient;
+use Theocode\Wise\Auth\AuthMode;
+use Theocode\Wise\Auth\StaticAccessTokenProvider;
+use Theocode\Wise\Config\ClientConfig;
+use Theocode\Wise\Transport\Psr18Transport;
+use Theocode\Wise\Wise;
+use Theocode\Wise\WiseClient;
 
 final class WiseServiceProvider extends ServiceProvider
 {
@@ -75,7 +75,7 @@ final class WiseServiceProvider extends ServiceProvider
 
 ## Usage in app code
 ```php
-use Sujip\Wise\WiseClient;
+use Theocode\Wise\WiseClient;
 
 final class QuoteController
 {

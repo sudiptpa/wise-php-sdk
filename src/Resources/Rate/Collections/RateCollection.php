@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Rate\Collections;
+namespace Theocode\Wise\Resources\Rate\Collections;
 
-use Sujip\Wise\Resources\Rate\Models\Rate;
-use Sujip\Wise\Support\Collection;
+use Theocode\Wise\Resources\Rate\Models\Rate;
+use Theocode\Wise\Support\Collection;
 
 /**
  * @extends Collection<Rate>

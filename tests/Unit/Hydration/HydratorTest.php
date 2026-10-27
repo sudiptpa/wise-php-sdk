@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Tests\Unit\Hydration;
+namespace Theocode\Wise\Tests\Unit\Hydration;
 
 use PHPUnit\Framework\TestCase;
-use Sujip\Wise\Hydration\Hydrator;
-use Sujip\Wise\Resources\Quote\Models\Quote;
+use Theocode\Wise\Hydration\Hydrator;
+use Theocode\Wise\Resources\Quote\Models\Quote;
 
 final class HydratorTest extends TestCase
 {

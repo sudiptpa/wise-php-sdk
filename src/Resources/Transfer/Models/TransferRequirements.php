@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Transfer\Models;
+namespace Theocode\Wise\Resources\Transfer\Models;
 
-use Sujip\Wise\Contracts\Hydratable;
+use Theocode\Wise\Contracts\Hydratable;
 
 final readonly class TransferRequirements implements Hydratable
 {

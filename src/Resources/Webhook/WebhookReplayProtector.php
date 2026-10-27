@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Webhook;
+namespace Theocode\Wise\Resources\Webhook;
 
 use Closure;
-use Sujip\Wise\Contracts\WebhookReplayStoreInterface;
-use Sujip\Wise\Exceptions\ValidationException;
+use Theocode\Wise\Contracts\WebhookReplayStoreInterface;
+use Theocode\Wise\Exceptions\ValidationException;
 
 final class WebhookReplayProtector
 {

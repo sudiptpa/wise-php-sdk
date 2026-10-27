@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\RecipientAccount\Collections;
+namespace Theocode\Wise\Resources\RecipientAccount\Collections;
 
-use Sujip\Wise\Resources\RecipientAccount\Models\RecipientAccount;
-use Sujip\Wise\Support\Collection;
+use Theocode\Wise\Resources\RecipientAccount\Models\RecipientAccount;
+use Theocode\Wise\Support\Collection;
 
 /**
  * @extends Collection<RecipientAccount>

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sujip\Wise\Resources\Quote\Collections;
+namespace Theocode\Wise\Resources\Quote\Collections;
 
-use Sujip\Wise\Resources\Quote\Models\Quote;
-use Sujip\Wise\Support\Collection;
+use Theocode\Wise\Resources\Quote\Models\Quote;
+use Theocode\Wise\Support\Collection;
 
 /**
  * @extends Collection<Quote>
