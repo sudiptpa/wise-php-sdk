@@ -20,6 +20,7 @@ use Sujip\Wise\Resources\Quote\Requests\CreateAuthenticatedQuoteRequest;
 use Sujip\Wise\Resources\Quote\Requests\CreateUnauthenticatedQuoteRequest;
 use Sujip\Wise\Resources\Quote\Requests\UpdateQuoteRequest;
 use Sujip\Wise\Resources\Rate\Requests\ListRatesRequest;
+use Sujip\Wise\Resources\RecipientAccount\Requests\AccountRequirementsOptions;
 use Sujip\Wise\Resources\RecipientAccount\Requests\CreateRecipientAccountRequest;
 use Sujip\Wise\Resources\Transfer\Requests\CreateTransferRequest;
 use Sujip\Wise\Resources\Transfer\Requests\TransferRequirementsRequest;
@@ -65,6 +66,12 @@ final class RequestValidationTest extends TestCase
     {
         $this->expectException(ValidationException::class);
         new CreateRecipientAccountRequest(0, 'Jane', 'EUR', 'iban', []);
+    }
+
+    public function test_account_requirements_options_rejects_invalid_originator_legal_entity_type(): void
+    {
+        $this->expectException(ValidationException::class);
+        new AccountRequirementsOptions(originatorLegalEntityType: 'SOLE_TRADER');
     }
 
     public function test_create_transfer_request_rejects_invalid_identifiers(): void

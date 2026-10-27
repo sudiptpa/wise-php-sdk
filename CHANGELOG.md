@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+- Added recipient account requirements endpoints (`requirementsForQuote`, `refreshRequirementsForQuote`, `requirementsForRoute`) with dynamic-form models (`AccountRequirement`, `RequirementFieldGroup`, `RequirementField`, `AllowedValue`) and `Accept-Minor-Version: 1` support.
+- Added optional `ownedByCustomer` parameter to `CreateRecipientAccountRequest`.
+
 ## [0.1.0] - 2026-02-23
 - Initial production-ready SDK scaffold.
 - Transport-agnostic architecture with rich immutable models.

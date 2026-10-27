@@ -1,0 +1,93 @@
+[
+  {
+    "type": "iban",
+    "title": "Euro IBAN",
+    "usageInfo": "Enter the recipient's IBAN.",
+    "fields": [
+      {
+        "name": "Recipient details",
+        "group": [
+          {
+            "key": "accountHolderName",
+            "name": "Full name of the account holder",
+            "type": "text",
+            "refreshRequirementsOnChange": false,
+            "required": true,
+            "displayFormat": null,
+            "example": "John Doe",
+            "minLength": 1,
+            "maxLength": 255,
+            "validationRegexp": null,
+            "validationAsync": null,
+            "valuesAllowed": null
+          },
+          {
+            "key": "legalType",
+            "name": "Recipient type",
+            "type": "select",
+            "refreshRequirementsOnChange": false,
+            "required": true,
+            "displayFormat": null,
+            "example": "",
+            "minLength": null,
+            "maxLength": null,
+            "validationRegexp": null,
+            "validationAsync": null,
+            "valuesAllowed": [
+              {
+                "key": "PRIVATE",
+                "name": "Person"
+              },
+              {
+                "key": "BUSINESS",
+                "name": "Business"
+              }
+            ]
+          },
+          {
+            "key": "iban",
+            "name": "IBAN",
+            "type": "text",
+            "refreshRequirementsOnChange": false,
+            "required": true,
+            "displayFormat": null,
+            "example": "DE89370400440532013000",
+            "minLength": null,
+            "maxLength": null,
+            "validationRegexp": null,
+            "validationAsync": null,
+            "valuesAllowed": null
+          }
+        ]
+      },
+      {
+        "name": "Recipient address",
+        "group": [
+          {
+            "key": "address.country",
+            "name": "Country",
+            "type": "select",
+            "refreshRequirementsOnChange": true,
+            "required": false,
+            "displayFormat": null,
+            "example": "",
+            "minLength": null,
+            "maxLength": null,
+            "validationRegexp": null,
+            "validationAsync": null,
+            "valuesAllowed": [
+              {
+                "key": "DE",
+                "name": "Germany"
+              },
+              {
+                "key": "US",
+                "name": "United States"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -17,6 +17,7 @@ final readonly class CreateRecipientAccountRequest
         public string $currency,
         public string $type,
         public array $details,
+        public ?bool $ownedByCustomer = null,
     ) {
         if ($this->profile <= 0) {
             throw new ValidationException('profile must be greater than zero.');
@@ -44,12 +45,18 @@ final readonly class CreateRecipientAccountRequest
      */
     public function toArray(): array
     {
-        return [
+        $data = [
             'profile' => $this->profile,
             'accountHolderName' => $this->accountHolderName,
             'currency' => strtoupper($this->currency),
             'type' => $this->type,
             'details' => $this->details,
         ];
+
+        if ($this->ownedByCustomer !== null) {
+            $data['ownedByCustomer'] = $this->ownedByCustomer;
+        }
+
+        return $data;
     }
 }

@@ -23,6 +23,14 @@ Auth labels in this file:
 | `recipientAccount()->create()` | `POST` | `/v1/accounts` | token/oauth2 | `CreateRecipientAccountRequest` | `RecipientAccount` |
 | `recipientAccount()->list()` | `GET` | `/v1/accounts` | token/oauth2 | optional `profile` query | `RecipientAccountCollection` |
 | `recipientAccount()->get()` | `GET` | `/v1/accounts/{accountId}` | token/oauth2 | - | `RecipientAccount` |
+| `recipientAccount()->requirementsForQuote()` | `GET` | `/v1/quotes/{quoteId}/account-requirements` | token/oauth2 | optional `AccountRequirementsOptions` query | `AccountRequirementCollection` |
+| `recipientAccount()->refreshRequirementsForQuote()` | `POST` | `/v1/quotes/{quoteId}/account-requirements` | token/oauth2 | `CreateRecipientAccountRequest` or array | `AccountRequirementCollection` |
+| `recipientAccount()->requirementsForRoute()` | `GET` | `/v1/account-requirements` | token/oauth2 | `source`, `target`, `sourceAmount` (+ options) | `AccountRequirementCollection` |
+
+Notes:
+- All account-requirements methods send the `Accept-Minor-Version: 1` header to enable the v1.1 dynamic-form response.
+- `requirementsForQuote()` is the recommended entry point (profile context is known); `requirementsForRoute()` works without a quote but is generally not recommended.
+- `refreshRequirementsForQuote()` posts the same recipient payload you would send to `/v1/accounts`, and should be called after a field flagged `refreshRequirementsOnChange` changes.
 
 ## Transfer
 

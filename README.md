@@ -201,6 +201,42 @@ Important:
 - In most cases, personal-token users will create the transfer draft by API and complete funding in Wise web or mobile.
 - OAuth2 partner environments are the expected path for API funding.
 
+## Recipient Account Requirements (Dynamic Forms)
+Recipient details differ per currency, country, and legal type, so avoid hard-coding them. Use the account-requirements endpoints to build the form dynamically:
+
+```php
+use Sujip\Wise\Resources\RecipientAccount\Requests\AccountRequirementsOptions;
+use Sujip\Wise\Resources\RecipientAccount\Requests\CreateRecipientAccountRequest;
+
+$requirements = $wise->recipientAccount()->requirementsForQuote(
+    'quote-id',
+    new AccountRequirementsOptions(originatorLegalEntityType: 'PRIVATE', addressRequired: true)
+);
+
+foreach ($requirements->all() as $requirement) {
+    echo $requirement->title.PHP_EOL;
+    foreach ($requirement->fields() as $field) {
+        echo $field->key.': '.$field->name.PHP_EOL;
+        foreach ($field->valuesAllowed ?? [] as $allowed) {
+            echo '  '.$allowed->key.' = '.$allowed->name.PHP_EOL;
+        }
+    }
+}
+
+// After the user sets a field flagged refreshRequirementsOnChange=true, re-post the
+// same recipient payload you would send to /v1/accounts to discover any extra fields.
+$refreshed = $wise->recipientAccount()->refreshRequirementsForQuote(
+    'quote-id',
+    new CreateRecipientAccountRequest(
+        profile: 123,
+        accountHolderName: 'Jane Doe',
+        currency: 'EUR',
+        type: 'iban',
+        details: ['iban' => 'DE89370400440532013000', 'address.country' => 'US'],
+    )
+);
+```
+
 ## Activity Listing + Pagination
 ```php
 use Sujip\Wise\Resources\Activity\Requests\ListActivitiesRequest;

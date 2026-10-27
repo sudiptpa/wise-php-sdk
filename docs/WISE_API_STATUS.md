@@ -22,6 +22,9 @@ Status legend:
 | Recipient Account | `POST /v1/accounts` | Implemented | create |
 | Recipient Account | `GET /v1/accounts` | Implemented | list |
 | Recipient Account | `GET /v1/accounts/{accountId}` | Implemented | get |
+| Recipient Account | `GET /v1/quotes/{quoteId}/account-requirements` | Implemented | account requirements by quote |
+| Recipient Account | `POST /v1/quotes/{quoteId}/account-requirements` | Implemented | refresh account requirements by quote |
+| Recipient Account | `GET /v1/account-requirements` | Implemented | account requirements by route |
 | Transfer | `POST /v1/transfers` | Implemented | create |
 | Transfer | `GET /v1/transfers/{transferId}` | Implemented | get |
 | Transfer | `POST /v1/transfer-requirements` | Implemented | requirements |

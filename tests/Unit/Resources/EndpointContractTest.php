@@ -69,6 +69,35 @@ final class EndpointContractTest extends TestCase
         self::assertSame('/v1/accounts/2001', $transport->requests()[1]->getUri()->getPath());
     }
 
+    public function test_recipient_account_requirements_contract(): void
+    {
+        $fixture = file_get_contents(__DIR__.'/../../Fixtures/wise/account_requirements.json');
+        $transport = new FakeTransport([
+            Psr7Factory::response(200, (string) $fixture),
+            Psr7Factory::response(200, (string) $fixture),
+            Psr7Factory::response(200, (string) $fixture),
+        ]);
+        $client = TestClientFactory::make($transport);
+
+        $client->recipientAccount()->requirementsForQuote('q-1');
+        self::assertSame('GET', $transport->requests()[0]->getMethod());
+        self::assertSame('/v1/quotes/q-1/account-requirements', $transport->requests()[0]->getUri()->getPath());
+
+        $client->recipientAccount()->refreshRequirementsForQuote('q-1', new CreateRecipientAccountRequest(
+            profile: 123,
+            accountHolderName: 'Jane Doe',
+            currency: 'EUR',
+            type: 'iban',
+            details: ['iban' => 'DE123'],
+        ));
+        self::assertSame('POST', $transport->requests()[1]->getMethod());
+        self::assertSame('/v1/quotes/q-1/account-requirements', $transport->requests()[1]->getUri()->getPath());
+
+        $client->recipientAccount()->requirementsForRoute('GBP', 'EUR', 1000.0);
+        self::assertSame('GET', $transport->requests()[2]->getMethod());
+        self::assertSame('/v1/account-requirements', $transport->requests()[2]->getUri()->getPath());
+    }
+
     public function test_transfer_get_and_requirements_contract(): void
     {
         $fixture = file_get_contents(__DIR__.'/../../Fixtures/wise/transfer.json');
