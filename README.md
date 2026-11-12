@@ -306,6 +306,43 @@ foreach ($wise->activity()->iterate(123, new ListActivitiesRequest(size: 50)) as
 }
 ```
 
+## Transfer Listing + Cancellation
+```php
+use Theocode\Wise\Exceptions\ApiException;
+use Theocode\Wise\Resources\Transfer\Enums\TransferStatus;
+use Theocode\Wise\Resources\Transfer\Requests\ListTransfersRequest;
+
+// List transfers for a profile, filtered by status and currency.
+$transfers = $wise->transfer()->list(new ListTransfersRequest(
+    profile: 123,
+    statuses: [TransferStatus::Processing, TransferStatus::IncomingPaymentWaiting],
+    targetCurrency: 'EUR',
+    limit: 50,
+));
+
+foreach ($transfers as $transfer) {
+    echo $transfer->id.' - '.$transfer->status.PHP_EOL;
+}
+
+// Iterate through all pages (offset paging).
+foreach ($wise->transfer()->iterate(new ListTransfersRequest(profile: 123)) as $transfer) {
+    echo $transfer->id.PHP_EOL;
+}
+
+// Cancel a transfer that is still waiting for funds.
+try {
+    $cancelled = $wise->transfer()->cancel($transferId);
+} catch (ApiException $e) {
+    if ($e->hasErrorCode('transfer.cancellation.not.allowed')) {
+        // The transfer can no longer be cancelled.
+    }
+}
+```
+
+Transfers can only be cancelled while they are in the `incoming_payment_waiting` state. A transfer's full
+payload (amounts, currencies, rate, reference, `customerTransactionId`, `payinSessionId`, and more) is
+available on the returned `Transfer` model.
+
 ## Finding Your Profile ID
 ```bash
 curl -sS https://api.wise-sandbox.com/v2/profiles \
@@ -330,6 +367,7 @@ try {
     // 429, retry delay in $e->retryAfter (seconds)
 } catch (ApiException $e) {
     // Other 4xx/5xx, payload in $e->errorBody
+    // Inspect Wise error codes: $e->hasErrorCode('transfer.cancellation.not.allowed')
 }
 ```
 

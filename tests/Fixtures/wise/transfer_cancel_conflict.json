@@ -1,0 +1,9 @@
+{
+  "errors": [
+    {
+      "code": "transfer.cancellation.not.allowed",
+      "message": "Transfer cannot be cancelled",
+      "arguments": []
+    }
+  ]
+}

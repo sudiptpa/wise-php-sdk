@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Theocode\Wise\Tests\Unit\Resources;
 
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Theocode\Wise\Exceptions\ValidationException;
 use Theocode\Wise\Resources\Address\Requests\CreateAddressRequest;
@@ -22,7 +23,9 @@ use Theocode\Wise\Resources\Quote\Requests\UpdateQuoteRequest;
 use Theocode\Wise\Resources\Rate\Requests\ListRatesRequest;
 use Theocode\Wise\Resources\RecipientAccount\Requests\AccountRequirementsOptions;
 use Theocode\Wise\Resources\RecipientAccount\Requests\CreateRecipientAccountRequest;
+use Theocode\Wise\Resources\Transfer\Enums\TransferStatus;
 use Theocode\Wise\Resources\Transfer\Requests\CreateTransferRequest;
+use Theocode\Wise\Resources\Transfer\Requests\ListTransfersRequest;
 use Theocode\Wise\Resources\Transfer\Requests\TransferRequirementsRequest;
 use Theocode\Wise\Resources\User\Requests\CreateRegistrationCodeRequest;
 use Theocode\Wise\Resources\User\Requests\UpdateUserContactEmailRequest;
@@ -84,6 +87,39 @@ final class RequestValidationTest extends TestCase
     {
         $this->expectException(ValidationException::class);
         new TransferRequirementsRequest([]);
+    }
+
+    public function test_list_transfers_request_rejects_non_positive_profile(): void
+    {
+        $this->expectException(ValidationException::class);
+        new ListTransfersRequest(profile: 0);
+    }
+
+    public function test_list_transfers_request_rejects_invalid_limit(): void
+    {
+        $this->expectException(ValidationException::class);
+        new ListTransfersRequest(limit: 0);
+    }
+
+    public function test_list_transfers_request_rejects_negative_offset(): void
+    {
+        $this->expectException(ValidationException::class);
+        new ListTransfersRequest(offset: -1);
+    }
+
+    public function test_list_transfers_request_serializes_statuses_and_dates(): void
+    {
+        $request = new ListTransfersRequest(
+            statuses: [TransferStatus::Processing, 'cancelled'],
+            createdDateStart: new DateTimeImmutable('2024-03-01'),
+            createdDateEnd: new DateTimeImmutable('2024-03-31'),
+        );
+
+        self::assertSame([
+            'status' => 'processing,cancelled',
+            'createdDateStart' => '2024-03-01',
+            'createdDateEnd' => '2024-03-31',
+        ], $request->toQuery());
     }
 
     public function test_fund_transfer_request_rejects_unsupported_type(): void

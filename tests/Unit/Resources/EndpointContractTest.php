@@ -20,6 +20,7 @@ use Theocode\Wise\Resources\Quote\Requests\CreateAuthenticatedQuoteRequest;
 use Theocode\Wise\Resources\Quote\Requests\UpdateQuoteRequest;
 use Theocode\Wise\Resources\Rate\Requests\ListRatesRequest;
 use Theocode\Wise\Resources\RecipientAccount\Requests\CreateRecipientAccountRequest;
+use Theocode\Wise\Resources\Transfer\Requests\ListTransfersRequest;
 use Theocode\Wise\Resources\Transfer\Requests\TransferRequirementsRequest;
 use Theocode\Wise\Resources\User\Requests\CreateRegistrationCodeRequest;
 use Theocode\Wise\Resources\User\Requests\UpdateUserContactEmailRequest;
@@ -114,6 +115,27 @@ final class EndpointContractTest extends TestCase
         $client->transfer()->requirements(new TransferRequirementsRequest(['targetAccount' => 2001, 'quoteUuid' => 'q-1']));
         self::assertSame('POST', $transport->requests()[1]->getMethod());
         self::assertSame('/v1/transfer-requirements', $transport->requests()[1]->getUri()->getPath());
+    }
+
+    public function test_transfer_list_and_cancel_contract(): void
+    {
+        $full = file_get_contents(__DIR__.'/../../Fixtures/wise/transfer_full.json');
+        $list = file_get_contents(__DIR__.'/../../Fixtures/wise/transfer_list.json');
+        $transport = new FakeTransport([
+            Psr7Factory::response(200, (string) $list),
+            Psr7Factory::response(200, (string) $full),
+        ]);
+        $client = TestClientFactory::make($transport);
+
+        $client->transfer()->list(new ListTransfersRequest(profile: 123, limit: 10));
+        self::assertSame('GET', $transport->requests()[0]->getMethod());
+        self::assertSame('/v1/transfers', $transport->requests()[0]->getUri()->getPath());
+        self::assertStringContainsString('profile=123', $transport->requests()[0]->getUri()->getQuery());
+        self::assertStringContainsString('limit=10', $transport->requests()[0]->getUri()->getQuery());
+
+        $client->transfer()->cancel(3001);
+        self::assertSame('PUT', $transport->requests()[1]->getMethod());
+        self::assertSame('/v1/transfers/3001/cancel', $transport->requests()[1]->getUri()->getPath());
     }
 
     public function test_payment_fund_transfer_contract(): void

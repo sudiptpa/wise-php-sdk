@@ -26,7 +26,9 @@ Status legend:
 | Recipient Account | `POST /v1/quotes/{quoteId}/account-requirements` | Implemented | refresh account requirements by quote |
 | Recipient Account | `GET /v1/account-requirements` | Implemented | account requirements by route |
 | Transfer | `POST /v1/transfers` | Implemented | create |
+| Transfer | `GET /v1/transfers` | Implemented | list and iterate |
 | Transfer | `GET /v1/transfers/{transferId}` | Implemented | get |
+| Transfer | `PUT /v1/transfers/{transferId}/cancel` | Implemented | cancel |
 | Transfer | `POST /v1/transfer-requirements` | Implemented | requirements |
 | Payment | `POST /v3/profiles/{profileId}/transfers/{transferId}/payments` | Implemented | fund transfer |
 | Webhook | `POST /v3/applications/{clientKey}/subscriptions` | Implemented | create app subscription |

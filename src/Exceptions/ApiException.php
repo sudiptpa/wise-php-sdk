@@ -18,4 +18,18 @@ class ApiException extends WiseException
     ) {
         parent::__construct($message, $statusCode);
     }
+
+    /**
+     * Whether the response body contains an error entry with the given `errors[].code`.
+     */
+    public function hasErrorCode(string $code): bool
+    {
+        foreach ($this->errorBody['errors'] ?? [] as $error) {
+            if (is_array($error) && ($error['code'] ?? null) === $code) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+- `transfer()->list()` and `transfer()->iterate()` to list transfers (with profile, status, currency, date, limit, and offset filters) via `GET /v1/transfers`.
+- `transfer()->cancel()` to cancel a transfer that is `incoming_payment_waiting` via `PUT /v1/transfers/{transferId}/cancel`.
+- `Transfer` now hydrates the full Wise payload: `user`, `sourceAccount`, `reference` (prefers `details.reference`), `rate`, `created` (parsed as a UTC `DateTimeImmutable`), `business`, `hasActiveIssues`, `sourceCurrency`, `sourceValue`, `targetCurrency`, `targetValue`, `customerTransactionId`, `payinSessionId`, `details`, and `raw`.
+- `ApiException::hasErrorCode()` to detect Wise `errors[].code` entries, e.g. `transfer.cancellation.not.allowed`.
+
 ## [0.2.0] - 2026-10-27
 
 ### Changed

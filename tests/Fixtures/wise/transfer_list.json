@@ -1,0 +1,50 @@
+[
+  {
+    "id": 16521632,
+    "user": 4342275,
+    "targetAccount": 8692237,
+    "sourceAccount": null,
+    "quote": null,
+    "quoteUuid": "8fa9be20-ba43-4b15-abbb-9424e1481050",
+    "status": "outgoing_payment_sent",
+    "reference": "reference text",
+    "rate": 0.89,
+    "created": "2017-11-24 10:47:49",
+    "business": null,
+    "transferRequest": null,
+    "details": {
+      "reference": "Testing"
+    },
+    "hasActiveIssues": false,
+    "sourceCurrency": "EUR",
+    "sourceValue": 133.5,
+    "targetCurrency": "GBP",
+    "targetValue": 150,
+    "customerTransactionId": "54a6bc09-cef9-49a8-9041-f1f0c654cd88",
+    "payinSessionId": "23330542-8e9e-419f-95eb-312b880f92ad"
+  },
+  {
+    "id": 16521633,
+    "user": 4342275,
+    "targetAccount": 8692238,
+    "sourceAccount": null,
+    "quote": null,
+    "quoteUuid": "9ad54f2e-bb5a-4c16-bccc-0533f2592161",
+    "status": "cancelled",
+    "reference": null,
+    "rate": 1.12,
+    "created": "2017-11-25 09:12:03",
+    "business": 4321,
+    "transferRequest": null,
+    "details": {
+      "reference": "Invoice 42"
+    },
+    "hasActiveIssues": true,
+    "sourceCurrency": "USD",
+    "sourceValue": 100,
+    "targetCurrency": "EUR",
+    "targetValue": 89,
+    "customerTransactionId": "7c3d1f0e-9b2a-4a11-8b5d-7e6f3d2c1b0a",
+    "payinSessionId": "4f2f6c1b-5d8e-4a9c-8b1d-1c2e3f4a5b6c"
+  }
+]

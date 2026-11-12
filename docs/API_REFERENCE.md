@@ -38,8 +38,27 @@ Notes:
 | SDK Method | HTTP | Path | Auth | Request | Response |
 |---|---|---|---|---|---|
 | `transfer()->create()` | `POST` | `/v1/transfers` | token/oauth2 | `CreateTransferRequest` | `Transfer` |
+| `transfer()->list()` | `GET` | `/v1/transfers` | token/oauth2 | `ListTransfersRequest` | `TransferCollection` |
+| `transfer()->iterate()` | repeated `GET` | `/v1/transfers` | token/oauth2 | `ListTransfersRequest` | `Generator<Transfer>` |
 | `transfer()->get()` | `GET` | `/v1/transfers/{transferId}` | token/oauth2 | - | `Transfer` |
+| `transfer()->cancel()` | `PUT` | `/v1/transfers/{transferId}/cancel` | token/oauth2 | - | `Transfer` |
 | `transfer()->requirements()` | `POST` | `/v1/transfer-requirements` | token/oauth2 | `TransferRequirementsRequest` | `TransferRequirements` |
+
+Supported filters in `ListTransfersRequest`:
+- `profile`
+- `statuses` (sent as a comma-separated `status` query parameter)
+- `sourceCurrency`
+- `targetCurrency`
+- `createdDateStart` / `createdDateEnd` (dates, formatted `Y-m-d`)
+- `limit`
+- `offset`
+
+`Transfer` exposes the full Wise transfer payload: `user`, `sourceAccount`, `reference` (prefers `details.reference`),
+`rate`, `created` (`?DateTimeImmutable` parsed from `Y-m-d H:i:s` UTC), `business`, `hasActiveIssues`, `sourceCurrency`,
+`sourceValue`, `targetCurrency`, `targetValue`, `customerTransactionId`, `payinSessionId`, `details`, and `raw`.
+
+Cancellation is only possible while a transfer is `incoming_payment_waiting`; otherwise Wise returns `409` with
+`transfer.cancellation.not.allowed`, detectable via `ApiException::hasErrorCode('transfer.cancellation.not.allowed')`.
 
 ## Payment / Funding
 

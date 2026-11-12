@@ -68,6 +68,7 @@ final class EndpointPathAllowlistTest extends TestCase
             'GET /v1/profiles/{$profileId}/total-funds/{$normalizedCurrency}',
             'GET /v1/quotes/{$quoteId}/account-requirements',
             'GET /v1/rates',
+            'GET /v1/transfers',
             'GET /v1/transfers/{$transferId}',
             'GET /v1/users/{$userId}',
             'GET /v1/users/{$userId}/contact-email',
@@ -104,6 +105,7 @@ final class EndpointPathAllowlistTest extends TestCase
             'POST /v3/profiles/{$profileId}/transfers/{$transferId}/payments',
             'POST /v3/quotes',
             'POST /v4/profiles/{$profileId}/balances',
+            'PUT /v1/transfers/{$transferId}/cancel',
             'PUT /v1/users/{$userId}/contact-email',
         ];
 
