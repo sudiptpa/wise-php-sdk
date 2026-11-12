@@ -24,6 +24,10 @@ Auth labels in this file:
 | `recipientAccount()->create()` | `POST` | `/v1/accounts` | token/oauth2 | `CreateRecipientAccountRequest` | `RecipientAccount` |
 | `recipientAccount()->list()` | `GET` | `/v1/accounts` | token/oauth2 | optional `profile` query | `RecipientAccountCollection` |
 | `recipientAccount()->get()` | `GET` | `/v1/accounts/{accountId}` | token/oauth2 | - | `RecipientAccount` |
+| `recipientAccount()->listV2()` | `GET` | `/v2/accounts` | token/oauth2 | `ListRecipientAccountsRequest` | `RecipientAccountPage` |
+| `recipientAccount()->iterateV2()` | repeated `GET` | `/v2/accounts` | token/oauth2 | `ListRecipientAccountsRequest` | `Generator<RecipientAccountV2>` |
+| `recipientAccount()->getV2()` | `GET` | `/v2/accounts/{accountId}` | token/oauth2 | - | `RecipientAccountV2` |
+| `recipientAccount()->deactivate()` | `DELETE` | `/v2/accounts/{accountId}` | token/oauth2 | - | `RecipientAccountV2` |
 | `recipientAccount()->requirementsForQuote()` | `GET` | `/v1/quotes/{quoteId}/account-requirements` | token/oauth2 | optional `AccountRequirementsOptions` query | `AccountRequirementCollection` |
 | `recipientAccount()->refreshRequirementsForQuote()` | `POST` | `/v1/quotes/{quoteId}/account-requirements` | token/oauth2 | `CreateRecipientAccountRequest` or array | `AccountRequirementCollection` |
 | `recipientAccount()->requirementsForRoute()` | `GET` | `/v1/account-requirements` | token/oauth2 | `source`, `target`, `sourceAmount` (+ options) | `AccountRequirementCollection` |
@@ -32,6 +36,24 @@ Notes:
 - All account-requirements methods send the `Accept-Minor-Version: 1` header to enable the v1.1 dynamic-form response.
 - `requirementsForQuote()` is the recommended entry point (profile context is known); `requirementsForRoute()` works without a quote but is generally not recommended.
 - `refreshRequirementsForQuote()` posts the same recipient payload you would send to `/v1/accounts`, and should be called after a field flagged `refreshRequirementsOnChange` changes.
+
+Supported filters in `ListRecipientAccountsRequest` (all optional):
+- `creatorId`, `profileId`, `profile` (alias for `profileId`)
+- `currency` (comma-separated, e.g. `USD,GBP`)
+- `active` (`true` filters to active recipients)
+- `type` (comma-separated, e.g. `iban,swift_code`)
+- `ownedByCustomer`
+- `size` (1-100; Wise currently returns at most 20 per page)
+- `seekPosition` (account ID to start the page from; `null` when no more pages)
+- `sort` (`id,asc|desc` or `currency,asc|desc`)
+
+`RecipientAccountV2` exposes the v2 shape (`name`, `legalEntityType`, `active`, `accountSummary`,
+`longAccountSummary`, `displayFields`, `hash`, `commonFieldMap`, `details`) plus `summary()`
+(`longAccountSummary` falling back to `accountSummary`) and `fullName()`.
+
+`deactivate()` sets `active=false` and cannot be undone. Deactivating an already-inactive
+recipient returns HTTP `403`, which the SDK surfaces as `AuthException` (all `401`/`403`
+responses map to `AuthException`; see `WiseClient::throwIfFailed`).
 
 ## Transfer
 

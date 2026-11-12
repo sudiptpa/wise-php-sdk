@@ -22,6 +22,9 @@ Status legend:
 | Recipient Account | `POST /v1/accounts` | Implemented | create |
 | Recipient Account | `GET /v1/accounts` | Implemented | list |
 | Recipient Account | `GET /v1/accounts/{accountId}` | Implemented | get |
+| Recipient Account | `GET /v2/accounts` | Implemented | list (paginated, filterable) and iterate |
+| Recipient Account | `GET /v2/accounts/{accountId}` | Implemented | get |
+| Recipient Account | `DELETE /v2/accounts/{accountId}` | Implemented | deactivate (sets active=false; 403 if already inactive) |
 | Recipient Account | `GET /v1/quotes/{quoteId}/account-requirements` | Implemented | account requirements by quote |
 | Recipient Account | `POST /v1/quotes/{quoteId}/account-requirements` | Implemented | refresh account requirements by quote |
 | Recipient Account | `GET /v1/account-requirements` | Implemented | account requirements by route |

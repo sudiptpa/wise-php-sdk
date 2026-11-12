@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Added
+- `recipientAccount()->listV2()` and `recipientAccount()->iterateV2()` to list recipients via `GET /v2/accounts` (paginated with `seekPosition`, filterable by creator, profile, currency, active, type, and ownership, sortable by `id`/`currency`).
+- `recipientAccount()->getV2()` to fetch a single recipient via `GET /v2/accounts/{accountId}`.
+- `recipientAccount()->deactivate()` to deactivate a recipient via `DELETE /v2/accounts/{accountId}` (sets `active=false`; Wise returns `403` if already inactive, surfaced as `AuthException`).
+- `RecipientAccountV2` (v2 shape with `name`, `legalEntityType`, `active`, `accountSummary`, `longAccountSummary`, `displayFields`, `hash`, `commonFieldMap`, `details`, plus `summary()` and `fullName()` helpers) and `RecipientAccountPage` (`content`, `seekPositionForNext`, `seekPositionForCurrent`, `size`, `hasNext()`).
 - `transfer()->list()` and `transfer()->iterate()` to list transfers (with profile, status, currency, date, limit, and offset filters) via `GET /v1/transfers`.
 - `transfer()->cancel()` to cancel a transfer that is `incoming_payment_waiting` via `PUT /v1/transfers/{transferId}/cancel`.
 - `Transfer` now hydrates the full Wise payload: `user`, `sourceAccount`, `reference` (prefers `details.reference`), `rate`, `created` (parsed as a UTC `DateTimeImmutable`), `business`, `hasActiveIssues`, `sourceCurrency`, `sourceValue`, `targetCurrency`, `targetValue`, `customerTransactionId`, `payinSessionId`, `details`, and `raw`.

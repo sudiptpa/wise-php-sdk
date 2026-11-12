@@ -1,0 +1,37 @@
+{
+  "id": 40000000,
+  "creatorId": 41000000,
+  "profileId": 30000000,
+  "name": {
+    "fullName": "John Doe",
+    "givenName": null,
+    "familyName": null,
+    "middleName": null,
+    "patronymicName": null,
+    "cannotHavePatronymicName": null
+  },
+  "currency": "GBP",
+  "country": "GB",
+  "type": "sort_code",
+  "legalEntityType": "PERSON",
+  "active": true,
+  "details": {
+    "sortCode": "040075",
+    "accountNumber": "37778842",
+    "reference": null,
+    "hashedByLooseHashAlgorithm": "ad245621b974efa3ef870895c3wer419a3f01af18a8a5790b47645dba6304194"
+  },
+  "commonFieldMap": {
+    "accountNumberField": "accountNumber",
+    "bankCodeField": "sortCode"
+  },
+  "hash": "666ef880f8aa6113fa112ba6531d3ed2c26dd9fgbd7de5136bfb827a6e800479",
+  "accountSummary": "(04-00-75) 37778842",
+  "longAccountSummary": "GBP account ending in 8842",
+  "displayFields": [
+    {"key": "details/sortCode", "label": "UK sort code", "value": "04-00-75"},
+    {"key": "details/accountNumber", "label": "Account number", "value": "37778842"}
+  ],
+  "isInternal": false,
+  "ownedByCustomer": false
+}

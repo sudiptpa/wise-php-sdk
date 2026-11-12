@@ -1,0 +1,48 @@
+{
+  "content": [
+    {
+      "id": 40000000,
+      "creatorId": 41000000,
+      "profileId": 30000000,
+      "name": {"fullName": "John Doe"},
+      "currency": "GBP",
+      "country": "GB",
+      "type": "sort_code",
+      "legalEntityType": "PERSON",
+      "active": true,
+      "details": {"sortCode": "040075", "accountNumber": "37778842"},
+      "commonFieldMap": {"accountNumberField": "accountNumber", "bankCodeField": "sortCode"},
+      "hash": "666ef880f8aa6113fa112ba6531d3ed2c26dd9fgbd7de5136bfb827a6e800479",
+      "accountSummary": "(04-00-75) 37778842",
+      "longAccountSummary": "GBP account ending in 8842",
+      "displayFields": [
+        {"key": "details/sortCode", "label": "UK sort code", "value": "04-00-75"}
+      ],
+      "isInternal": false,
+      "ownedByCustomer": false
+    },
+    {
+      "id": 40000001,
+      "creatorId": 41000000,
+      "profileId": 30000000,
+      "name": {"fullName": "Jane Doe"},
+      "currency": "EUR",
+      "country": "DE",
+      "type": "iban",
+      "legalEntityType": "PERSON",
+      "active": false,
+      "details": {"iban": "DE89370400440532013000"},
+      "commonFieldMap": {},
+      "hash": "aaabbbccc",
+      "accountSummary": "DE89 3704 0044 0532 0130 00",
+      "longAccountSummary": "EUR account ending in 3000",
+      "displayFields": [],
+      "isInternal": false,
+      "ownedByCustomer": true
+    }
+  ],
+  "seekPositionForNext": 40000002,
+  "seekPositionForCurrent": 40000000,
+  "size": 2,
+  "sort": {"empty": false, "sorted": true, "unsorted": false}
+}

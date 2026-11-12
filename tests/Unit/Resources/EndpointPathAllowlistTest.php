@@ -50,6 +50,7 @@ final class EndpointPathAllowlistTest extends TestCase
         sort($actual);
 
         $expected = [
+            'DELETE /v2/accounts/{$accountId}',
             'DELETE /v3/applications/{$clientKey}/subscriptions/{$subscriptionId}',
             'DELETE /v3/profiles/{$profileId}/subscriptions/{$subscriptionId}',
             'DELETE /v4/profiles/{$profileId}/balances/{$balanceId}',
@@ -72,6 +73,8 @@ final class EndpointPathAllowlistTest extends TestCase
             'GET /v1/transfers/{$transferId}',
             'GET /v1/users/{$userId}',
             'GET /v1/users/{$userId}/contact-email',
+            'GET /v2/accounts',
+            'GET /v2/accounts/{$accountId}',
             'GET /v2/profiles',
             'GET /v2/profiles/{$profileId}',
             'GET /v3/applications/{$clientKey}/subscriptions',

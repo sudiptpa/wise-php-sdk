@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Theocode\Wise\Resources\RecipientAccount;
 
+use Generator;
 use Theocode\Wise\Resources\RecipientAccount\Collections\AccountRequirementCollection;
 use Theocode\Wise\Resources\RecipientAccount\Collections\RecipientAccountCollection;
 use Theocode\Wise\Resources\RecipientAccount\Models\AccountRequirement;
 use Theocode\Wise\Resources\RecipientAccount\Models\RecipientAccount;
+use Theocode\Wise\Resources\RecipientAccount\Models\RecipientAccountPage;
+use Theocode\Wise\Resources\RecipientAccount\Models\RecipientAccountV2;
 use Theocode\Wise\Resources\RecipientAccount\Requests\AccountRequirementsOptions;
 use Theocode\Wise\Resources\RecipientAccount\Requests\CreateRecipientAccountRequest;
+use Theocode\Wise\Resources\RecipientAccount\Requests\ListRecipientAccountsRequest;
 use Theocode\Wise\Resources\Resource;
 
 final class RecipientAccountResource extends Resource
@@ -39,6 +43,48 @@ final class RecipientAccountResource extends Resource
         $payload = $this->client->request('GET', "/v1/accounts/{$accountId}");
 
         return RecipientAccount::fromArray($payload);
+    }
+
+    public function listV2(ListRecipientAccountsRequest $request): RecipientAccountPage
+    {
+        $payload = $this->client->request('GET', '/v2/accounts', query: $request->toQuery());
+
+        return RecipientAccountPage::fromArray($payload);
+    }
+
+    /**
+     * @return Generator<int, RecipientAccountV2>
+     */
+    public function iterateV2(?ListRecipientAccountsRequest $request = null): Generator
+    {
+        $query = $request ?? new ListRecipientAccountsRequest;
+
+        while (true) {
+            $page = $this->listV2($query);
+            foreach ($page->content as $recipient) {
+                yield $recipient;
+            }
+
+            if (! $page->hasNext()) {
+                return;
+            }
+
+            $query = $query->withSeekPosition($page->nextSeekPosition());
+        }
+    }
+
+    public function getV2(int $accountId): RecipientAccountV2
+    {
+        $payload = $this->client->request('GET', "/v2/accounts/{$accountId}");
+
+        return RecipientAccountV2::fromArray($payload);
+    }
+
+    public function deactivate(int $accountId): RecipientAccountV2
+    {
+        $payload = $this->client->request('DELETE', "/v2/accounts/{$accountId}");
+
+        return RecipientAccountV2::fromArray($payload);
     }
 
     public function requirementsForQuote(string $quoteId, ?AccountRequirementsOptions $o = null): AccountRequirementCollection

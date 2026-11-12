@@ -343,6 +343,44 @@ Transfers can only be cancelled while they are in the `incoming_payment_waiting`
 payload (amounts, currencies, rate, reference, `customerTransactionId`, `payinSessionId`, and more) is
 available on the returned `Transfer` model.
 
+## Recipient v2 Listing + Deactivate
+```php
+use Theocode\Wise\Exceptions\AuthException;
+use Theocode\Wise\Resources\RecipientAccount\Requests\ListRecipientAccountsRequest;
+
+$page = $wise->recipientAccount()->listV2(new ListRecipientAccountsRequest(
+    profileId: 123,
+    currency: 'GBP',
+    active: true,
+    size: 20,
+    sort: 'id,asc',
+));
+
+foreach ($page->content as $recipient) {
+    echo $recipient->id.' - '.$recipient->summary().PHP_EOL;
+}
+
+while ($page->hasNext()) {
+    $page = $wise->recipientAccount()->listV2(
+        new ListRecipientAccountsRequest(size: 20, seekPosition: $page->nextSeekPosition())
+    );
+}
+
+// Or iterate through all pages (seek paging).
+foreach ($wise->recipientAccount()->iterateV2(new ListRecipientAccountsRequest(active: true)) as $recipient) {
+    echo $recipient->id.PHP_EOL;
+}
+
+$recipient = $wise->recipientAccount()->getV2($accountId);
+
+// Deactivate sets active=false and cannot be undone.
+try {
+    $deactivated = $wise->recipientAccount()->deactivate($accountId);
+} catch (AuthException $e) {
+    // Wise returns 403 when the recipient is already inactive.
+}
+```
+
 ## Finding Your Profile ID
 ```bash
 curl -sS https://api.wise-sandbox.com/v2/profiles \
